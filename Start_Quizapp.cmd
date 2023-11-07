@@ -1,13 +1,21 @@
 @echo off
-cd C:\Users\Aldalati\Desktop\3.Semester\Sofetware and System Entwicklung
 
+for %%I in ("%~dp0.") do set "script_dir=%%~fI"
 
-start cmd /k "code UI && exit"
+cd %script_dir%
+cd .. 
 
-start cmd /k "code Server && exit"
+start cmd /k "code Projekt"
 
+start cmd /k "cd Server && npm i"
 
+start cmd /k "cd UI && npm i"
 
+timeout /t 80
+
+start cmd /k "cd Server && npm start"
+
+start cmd /k "cd UI && npm start"
 
 :input
 echo "Entwicklung Ubgebungen Gestarten : ) geben Sie exit zum beenden"
