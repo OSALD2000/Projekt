@@ -1,0 +1,24 @@
+{
+  "name": "brinecheck",
+  "version": "1.0.0",
+  "description": "Quiz App als Projekt fuer die Vorlesung Software- und Systementwicklung",
+  "main": "app.ja",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js",
+    "checkStyle": "npx prettier . --write"
+  },
+  "author": "Osama, Peter, Dominick, Almotasem, Samuel",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "chart.js": "^4.4.0",
+    "express": "^4.18.2",
+    "unique-names-generator": "^4.7.1",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "prettier": "3.0.3"
+  }
+}

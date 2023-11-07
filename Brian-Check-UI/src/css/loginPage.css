@@ -1,0 +1,29 @@
+@media (min-width: 900px) {
+
+    .loginpage {
+        display: flex;
+        margin-top: 3%;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        gap: 70px;
+    }
+
+
+    .loginpage-form {
+        width: 60%;
+    }
+
+}
+
+@media (max-width: 900px) {
+    .loginpage {
+        margin-top: 10%;
+    }
+
+
+    .loginpage-form {
+        width: 100%;
+    }
+}
