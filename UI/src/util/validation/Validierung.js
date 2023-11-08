@@ -48,7 +48,7 @@ const emailInputValidation = (email) => {
 
 const newPasswordInputValidation = (password) => {
   return {
-    status: password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,50}$/),
+    status: password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)().{8,50}$/),
     message: (
       <div className="password">
         <span>Password muss :</span>
@@ -56,7 +56,7 @@ const newPasswordInputValidation = (password) => {
           <li> mind. eine Kleine Buchstabe haben</li>
           <li> mind. eine Große Buchstabe haben</li>
           <li> mind. eine Nummer haben </li>
-          <li> mind. 6 max. 50 Zeichnen haben</li>
+          <li> mind. 8 max. 50 Zeichnen haben</li>
         </ul>
       </div>
     ),

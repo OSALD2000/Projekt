@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 
 const sequelize = require("../util/db");
 
-const User = sequelize.define("user", {
+const user = sequelize.define("user", {
   _id: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -22,4 +22,4 @@ const User = sequelize.define("user", {
   },
 });
 
-module.exports = User;
+module.exports = user;

@@ -8,25 +8,46 @@ export const action = async ({ request }) => {
     throw json({ message: " Unsupported mode" }, { status: 422 });
   }
 
+  const method = mode === "login" ? "POST" : "PUT";
+
   const data = await request.formData();
 
   const userData = {
-    username: data.get("username"),
+    email: data.get("email"),
     password: data.get("password"),
   };
 
-  if (mode !== "login") {
-    userData["email"] = data.get("email");
+  if (mode === "signup") {
+    userData["username"] = data.get("username");
   }
 
-  console.log(userData);
-  // fetch response
+  const response = await fetch("http://localhost:8080/auth/" + mode, {
+    method: method,
+    body: JSON.stringify(userData),
+    headers: {
+      "Content-Type": " application/json",
+    },
+  });
 
-  // mange response
+  if (response.status === 422 || response.status === 401) {
+    return response;
+  }
 
-  // mange that token
+  if (!response.ok) {
+    throw json({ message: "Could not authenticate user" }, { status: 500 });
+  }
 
-  return null;
+  if (mode === "login") {
+    const resData = await response.json();
+    const token = resData.token;
+    localStorage.setItem("token", token);
+
+    const expiration = new Date();
+    expiration.setHours(expiration.getHours() + 1);
+    localStorage.setItem("expiration", expiration.toISOString());
+  }
+
+  return redirect("/");
 };
 
 export const tokenloader = () => {
@@ -34,7 +55,18 @@ export const tokenloader = () => {
 };
 
 export const getAuthToken = () => {
-  return null;
+  const token = localStorage.getItem("token");
+  const tokenDuration = getTokenDuration();
+
+  if (!token) {
+    return null;
+  }
+
+  if (tokenDuration < 0) {
+    return "EXPIRED";
+  }
+
+  return token;
 };
 
 export function checkAuthLoader() {
@@ -45,3 +77,12 @@ export function checkAuthLoader() {
   }
   return true;
 }
+
+export const getTokenDuration = () => {
+  const storedExpirationDate = localStorage.getItem("expiration");
+  const expirationDate = new Date(storedExpirationDate);
+  const now = new Date();
+  const duration = expirationDate.getTime() - now.getTime();
+
+  return duration;
+};

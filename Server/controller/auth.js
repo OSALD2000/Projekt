@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const uuid = require("uuid");
 const jwt = require("jsonwebtoken");
 
-const User = require("../models/user");
+const User = require("../module/user");
 
 exports.signup = (req, res, next) => {
   const errors = validationResult(req);
@@ -46,7 +46,6 @@ exports.login = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   let loadedUser;
-
   User.findOne({ where: { email: email } })
     .then((user) => {
       if (!user) {
@@ -63,21 +62,18 @@ exports.login = (req, res, next) => {
         error.statusCode = 401;
         throw error;
       }
-
-      return bcrypt.hash(process.env.API_KEY, 12);
-    })
-    .then((apiKey) => {
       const token = jwt.sign(
         {
           email: loadedUser.dataValues.email,
           _id: loadedUser.dataValues._id,
         },
-        apiKey,
+        process.env.API_KEY,
         { expiresIn: "1h" },
       );
 
       res.status(200).json({ token: token, userId: loadedUser.dataValues._id });
     })
+
     .catch((err) => {
       if (!err.statusCode) {
         err.statusCode = 500;
