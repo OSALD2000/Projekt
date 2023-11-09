@@ -1,6 +1,8 @@
 <h1>Brine Check</h1>
 
-### zum starten
+# zum starten 
+
+## 0. install VScode falls du diese IDE nicht hast : ) 
 
 ## 1. install node.js https://nodejs.org/en/download/current
 
