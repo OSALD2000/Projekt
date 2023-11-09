@@ -3,7 +3,7 @@ import Form from "../../components/form/Form";
 import "../../css/loginPage.css"
 
 
-const LoginPage = () => {
+const LoginPage = (props, req, res) => {
   return (
     <div className="loginpage">
         <div className="loginpage-form"><Form></Form></div>

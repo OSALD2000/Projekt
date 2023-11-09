@@ -29,7 +29,7 @@ export const action = async ({ request }) => {
     },
   });
 
-  if (response.status === 422 || response.status === 401) {
+  if (response.status === 442 || response.status === 401) {
     return response;
   }
 

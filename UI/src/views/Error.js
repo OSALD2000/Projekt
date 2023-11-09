@@ -1,8 +1,8 @@
-import { useRouteError } from "react-router-dom";
-
+import {  useRouteError } from "react-router-dom";
 
 function ErrorPage() {
   const error = useRouteError();
+
   console.log(error);
   let title = "An error occurred!";
   let message = "Something went wrong!";
