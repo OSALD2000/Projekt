@@ -15,14 +15,14 @@ router.put(
       .custom((value, { req }) => {
         return User.findAll({ where: { email: value } }).then((userDoc) => {
           if (userDoc.length !== 0) {
-            return Promise.reject("E-Mail address already exists!");
+            return Promise.reject("E-Mail Address ist schon verwendet!");
           }
         });
       }),
 
-    body("password").trim().isLength({ min: 5 }),
+    body("password", "Invalide Password").matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)().{8,50}$/),
 
-    body("username").trim().not().isEmpty(),
+    body("username").isLength({ min: 5 }),
   ],
   authController.signup,
 );
