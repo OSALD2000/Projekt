@@ -6,7 +6,7 @@
 
 ## 1. install node.js https://nodejs.org/en/download/current
 
-## 2. install mysql Workshop und starte a db aud deine Local host https://dev.mysql.com/downloads/workbench/
+## 2. install mysql Workshop und starte a database auf deine Local host and dann liege eine neue shema test an  "https://dev.mysql.com/downloads/workbench/"
 
 ## 3. öffne Start_Quizapp.cmd
 
