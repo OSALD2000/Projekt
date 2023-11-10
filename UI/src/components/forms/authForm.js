@@ -10,8 +10,6 @@ const FormComponent = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const actionData = useActionData();
 
-  console.log(actionData);
-
   useEffect(() => {
     setSearchParams((params) => {
       params.set("mode", props.signup ? "signup" : "login");
@@ -69,10 +67,13 @@ const FormComponent = (props) => {
               <p className="errorText">{actionData.message}</p>
             )}
 
-          {actionData &&
+          {props.signup &&
+            actionData &&
             actionData.error.some(
-              (err) => err.msg === "E-Mail address already exists!"
-            ) && <p className="errorText">E-Mail address already exists!</p>}
+              (err) => err.msg === "E-Mail Address ist bereit verwendet!"
+            ) && (
+              <p className="errorText">E-Mail Address ist bereit verwendet!!</p>
+            )}
         </div>
         {props.signup && (
           <>

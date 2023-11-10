@@ -15,7 +15,7 @@ router.put(
       .custom((value, { req }) => {
         return User.findAll({ where: { email: value } }).then((userDoc) => {
           if (userDoc.length !== 0) {
-            return Promise.reject("E-Mail Address ist schon verwendet!");
+            return Promise.reject("E-Mail Address ist bereit verwendet!");
           }
         });
       }),
