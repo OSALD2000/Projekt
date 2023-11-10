@@ -1,7 +1,7 @@
 const express = require("express");
 const { body } = require("express-validator");
 
-const User = require("../module/user");
+const User = require("../module/auth/user");
 const authController = require("../controller/auth");
 
 const router = express.Router();
@@ -20,7 +20,9 @@ router.put(
         });
       }),
 
-    body("password", "Invalide Password").matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)().{8,50}$/),
+    body("password", "Invalide Password").matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)().{8,50}$/,
+    ),
 
     body("username").isLength({ min: 5 }),
   ],
@@ -28,5 +30,16 @@ router.put(
 );
 
 router.post("/login", authController.login);
+
+router.post(
+  "/emailverification",
+  [
+    body("email")
+      .isEmail()
+      .withMessage("der zum bestaetigen Email wurde nicht gesendet!"),
+    body("verificationCode").isLength({ min: 5 }),
+  ],
+  authController.emailverification,
+);
 
 module.exports = router;

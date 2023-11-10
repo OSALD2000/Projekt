@@ -1,4 +1,5 @@
 import { json, redirect } from "react-router-dom";
+import { storeToken } from "../../util/storeToken";
 
 export const action = async ({ request }) => {
   const searchParams = new URL(request.url).searchParams;
@@ -37,17 +38,18 @@ export const action = async ({ request }) => {
     throw json({ message: "Could not authenticate user" }, { status: 500 });
   }
 
+  if(mode === "signup") {
+    localStorage.setItem("email", userData.email);
+  }
+
   if (mode === "login") {
     const resData = await response.json();
     const token = resData.token;
-    localStorage.setItem("token", token);
-
-    const expiration = new Date();
-    expiration.setHours(expiration.getHours() + 1);
-    localStorage.setItem("expiration", expiration.toISOString());
+    storeToken(token, 1);
+    return redirect("/");
   }
 
-  return redirect("/");
+  return redirect("/emailverification");
 };
 
 export const tokenloader = () => {

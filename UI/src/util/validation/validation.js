@@ -70,6 +70,13 @@ const passwordInputValidation = (password) => {
   };
 };
 
+const emailVerificationValidation = (verificationCode) => {
+  return {
+    status: verificationCode.length === 5,
+    message: "bitte ein valider Code eingeben!",
+  };
+};
+
 const validierung = (type, value) => 
 {
     switch (type) {
@@ -84,6 +91,9 @@ const validierung = (type, value) =>
 
       case  TYPE.PASSWORD:
         return passwordInputValidation(value);
+
+      case  TYPE.EMAILVERIFICATION:
+        return emailVerificationValidation(value);
 
       default:
         throw json({ message: " Fehler beim Valiedierung" }, { status: 422 });

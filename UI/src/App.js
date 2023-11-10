@@ -1,6 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./views/auth/LoginPage";
 import SignUpPage from "./views/auth/SignUpPage";
+import EmailVerificationPage,{action as EmailVerificationAction} from "./views/auth/EmailVerification";
+
 import RootLayout from "./views/RootLayout";
 import {
   action as authAction,
@@ -16,12 +18,17 @@ const router = createBrowserRouter([
     element: <RootLayout></RootLayout>,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <h1>Home Page</h1>, loader: checkAuthLoader },
+      { index: true, element: <h1> Home Page</h1>, loader: checkAuthLoader },
       { path: "/signin", element: <LoginPage></LoginPage>, action: authAction },
       {
         path: "/signup",
         element: <SignUpPage></SignUpPage>,
         action: authAction,
+      },
+      {
+        path: "/emailverification",
+        element: <EmailVerificationPage></EmailVerificationPage>,
+        action: EmailVerificationAction,
       },
     ],
   },

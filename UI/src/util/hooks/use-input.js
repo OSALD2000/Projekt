@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import validierung from "../validation/Validierung"
+import validation  from "../validation/validation"
 
 const initialInputState = {
   value: "",
@@ -22,7 +22,7 @@ const inputStateReducer = (state, action) => {
 const useInput = (type) => {
   const [input, dispatch] = useReducer(inputStateReducer, initialInputState);
 
-  const {status:enteredInputIsValid, message} = validierung(type, input.value);
+  const {status:enteredInputIsValid, message} = validation(type, input.value);
   const hasError = !enteredInputIsValid && input.isTouched;
 
   const inputClasses = hasError ? "invalid" : "";

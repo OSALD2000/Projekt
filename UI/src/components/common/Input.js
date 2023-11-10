@@ -6,7 +6,6 @@ const Input = (props) => {
   const [passwordType, setPasswordType] = useState("password");
   const type = props.validationType;
 
-
   const showPasswordHanlder = () => {
     if (passwordType === "password") {
       setPasswordType("text");
@@ -22,13 +21,14 @@ const Input = (props) => {
     inputOnBlurHandler,
   } = useInput(type);
 
-
   return (
     <>
       <div className={`input-group mb-3 ${inputClasses}`}>
-        <span className="input-group-text" id="basic-addon1">
-          {props.children}
-        </span>
+        {!props.ohneAddon && (
+          <span className="input-group-text" id="basic-addon1">
+            {props.children}
+          </span>
+        )}
         <input
           id={props.name}
           name={props.name}

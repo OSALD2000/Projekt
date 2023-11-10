@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-const sequelize = require("../util/db");
+const sequelize = require("../../util/db");
 
 const user = sequelize.define("user", {
   _id: {
@@ -18,6 +18,10 @@ const user = sequelize.define("user", {
   },
   username: {
     type: Sequelize.STRING,
+    allowNull: false,
+  },
+  emailverified: {
+    type: Sequelize.BOOLEAN,
     allowNull: false,
   },
 });

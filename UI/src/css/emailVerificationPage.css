@@ -1,0 +1,22 @@
+.emailverification {
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%;
+    text-align: center;
+    padding: 2%;
+}
+.emailverification-label{
+    font-size: 25px;
+    font-weight: bold;
+}
+.emailverification * {
+    margin-left: auto;
+    margin-right: auto ;
+    width: 80%;
+    padding: 2%;
+}
+
+.emailverification input::placeholder {
+    text-align: center; 
+} 

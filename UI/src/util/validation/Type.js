@@ -3,4 +3,5 @@ export class TYPE {
     static EMAIL = "email";
     static NEWPASSWORD = "newpassword";
     static PASSWORD = "password";
+    static EMAILVERIFICATION = "emailverification";
 }
