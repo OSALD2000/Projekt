@@ -24,7 +24,7 @@ const email = sequelize.define(
             }
             throw err;
           });
-        }, 100000);
+        },600000);
       },
     },
   },

@@ -13,6 +13,8 @@ export const action = async ({ request }) => {
 
   const data = await request.formData();
 
+  localStorage.setItem("email", data.get("email"));
+
   const userData = {
     email: data.get("email"),
     password: data.get("password"),
@@ -30,16 +32,16 @@ export const action = async ({ request }) => {
     },
   });
 
+  if (response.status === 423) {
+    return redirect("/auth/emailverification");
+  }
+
   if (response.status === 442 || response.status === 401) {
     return response;
   }
 
   if (!response.ok) {
     throw json({ message: "Could not authenticate user" }, { status: 500 });
-  }
-
-  if(mode === "signup") {
-    localStorage.setItem("email", userData.email);
   }
 
   if (mode === "login") {
@@ -49,7 +51,7 @@ export const action = async ({ request }) => {
     return redirect("/");
   }
 
-  return redirect("/emailverification");
+  return redirect("/auth/emailverification");
 };
 
 export const tokenloader = () => {
@@ -75,7 +77,7 @@ export function checkAuthLoader() {
   const token = getAuthToken();
 
   if (!token) {
-    return redirect("/signin");
+    return redirect("/auth/signin");
   }
   return true;
 }

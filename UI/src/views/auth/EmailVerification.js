@@ -1,12 +1,14 @@
 import React from "react";
 import "../../css/emailVerificationPage.css";
-import { Form } from "react-router-dom";
+import { Form, useActionData } from "react-router-dom";
 import Input from "../../components/common/Input";
 import { TYPE } from "../../util/validation/Type";
 import { json, redirect } from "react-router-dom";
 import { storeToken } from "../../util/storeToken";
 
 const EmailVerification = (props) => {
+  const actionData = useActionData();
+
   return (
     <Form method="POST">
       <div className={`card emailverification`}>
@@ -24,6 +26,12 @@ const EmailVerification = (props) => {
           art="emailverification"
           ohneAddon={true}
         ></Input>
+        { actionData &&
+          actionData.error &&
+          actionData.error.some(
+            (err) => err.msg === "verification Code ist nicht richtig"
+          ) && <p className="errorText">verification Code ist nicht richtig</p>}
+
         <button type="submit" className={"btn btn-outline"}>
           Verify
         </button>
@@ -43,7 +51,7 @@ export const action = async ({ request }) => {
 
   const data = await request.formData();
 
-  const verificationCode = data.mailverificationCode;
+  const verificationCode = data.get("mailverificationCode");
 
   const response = await fetch("http://localhost:8080/auth/emailverification", {
     method: "POST",
@@ -69,6 +77,28 @@ export const action = async ({ request }) => {
   const resData = await response.json();
   const token = resData.token;
   storeToken(token, 1);
-  
+
   return redirect("/");
 };
+
+export const loader = async () =>{
+
+  const email = localStorage.getItem("email");
+
+  if (!email) {
+    return redirect("/signup?mode=signup");
+  }
+
+  const response = await fetch("http://localhost:8080/auth/emailverification/"+email);
+
+  if (response.status === 442 || response.status === 401) {
+    return redirect("/signup?mode=signup");
+  }
+
+  if (!response.ok) {
+    throw json({ message: "Could not send Email!" }, { status: 500 });
+  }
+
+  return true;
+}
+

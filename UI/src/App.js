@@ -1,9 +1,15 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./views/auth/LoginPage";
 import SignUpPage from "./views/auth/SignUpPage";
-import EmailVerificationPage,{action as EmailVerificationAction} from "./views/auth/EmailVerification";
+import HomePage from "./views/HomePage";
+import EmailVerificationPage, {
+  action as emailVerificationAction,
+  loader as emailVerificationLoader,
+} from "./views/auth/EmailVerification";
 
 import RootLayout from "./views/RootLayout";
+import AuthLayout from "./views/auth/AuthLayout";
+
 import {
   action as authAction,
   tokenloader,
@@ -17,18 +23,27 @@ const router = createBrowserRouter([
     loader: tokenloader,
     element: <RootLayout></RootLayout>,
     errorElement: <ErrorPage />,
+    children:[
+      { index: true, element: <HomePage/>, loader: checkAuthLoader },
+    ]
+  }, 
+  {
+    path: "/auth",
+    loader: tokenloader,
+    element: <AuthLayout></AuthLayout>,
+    errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <h1> Home Page</h1>, loader: checkAuthLoader },
-      { path: "/signin", element: <LoginPage></LoginPage>, action: authAction },
+      { path: "signin", element: <LoginPage></LoginPage>, action: authAction},
       {
-        path: "/signup",
+        path: "signup",
         element: <SignUpPage></SignUpPage>,
         action: authAction,
       },
       {
-        path: "/emailverification",
+        path: "emailverification",
         element: <EmailVerificationPage></EmailVerificationPage>,
-        action: EmailVerificationAction,
+        action: emailVerificationAction,
+        loader: emailVerificationLoader,
       },
     ],
   },

@@ -3,11 +3,11 @@ const bcrypt = require("bcryptjs");
 const uuid = require("uuid");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-
 const mail = require("../util/mail");
 
 const User = require("../module/auth/user");
 const Email = require("../module/auth/email");
+const { where } = require("sequelize");
 
 exports.signup = (req, res, next) => {
   const errors = validationResult(req);
@@ -21,7 +21,6 @@ exports.signup = (req, res, next) => {
   const email = req.body.email;
   const username = req.body.username;
   const password = req.body.password;
-  let createdUser;
 
   bcrypt
     .hash(password, 12)
@@ -34,24 +33,7 @@ exports.signup = (req, res, next) => {
         emailverified: false,
       });
     })
-    .then((result) => {
-      createdUser = result;
-      const verifieCode = crypto.randomInt(10000, 99999);
-      return Email.create({
-        email: createdUser.dataValues.email,
-        verifieCode: verifieCode,
-      });
-    })
-    .then((email) => {
-      const emailHtml = `<head> <title>Bestätigungscode per E-Mail</title><style> body \{font-family: Arial, sans-serif;text-align: center;background-color: #f0f0f0;\}h1 \{ color: #333;\}p\{font-size: 18px;color: #666;\}.confirmation-code \{font-size: 24px;color: #007BFF;\}</style></head><body><h1>Willkommen zur E-Mail-Bestätigung</h1><p>Ihr Bestätigungscode:</p><p class="confirmation-code">${email.dataValues.verifieCode}</p></body>`;
-      return mail.sendMail({
-        from: " Brain Check <braincheck2023@gmail.com>",
-        to: `${email.dataValues.email}`,
-        subject: "Email Verification",
-        html: emailHtml,
-      });
-    })
-    .then(() => {
+    .then((createdUser) => {
       res.json({ message: "User created", userId: createdUser.dataValues._id });
     })
     .catch((err) => {
@@ -73,6 +55,13 @@ exports.login = (req, res, next) => {
         error.statusCode = 401;
         throw error;
       }
+
+      if (!user.dataValues.emailverified) {
+        const error = new Error("Bitte bestaetigen Sie Ihre Email Addresse");
+        error.statusCode = 423;
+        throw error;
+      }
+
       loadedUser = user;
       return bcrypt.compare(password, user.dataValues.password);
     })
@@ -102,7 +91,7 @@ exports.login = (req, res, next) => {
     });
 };
 
-exports.emailverification = (req, res, next) => {
+exports.postEmailverification = (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -142,7 +131,7 @@ exports.emailverification = (req, res, next) => {
         error.statusCode = 401;
         throw error;
       }
-      user.dataValues.emailverified = true;
+      user.emailverified = true;
       loadedUser = user;
       return user.save();
     })
@@ -157,6 +146,34 @@ exports.emailverification = (req, res, next) => {
       );
 
       res.status(200).json({ token: token, userId: loadedUser.dataValues._id });
+    })
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+};
+
+exports.getEmailverification = (req, res, next) => {
+  const email = req.params.email;
+  const verifieCode = crypto.randomInt(10000, 99999);
+
+  Email.findOne({ where: { email: email } })
+    .then((email) => {
+      if (email) {
+        return email.destroy();
+      }
+    }).then(() => {
+      return Email.create({
+        email: email,
+        verifieCode: verifieCode,
+      });
+    }).then((email) => {
+      return mail.sendeVerifcationEmail(email);
+    })
+    .then(() => {
+      res.status(200).json({ message: "Besteatigunug Email gesendet!" });
     })
     .catch((err) => {
       if (!err.statusCode) {

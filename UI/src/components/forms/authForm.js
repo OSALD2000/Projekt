@@ -6,10 +6,11 @@ import classes from "../../css/form.module.css";
 import { TYPE } from "../../util/validation/Type";
 import { Form, useSearchParams, useActionData } from "react-router-dom";
 
+
 const FormComponent = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const actionData = useActionData();
-
+  
   useEffect(() => {
     setSearchParams((params) => {
       params.set("mode", props.signup ? "signup" : "login");

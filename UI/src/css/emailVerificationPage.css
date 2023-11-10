@@ -17,6 +17,6 @@
     padding: 2%;
 }
 
-.emailverification input::placeholder {
+.emailverification input::placeholder,.emailverification input {
     text-align: center; 
 } 

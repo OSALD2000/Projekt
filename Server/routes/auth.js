@@ -39,7 +39,8 @@ router.post(
       .withMessage("der zum bestaetigen Email wurde nicht gesendet!"),
     body("verificationCode").isLength({ min: 5 }),
   ],
-  authController.emailverification,
+  authController.postEmailverification,
 );
 
+router.get("/emailverification/:email", authController.getEmailverification)
 module.exports = router;
