@@ -49,3 +49,17 @@ body {
 .error-text .password span {
     margin-left: 3%;
 }
+
+.logout{
+    margin-left: auto;
+    margin-right: auto;
+}
+.logout *{
+    margin-left: auto;
+    margin-right: auto;
+}
+.logout *{
+    font-size: 50px;
+    color: white;
+    padding:40%;
+}
