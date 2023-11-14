@@ -3,12 +3,18 @@ const express = require("express");
 require("dotenv").config();
 
 const bodyParser = require("body-parser");
+const bcrypt = require("bcryptjs");
 
 const authRoutes = require("./routes/auth");
+const is_auth = require("./middleware/is-auth");
+const quizRoutes = require("./routes/quiz");
 
 const sequelize = require("./util/db");
-const Email = require("./module/auth/email");
-const User = require("./module/auth/user");
+const createRelation = require("./util/db_relation");
+
+const User = require("./module/auth/user"); 
+
+createRelation();
 
 const app = express();
 
@@ -26,6 +32,10 @@ app.use((req, res, next) => {
 
 app.use("/auth", authRoutes);
 
+app.use(is_auth);
+
+app.use("/quiz", quizRoutes);
+
 app.use((error, req, res, next) => {
   console.log(error);
   const status = error.statusCode || 500;
@@ -34,22 +44,20 @@ app.use((error, req, res, next) => {
 });
 
 sequelize
-  .sync({force : true})
-  .then((result) => {
-    return Email.create({
+  .sync({ force: true })  
+  .then(() => {
+    return bcrypt.hash("root", 12)
+  })
+  .then((hashedPw) => {
+    return User.create({
+      _id: "1213123124",
       email: "test@test.de",
-      verifieCode: 12345,
+      password: hashedPw,
+      username: "TESTES",
+      emailverified: true,
     });
   })
   .then(() => {
-    return User.create({
-      _id : "1213123124",
-      email: "test@test.de",
-      password :"Osama2000",
-      username: "TESTES",
-      emailverified : false,
-    })
-  }).then(() => {
     app.listen(8080);
   })
   .catch((err) => {

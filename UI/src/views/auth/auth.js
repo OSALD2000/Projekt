@@ -9,7 +9,7 @@ export const action = async ({ request }) => {
     throw json({ message: " Unsupported mode" }, { status: 422 });
   }
 
-  const method = mode === "login" ? "POST" : "PUT";
+  const method = "POST";
 
   const data = await request.formData();
 

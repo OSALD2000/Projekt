@@ -1,22 +1,17 @@
-const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const uuid = require("uuid");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+
 const mail = require("../util/mail");
+const requestErrorHandler = require("../util/requestValidation");
 
 const User = require("../module/auth/user");
 const Email = require("../module/auth/email");
-const { where } = require("sequelize");
 
 exports.signup = (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const error = new Error("Validation failed");
-    error.statusCode = 442;
-    error.data = errors.array();
-    throw error;
-  }
+  
+  requestErrorHandler(req);
 
   const email = req.body.email;
   const username = req.body.username;
@@ -92,15 +87,9 @@ exports.login = (req, res, next) => {
 };
 
 exports.postEmailverification = (req, res, next) => {
-  const errors = validationResult(req);
 
-  if (!errors.isEmpty()) {
-    const error = new Error("Validation failed");
-    error.statusCode = 442;
-    error.data = errors.array();
-    throw error;
-  }
-
+  requestErrorHandler(req);
+  
   const email = req.body.email;
   const verificationCode = req.body.verificationCode;
   let loadedUser;

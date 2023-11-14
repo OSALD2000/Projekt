@@ -1,14 +1,16 @@
 import React from "react";
-import Header from "../components/common/Header";
+import Layout from "../components/layout/Lauout";
+import MainNavigation from "../components/common/nav/MainNavigation";
+
 import { Outlet } from "react-router";
-const RootLayout = (props) =>
-{
-    return(
-        <>
-            <Header/>
-            <Outlet/>
-        </>
-    )
-}
+const RootLayout = (props) => {
+  return (
+    <>
+      <Layout props={<MainNavigation />}>
+        <Outlet />
+      </Layout>
+    </>
+  );
+};
 
 export default RootLayout;

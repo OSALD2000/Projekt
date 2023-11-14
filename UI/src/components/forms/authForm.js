@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import Input from "../common/Input";
 import logo from "../../resources/logo.png";
-import classes from "../../css/form.module.css";
+import classes from "./form.module.css";
 import { TYPE } from "../../util/validation/Type";
 import { Form, useSearchParams, useActionData } from "react-router-dom";
 
