@@ -12,7 +12,8 @@ const quizRoutes = require("./routes/quiz");
 const sequelize = require("./util/db");
 const createRelation = require("./util/db_relation");
 
-const User = require("./module/auth/user"); 
+const User = require("./module/auth/user");
+const TrueOrFalse = require("./module/quiz/question/trueOrFalse");
 
 createRelation();
 
@@ -38,15 +39,15 @@ app.use("/quiz", quizRoutes);
 
 app.use((error, req, res, next) => {
   console.log(error);
-  const status = error.statusCode || 500;
-  const message = error.message;
-  res.status(status).json({ message: message, error: error.data });
+  res
+    .status(error.statusCode)
+    .json({ message: error.message, error: error.data });
 });
 
 sequelize
-  .sync({ force: true })  
+  .sync({ force: true })
   .then(() => {
-    return bcrypt.hash("root", 12)
+    return bcrypt.hash("root", 12);
   })
   .then((hashedPw) => {
     return User.create({

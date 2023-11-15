@@ -16,12 +16,12 @@ const quiz = sequelize.define("quiz", {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
-  win_percent: {
+  required_points: {
     type: Sequelize.DOUBLE,
     allowNull: false,
   },
   visibility: {
-    type: Sequelize.ENUM("PRIVATE", "PUBLIC"),
+    type: Sequelize.BOOLEAN,
     allowNull: false,
   },
 });

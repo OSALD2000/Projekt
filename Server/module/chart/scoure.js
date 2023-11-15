@@ -12,6 +12,8 @@ const scoure = sequelize.define("scoure", {
     type: Sequelize.DOUBLE,
     allowNull: false,
   }
+},{
+  timestamps: false,
 });
 
 module.exports = scoure;

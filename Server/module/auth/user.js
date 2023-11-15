@@ -26,7 +26,10 @@ const user = sequelize.define(
       type: Sequelize.BOOLEAN,
       allowNull: false,
     },
-  }
+  },
+  {
+    timestamps: false,
+  },
 );
 
 module.exports = user;

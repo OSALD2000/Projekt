@@ -12,6 +12,8 @@ const answer = sequelize.define("answer", {
     type: Sequelize.BOOLEAN,
     allowNull: false,
   }
+},{
+  timestamps: false,
 });
 
 module.exports = answer;

@@ -1,13 +1,19 @@
 const User = require("../module/auth/user");
 
 const Quiz = require("../module/quiz/quiz");
-const Option = require("../module/quiz/option");
-const Question = require("../module/quiz/question");
+const Option = require("../module/quiz/question/option");
 const Participant = require("../module/quiz/participant");
 
 const Answer = require("../module/chart/answer");
 const Statistics = require("../module/chart/statistics");
 const Scoure = require("../module/chart/scoure");
+
+const Question = require("../module/quiz/question/question");
+const Choiceone = require("../module/quiz/question/choiceone");
+const FillInTheBlank = require("../module/quiz/question/fillInTheBlank");
+const MultipleChoice = require("../module/quiz/question/multipleChoice");
+const TrueOrFalse = require("../module/quiz/question/trueOrFalse");
+const Ordering = require("../module/quiz/question/ordering");
 
 const create_relation = () => {
   User.hasMany(Quiz, {
@@ -15,7 +21,7 @@ const create_relation = () => {
     constraints: true,
     onDelete: "CASCADE",
   });
-  
+
   Quiz.belongsTo(User, { foreignKey: "creator" });
 
   Participant.belongsTo(User);

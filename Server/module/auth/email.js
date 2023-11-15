@@ -13,8 +13,13 @@ const email = sequelize.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    try: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
   },
   {
+    timestamps: false,
     hooks: {
       afterCreate: (record) => {
         setTimeout(() => {
@@ -24,7 +29,7 @@ const email = sequelize.define(
             }
             throw err;
           });
-        },600000);
+        }, 600000);
       },
     },
   },

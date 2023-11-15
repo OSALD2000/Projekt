@@ -10,7 +10,6 @@ const User = require("../module/auth/user");
 const Email = require("../module/auth/email");
 
 exports.signup = (req, res, next) => {
-  
   requestErrorHandler(req);
 
   const email = req.body.email;
@@ -87,9 +86,8 @@ exports.login = (req, res, next) => {
 };
 
 exports.postEmailverification = (req, res, next) => {
-
   requestErrorHandler(req);
-  
+
   const email = req.body.email;
   const verificationCode = req.body.verificationCode;
   let loadedUser;
@@ -144,30 +142,70 @@ exports.postEmailverification = (req, res, next) => {
     });
 };
 
-exports.getEmailverification = (req, res, next) => {
-  const email = req.params.email;
-  const verifieCode = crypto.randomInt(10000, 99999);
+exports.getEmailverification = async (req, res, next) => {
+  try {
+    const req_email = req.params.email;
+    const verifieCode = crypto.randomInt(10000, 99999);
 
-  Email.findOne({ where: { email: email } })
-    .then((email) => {
+    const user = await User.findOne({ where: { email: req_email } });
+
+    if (!user) {
+      res
+        .status(442)
+        .json({ message: "kein User unter dieses Email Addresse" });
+    } else {
+      const email = await Email.findOne({ where: { email: req_email } });
+
       if (email) {
-        return email.destroy();
+        res.status(200).json({ message: "Email wurde erfolgreich gesendet" });
+      } else {
+        const new_email = await Email.create({
+          email: req_email,
+          verifieCode: verifieCode,
+          try: 1,
+        });
+
+        await mail.sendeVerifcationEmail(new_email);
+
+        res.status(200).json({ message: "Email ist erfolgreich gesendet" });
       }
-    }).then(() => {
-      return Email.create({
-        email: email,
-        verifieCode: verifieCode,
-      });
-    }).then((email) => {
-      return mail.sendeVerifcationEmail(email);
-    })
-    .then(() => {
-      res.status(200).json({ message: "Besteatigunug Email gesendet!" });
-    })
-    .catch((err) => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
+    }
+  } catch (err) {
+    throw err;
+  }
+};
+
+exports.getEmailverificationagain = async (req, res, next) => {
+  try {
+    const req_email = req.params.email;
+    const verifieCode = crypto.randomInt(10000, 99999);
+
+    const user = await User.findOne({ where: { email: req_email } });
+
+    if (!user) {
+      res
+        .status(442)
+        .json({ message: "kein User unter dieses Email Addresse" });
+    } else {
+      const email = await Email.findOne({ where: { email: req_email } });
+      if (email) {
+        if (email.getDataValue("try") > 5) {
+          res.status(442).json({
+            message:
+              "so viele Emails wurden gesendet bitte in kurze nochmal versuchen",
+          });
+        } else {
+          email.verifieCode = verifieCode;
+          email.try = email.getDataValue("try") + 1;
+          await email.save();
+          await mail.sendeVerifcationEmail(email);
+          res.status(200).json({ message: "Email ist nochmal gesendet" });
+        }
+      } else {
+        res.status(442).json({ message: "melden sie sich bitte an!" });
       }
-      next(err);
-    });
+    }
+  } catch (err) {
+    throw err;
+  }
 };

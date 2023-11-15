@@ -4,6 +4,7 @@ import SignUpPage from "./views/auth/SignUpPage";
 import HomePage from "./views/HomePage";
 import EmailVerificationPage, {
   action as emailVerificationAction,
+  again_loader,
   loader as emailVerificationLoader,
 } from "./views/auth/EmailVerification";
 
@@ -23,17 +24,15 @@ const router = createBrowserRouter([
     loader: tokenloader,
     element: <RootLayout></RootLayout>,
     errorElement: <ErrorPage />,
-    children:[
-      { index: true, element: <HomePage/>, loader: checkAuthLoader },
-    ]
-  }, 
+    children: [{ index: true, element: <HomePage />, loader: checkAuthLoader }],
+  },
   {
     path: "/auth",
     loader: tokenloader,
     element: <AuthLayout></AuthLayout>,
     errorElement: <ErrorPage />,
     children: [
-      { path: "signin", element: <LoginPage></LoginPage>, action: authAction},
+      { path: "signin", element: <LoginPage></LoginPage>, action: authAction },
       {
         path: "signup",
         element: <SignUpPage></SignUpPage>,
@@ -44,6 +43,12 @@ const router = createBrowserRouter([
         element: <EmailVerificationPage></EmailVerificationPage>,
         action: emailVerificationAction,
         loader: emailVerificationLoader,
+        children: [
+          {
+            path: "again",
+            loader: again_loader,
+          },
+        ],
       },
     ],
   },
