@@ -4,12 +4,13 @@ import "../../css/emailVerificationPage.css";
 import { Form, useActionData } from "react-router-dom";
 import Input from "../../components/common/Input";
 import { TYPE } from "../../util/validation/Type";
-import { json, redirect } from "react-router-dom";
+import { json, redirect} from "react-router-dom";
 import { storeToken } from "../../util/storeToken";
 
 const EmailVerification = (props) => {
   const actionData = useActionData();
   const [many_try, setManyTry] = useState(false);
+  const [loding, setLoding] = useState(false);
 
   const sendeNewEmail = async () => {
     const email = localStorage.getItem("email");
@@ -18,16 +19,17 @@ const EmailVerification = (props) => {
       return redirect("/signup?mode=signup");
     }
 
+    setLoding(true);
     const response = await fetch(
       "http://localhost:8080/auth/again/emailverification/" + email
     );
-
+    
     if (response.status === 442) {
-       setManyTry(true);
+      setManyTry(true);
     }
+    setLoding(false)
   };
 
-  console.log(actionData);
   return (
     <>
       <Form method="POST">
@@ -38,27 +40,36 @@ const EmailVerification = (props) => {
           >
             Bitte Bestätigen Sie Ihre Email Addresse
           </label>
-          <Input
-            validationType={TYPE.EMAILVERIFICATION}
-            name="mailverificationCode"
-            placeholder="X   X   X   X   X"
-            type="text"
-            art="emailverification"
-            ohneAddon={true}
-          ></Input>
-          <button type="submit" className={"btn btn-outline"}>
-            Verify
-          </button>
-          <button
-            type="button"
-            onClick={sendeNewEmail}
-            className={"btn btn-outline mt-2"}
-          >
-            Email again senden
-          </button>
-          {many_try && <p className="errorText mt-2">bitte versuchen Sie es zu einem späteren zeitpunkt erneut</p>}
-          {actionData && <p className="errorText mt-2">{actionData.message}</p>}
-
+          {loding ? <div class="lds-dual-ring"></div> : (
+            <>
+              <Input
+                validationType={TYPE.EMAILVERIFICATION}
+                name="mailverificationCode"
+                placeholder="X   X   X   X   X"
+                type="text"
+                art="emailverification"
+                ohneAddon={true}
+              ></Input>
+              <button type="submit" className={"btn btn-outline"}>
+                Verify
+              </button>
+              <button
+                type="button"
+                onClick={sendeNewEmail}
+                className={"btn btn-outline mt-2"}
+              >
+                Email again senden
+              </button>
+              {many_try && (
+                <p className="errorText mt-2">
+                  bitte versuchen Sie es zu einem späteren zeitpunkt erneut
+                </p>
+              )}
+              {actionData && (
+                <p className="errorText mt-2">{actionData.message}</p>
+              )}
+            </>
+          )}
         </div>
       </Form>
     </>
@@ -111,7 +122,7 @@ export const loader = async () => {
   if (!email) {
     return redirect("/signup?mode=signup");
   }
-
+ 
   const response = await fetch(
     "http://localhost:8080/auth/emailverification/" + email
   );
@@ -125,26 +136,4 @@ export const loader = async () => {
   }
 
   return true;
-};
-
-export const again_loader = async ({ request }) => {
-  const email = localStorage.getItem("email");
-
-  if (!email) {
-    return redirect("/signup?mode=signup");
-  }
-
-  const response = await fetch(
-    "http://localhost:8080/auth/again/emailverification/" + email
-  );
-
-  if (response.status === 442 || response.status === 401) {
-    return response;
-  }
-
-  if (!response.ok) {
-    throw json({ message: "Could not authenticate user" }, { status: 500 });
-  }
-
-  return redirect("/auth/emailverification");
 };

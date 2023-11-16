@@ -46,7 +46,7 @@ router.get("/emailverification/:email", authController.getEmailverification);
 
 router.get(
   "/again/emailverification/:email",
-  authController.getEmailverificationagain,
+  authController.getEmailverificationAgain,
 );
 
 module.exports = router;

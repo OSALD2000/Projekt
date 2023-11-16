@@ -9,33 +9,27 @@ const requestErrorHandler = require("../util/requestValidation");
 const User = require("../module/auth/user");
 const Email = require("../module/auth/email");
 
-exports.signup = (req, res, next) => {
-  requestErrorHandler(req);
+exports.signup = async (req, res, next) => {
+  try {
+    requestErrorHandler(req);
 
-  const email = req.body.email;
-  const username = req.body.username;
-  const password = req.body.password;
+    const email = req.body.email;
+    const username = req.body.username;
+    const password = req.body.password;
 
-  bcrypt
-    .hash(password, 12)
-    .then((hashedPw) => {
-      return User.create({
-        _id: uuid.v4(),
-        username: username,
-        email: email,
-        password: hashedPw,
-        emailverified: false,
-      });
-    })
-    .then((createdUser) => {
-      res.json({ message: "User created", userId: createdUser.dataValues._id });
-    })
-    .catch((err) => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      next(err);
+    const hashedPw = await bcrypt.hash(password, 12);
+    const createdUser = await User.create({
+      _id: uuid.v4(),
+      username: username,
+      email: email,
+      password: hashedPw,
+      emailverified: false,
     });
+
+    res.json({ message: "User created", userId: createdUser.dataValues._id });
+  } catch (err) {
+    throw err;
+  }
 };
 
 exports.login = (req, res, next) => {
@@ -49,13 +43,6 @@ exports.login = (req, res, next) => {
         error.statusCode = 401;
         throw error;
       }
-
-      if (!user.dataValues.emailverified) {
-        const error = new Error("Bitte bestaetigen Sie Ihre Email Addresse");
-        error.statusCode = 423;
-        throw error;
-      }
-
       loadedUser = user;
       return bcrypt.compare(password, user.dataValues.password);
     })
@@ -65,6 +52,13 @@ exports.login = (req, res, next) => {
         error.statusCode = 401;
         throw error;
       }
+
+      if (!loadedUser.dataValues.emailverified) {
+        const error = new Error("Bitte bestaetigen Sie Ihre Email Addresse");
+        error.statusCode = 423;
+        throw error;
+      }
+
       const token = jwt.sign(
         {
           email: loadedUser.dataValues.email,
@@ -165,7 +159,7 @@ exports.getEmailverification = async (req, res, next) => {
           try: 1,
         });
 
-        await mail.sendeVerifcationEmail(new_email);
+        mail.sendeVerifcationEmail(new_email);
 
         res.status(200).json({ message: "Email ist erfolgreich gesendet" });
       }
@@ -175,7 +169,7 @@ exports.getEmailverification = async (req, res, next) => {
   }
 };
 
-exports.getEmailverificationagain = async (req, res, next) => {
+exports.getEmailverificationAgain = async (req, res, next) => {
   try {
     const req_email = req.params.email;
     const verifieCode = crypto.randomInt(10000, 99999);

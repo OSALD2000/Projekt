@@ -4,7 +4,6 @@ import SignUpPage from "./views/auth/SignUpPage";
 import HomePage from "./views/HomePage";
 import EmailVerificationPage, {
   action as emailVerificationAction,
-  again_loader,
   loader as emailVerificationLoader,
 } from "./views/auth/EmailVerification";
 
@@ -43,12 +42,6 @@ const router = createBrowserRouter([
         element: <EmailVerificationPage></EmailVerificationPage>,
         action: emailVerificationAction,
         loader: emailVerificationLoader,
-        children: [
-          {
-            path: "again",
-            loader: again_loader,
-          },
-        ],
       },
     ],
   },
