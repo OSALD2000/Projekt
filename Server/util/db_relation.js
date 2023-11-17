@@ -24,7 +24,9 @@ const create_relation = () => {
 
   Quiz.belongsTo(User, { foreignKey: "creator" });
 
+  User.hasMany(Participant);
   Participant.belongsTo(User);
+
   Quiz.hasMany(Participant, { constraints: true, onDelete: "CASCADE" });
 
   Participant.hasOne(Answer, { constraints: true, onDelete: "CASCADE" });
@@ -37,7 +39,6 @@ const create_relation = () => {
   Answer.belongsTo(Participant, { constraints: true, onDelete: "CASCADE" });
 
   Question.hasMany(Option, { constraints: true, onDelete: "CASCADE" });
-  Answer.belongsTo(Option);
 
   Quiz.hasOne(Statistics, { constraints: true, onDelete: "CASCADE" });
   Statistics.belongsTo(Quiz);

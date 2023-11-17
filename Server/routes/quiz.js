@@ -1,7 +1,7 @@
 const express = require("express");
 const { body } = require("express-validator");
 
-const quizController = require("../controller/quiz");
+const quizController = require("../controller/quiz/quiz");
 
 const router = express.Router();
 
@@ -13,6 +13,7 @@ router.get("/:quizId", quizController.getPrivateQuiz);
 router.post("/create", quizController.createQuiz);
 
 
+// TODO: add validations for incomming questions if all id gultig
 router.post("/answer", quizController.answerQuiz);
 
 

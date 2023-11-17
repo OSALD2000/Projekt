@@ -12,12 +12,8 @@ const FillInTheBlank = sequelize.define(
       allowNull: false,
     },
 
-    right_order: {
+    right_answer: {
       type: Sequelize.STRING,
-      allowNull: false,
-    },
-    order_length: {
-      type: Sequelize.INTEGER,
       allowNull: false,
     },
   },

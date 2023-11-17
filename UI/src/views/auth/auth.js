@@ -32,6 +32,8 @@ export const action = async ({ request }) => {
     },
   });
 
+  console.log(response);
+  
   if (response.status === 423) {
     return redirect("/auth/emailverification");
   }

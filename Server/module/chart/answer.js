@@ -2,18 +2,26 @@ const Sequelize = require("sequelize");
 
 const sequelize = require("../../util/db");
 
-const answer = sequelize.define("answer", {
-  _id: {
-    type: Sequelize.STRING,
-    primaryKey: true,
-    allowNull: false,
+const answer = sequelize.define(
+  "answer",
+  {
+    _id: {
+      type: Sequelize.STRING,
+      primaryKey: true,
+      allowNull: false,
+    },
+    answer: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    is_right: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+    },
   },
-  is_right:{
-    type: Sequelize.BOOLEAN,
-    allowNull: false,
-  }
-},{
-  timestamps: false,
-});
+  {
+    timestamps: false,
+  },
+);
 
 module.exports = answer;

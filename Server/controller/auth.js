@@ -18,6 +18,7 @@ exports.signup = async (req, res, next) => {
     const password = req.body.password;
 
     const hashedPw = await bcrypt.hash(password, 12);
+
     const createdUser = await User.create({
       _id: uuid.v4(),
       username: username,
@@ -28,7 +29,7 @@ exports.signup = async (req, res, next) => {
 
     res.json({ message: "User created", userId: createdUser.dataValues._id });
   } catch (err) {
-    throw err;
+    next(err);
   }
 };
 
@@ -165,7 +166,10 @@ exports.getEmailverification = async (req, res, next) => {
       }
     }
   } catch (err) {
-    throw err;
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 
@@ -200,6 +204,9 @@ exports.getEmailverificationAgain = async (req, res, next) => {
       }
     }
   } catch (err) {
-    throw err;
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };

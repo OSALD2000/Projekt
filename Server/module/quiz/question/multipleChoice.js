@@ -12,20 +12,10 @@ const MultipleChoice = sequelize.define(
       allowNull: false,
     },
 
-    answer_one: {
+    right_answer: {
       type: Sequelize.STRING,
       allowNull: false,
-    },
-    answer_two: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    answer_three: {
-      type: Sequelize.STRING,
-    },
-    answer_four: {
-      type: Sequelize.STRING,
-    },
+    }
   },
   { timestamps: false },
 );

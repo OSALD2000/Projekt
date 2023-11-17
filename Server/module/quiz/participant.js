@@ -10,7 +10,7 @@ const participant = sequelize.define(
       allowNull: false,
     },
     passed: {
-      type: Sequelize.ENUM("JA", "NEIN"),
+      type: Sequelize.BOOLEAN,
       allowNull: false,
     },
   },

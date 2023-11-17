@@ -1,3 +1,4 @@
+const QUESTIONTYPE = require("../../module/enum/QUESTIONTYPE") 
 /** 
  {
     "quizId":""
@@ -14,7 +15,6 @@
     ]
 }
 */
-
 // TODO : creator zu quiz_object hinzufügen
 const create_quiz_objekt = async (quiz) =>{
     try{
@@ -36,6 +36,11 @@ const create_quiz_objekt = async (quiz) =>{
             question_object.category = quiz_question.getDataValue('category');
             question_object.answers = [];
 
+            if(quiz_question.category === QUESTIONTYPE.TRUEORFALSE ||quiz_question.category === QUESTIONTYPE.FILLINTHEBLANK ){
+                quiz_object.questions.push(question_object)
+                continue;
+            }
+            
             const options = await quiz_question.getOptions();
 
             for(const option of options){
