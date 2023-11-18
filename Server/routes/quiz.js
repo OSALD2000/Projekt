@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.get("/:quizId", quizController.getPrivateQuiz);
 
+// TODO: update quiz
 
 
 // TODO: add validations for incomming quiz questions

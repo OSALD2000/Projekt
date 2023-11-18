@@ -94,6 +94,8 @@ const createQuiz = async (req, res, next) => {
       }
     }
 
+    //TODO: create statistics
+    
     res
       .status(201)
       .json({ message: "Quiz created successfully", quizId: quizId });

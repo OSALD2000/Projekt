@@ -13,7 +13,6 @@ const sequelize = require("./util/db");
 const createRelation = require("./util/db_relation");
 
 const User = require("./module/auth/user");
-const TrueOrFalse = require("./module/quiz/question/trueOrFalse");
 
 createRelation();
 
@@ -45,18 +44,18 @@ app.use((error, req, res, next) => {
 });
 
 sequelize
-  .sync()
+  .sync({force : false})
   .then(() => {
     return bcrypt.hash("root", 12);
   })
   .then((hashedPw) => {
-    // return User.create({
-    //   _id: "1213123124",
-    //   email: "test@test.de",
-    //   password: hashedPw,
-    //   username: "TESTES",
-    //   emailverified: true,
-    // });
+    return User.create({
+      _id: "1213123124",
+      email: "test@test.de",
+      password: hashedPw,
+      username: "TESTES",
+      emailverified: true,
+    });
   })
   .then(() => {
     app.listen(8080);
