@@ -40,7 +40,7 @@ const Input = (props) => {
           aria-label={enteredInput}
           value={enteredInput}
           aria-describedby="basic-addon1"
-          required
+          required = {props.required}
         ></input>
 
         {props.art === "password" && (

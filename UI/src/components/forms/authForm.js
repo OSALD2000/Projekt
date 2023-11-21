@@ -6,11 +6,10 @@ import classes from "./form.module.css";
 import { TYPE } from "../../util/validation/Type";
 import { Form, useSearchParams, useActionData } from "react-router-dom";
 
-
 const FormComponent = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const actionData = useActionData();
-  
+
   useEffect(() => {
     setSearchParams((params) => {
       params.set("mode", props.signup ? "signup" : "login");
@@ -31,6 +30,7 @@ const FormComponent = (props) => {
               type="text"
               art="username"
               validationType={TYPE.USERNAME}
+              required={true}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -51,6 +51,7 @@ const FormComponent = (props) => {
             art="Email"
             type="email"
             validationType={TYPE.EMAIL}
+            required={true}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -85,6 +86,7 @@ const FormComponent = (props) => {
                 art="password"
                 type="password"
                 validationType={TYPE.NEWPASSWORD}
+                required={true}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -107,6 +109,7 @@ const FormComponent = (props) => {
               type="password"
               name="password"
               validationType={TYPE.PASSWORD}
+              required={true}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

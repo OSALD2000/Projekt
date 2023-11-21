@@ -1,0 +1,5 @@
+export const QUIZART={
+    ALLGEMEIN:"ALLGEMEIN",
+    SPORT:"ALLGEMEIN",
+    MATH:"ALLGEMEIN",
+}
