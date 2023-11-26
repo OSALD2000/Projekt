@@ -1,5 +1,5 @@
-import { TYPE }  from "./Type";
-import { json} from "react-router-dom";
+import { TYPE } from "./Type";
+import { json } from "react-router-dom";
 
 
 const usernameInputValidation = (username) => {
@@ -77,27 +77,71 @@ const emailVerificationValidation = (verificationCode) => {
   };
 };
 
-const validierung = (type, value) => 
-{
-    switch (type) {
-      case TYPE.USERNAME:
-        return usernameInputValidation(value);
-      
-      case  TYPE.EMAIL:
-        return emailInputValidation(value);
+const textValidation = (text, length) => {
+  if (text.trim() === "") {
+    return {
+      status: false,
+      message: "bitte geben Sie an!!",
+    };
+  } else if (text.length < length) {
+    return {
+      status: false,
+      message: "text soll mind." + length + " Zeichen sein!!",
+    };
+  }
 
-      case  TYPE.NEWPASSWORD:
-        return newPasswordInputValidation(value);
+  return {
+    status: true,
+    message: "Erfolgreich!!",
+  };
+}
 
-      case  TYPE.PASSWORD:
-        return passwordInputValidation(value);
-
-      case  TYPE.EMAILVERIFICATION:
-        return emailVerificationValidation(value);
-
-      default:
-        throw json({ message: " Fehler beim Valiedierung" }, { status: 422 });
+const numberValidation = (value) => {
+  if (!parseInt(value)) {
+    return {
+      status: false,
+      message: "muss number sein!",
     }
+  }
+  if (value < 0 || value > 100) {
+    return {
+      status: false,
+      message: "muss zwischen 0 und 100 sein",
+    }
+  }
+
+  return {
+    status: true,
+    message: "Erfolgreich!!",
+  };
+}
+
+const validierung = (type, value, length) => {
+  switch (type) {
+    case TYPE.USERNAME:
+      return usernameInputValidation(value);
+
+    case TYPE.EMAIL:
+      return emailInputValidation(value);
+
+    case TYPE.NEWPASSWORD:
+      return newPasswordInputValidation(value);
+
+    case TYPE.PASSWORD:
+      return passwordInputValidation(value);
+
+    case TYPE.EMAILVERIFICATION:
+      return emailVerificationValidation(value);
+
+    case TYPE.TEXT:
+      return textValidation(value, length);
+
+    case TYPE.NUMBER:
+      return numberValidation(value);
+
+    default:
+      throw json({ message: " Fehler beim Valiedierung" }, { status: 422 });
+  }
 }
 
 

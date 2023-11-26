@@ -1,0 +1,199 @@
+const QUIZCATEGORY = require("../../module/enum/QUIZCATEGORY");
+const QUESTIONTYPE = require("../../module/enum/QUESTIONTYPE");
+
+const QUIZCATEGORY_ARRAY = [];
+
+for (const CATEGORY in QUIZCATEGORY) {
+  QUIZCATEGORY_ARRAY.push(QUIZCATEGORY[CATEGORY].toLowerCase());
+}
+
+const create_validation = {
+  quizCategory: {
+    in: ["body"],
+    isIn: {
+      options: QUIZCATEGORY_ARRAY,
+    },
+  },
+
+  required_points: {
+    in: ["body"],
+    isFloat: true,
+    custom: {
+      options: (value) => {
+        if (0 < value && value <= 1) {
+          return true;
+        }
+      },
+    },
+  },
+
+  visibility: {
+    in: ["body"],
+    isIn: {
+      options: ["private", "public"],
+    },
+  },
+
+  questions: {
+    in: ["body"],
+    isArray: true,
+    errorMessage: "Questions should be an array",
+
+    custom: {
+      options: (questions) => {
+        const errors = [];
+
+        if (questions.length === 0) {
+          throw new Error("At least one question is required");
+        } else if (questions.length > 50) {
+          throw new Error("max number of questions is 50 question");
+        } else {
+          questions.forEach((question, index) => {
+            console.log(question.right_answer);
+            let answers = "";
+            if (question.question_value.length < 4) {
+              errors.push({
+                index,
+                message: "Question value should be min. 5 character long",
+              });
+            }
+
+            if (!Number.isInteger(question.weight)) {
+              errors.push({ index, message: "Weight should be an integer" });
+            }
+
+            switch (question.category.toUpperCase()) {
+              case QUESTIONTYPE.CHOICEONE:
+                answers = question.answers.map((answer) =>
+                  answer.value.trim().toLowerCase(),
+                );
+
+                if (
+                  !answers.includes(question.right_answer.trim().toLowerCase())
+                ) {
+                  errors.push({
+                    index,
+                    category: QUESTIONTYPE.CHOICEONE,
+                    message: "Right answer should be in answers array",
+                  });
+                }
+                break;
+
+              case QUESTIONTYPE.FILLINTHEBLANK:
+                if (typeof question.right_answer !== "string") {
+                  errors.push({
+                    index,
+                    category: QUESTIONTYPE.FILLINTHEBLANK,
+                    message: "FILLINTHEBLANK right_answer should be a string",
+                  });
+                }
+                if (question.answers) {
+                  errors.push({
+                    index,
+                    category: QUESTIONTYPE.FILLINTHEBLANK,
+                    message:
+                      "FILLINTHEBLANK should not have any answers options",
+                  });
+                }
+                break;
+              case QUESTIONTYPE.MULTIPLECHOICE:
+                answers = question.answers.map((answer) =>
+                  answer.value.trim().toLowerCase(),
+                );
+
+                if (Array.isArray(question.right_answer)) {
+                  question.right_answer.forEach((value) => {
+                    if (
+                      !answers.some(
+                        (answer) =>
+                          value.trim().toLowerCase() ===
+                          answer.trim().toLowerCase(),
+                      )
+                    ) {
+                      errors.push({
+                        index,
+                        category: QUESTIONTYPE.MULTIPLECHOICE,
+                        value: value,
+                        message:
+                          "MULTIPLECHOICE one of the value of right_answer array is not in answers array!",
+                      });
+                    }
+                  });
+                } else {
+                  errors.push({
+                    index,
+                    category: QUESTIONTYPE.MULTIPLECHOICE,
+                    message:
+                      "MULTIPLECHOICE right_answer should be a array of answer",
+                  });
+                }
+                break;
+
+              case QUESTIONTYPE.TRUEORFALSE:
+                if (typeof question.right_answer !== "boolean") {
+                  errors.push({
+                    index,
+                    category: QUESTIONTYPE.FILLINTHEBLANK,
+                    message: "TRUEORFALSE right_answer should be a boolean",
+                  });
+                }
+
+                if (question.answers) {
+                  errors.push({
+                    index,
+                    category: QUESTIONTYPE.FILLINTHEBLANK,
+                    message: "TRUEORFALSE should not have any answer options",
+                  });
+                }
+                break;
+
+              case QUESTIONTYPE.ORDERING:
+                answers = question.answers.map((answer) =>
+                  answer.value.trim().toLowerCase(),
+                );
+
+                if (Array.isArray(question.right_answer)) {
+                  question.right_answer.forEach((value) => {
+                    if (
+                      !answers.some(
+                        (answer) =>
+                          value.trim().toLowerCase() ===
+                          answer.trim().toLowerCase(),
+                      )
+                    ) {
+                      errors.push({
+                        index,
+                        category: QUESTIONTYPE.ORDERING,
+                        value: value,
+                        message:
+                          "ORDERING one of the value of right_answer array is not in answers array!",
+                      });
+                    }
+                  });
+                } else {
+                  errors.push({
+                    index,
+                    category: QUESTIONTYPE.MULTIPLECHOICE,
+                    message:
+                      "ORDERING right_answer should be a array of answer",
+                  });
+                }
+                break;
+              default:
+                errors.push({ index, message: "Category not supported" });
+                break;
+            }
+          });
+        }
+
+        if (errors.length > 0) {
+          throw new Error(JSON.stringify(errors));
+        }
+
+        return true;
+      },
+    },
+  },
+};
+
+module.exports = create_validation;

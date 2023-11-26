@@ -1,0 +1,13 @@
+TODO: 
+    update Quiz
+    update User information
+    User delete account 
+    admin roll:
+            -   create User 
+            -   create Quiz 
+            -   delete User
+            -   delete Quiz
+            -   see Quiz
+
+    after error all saved information in db loschen 
+    

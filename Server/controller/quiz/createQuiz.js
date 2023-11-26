@@ -1,6 +1,6 @@
 const uuid = require("uuid");
 
-const requestErrorHandler = require("../../util/requestValidation");
+const requestErrorHandler = require("../../util/validation/requestValidation");
 
 const VISIBILITY = require("../../module/enum/VISIBILITY");
 const QUESTIONTYPE = require("../../module/enum/QUESTIONTYPE");
@@ -95,13 +95,19 @@ const createQuiz = async (req, res, next) => {
     }
 
     //TODO: create statistics
-    
+
     res
       .status(201)
       .json({ message: "Quiz created successfully", quizId: quizId });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    console.log(error.data);
+
+    if (!error.statusCode) {
+      error.statusCode = 500;
+      error.message = "Internal Server Error";
+    }
+
+    res.status(error.statusCode).json({ error: error.message, data: error.data });
   }
 };
 

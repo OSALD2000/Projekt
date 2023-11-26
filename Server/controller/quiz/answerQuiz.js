@@ -1,5 +1,6 @@
 const uuid = require("uuid");
 
+const requestErrorHandler = require("../../util/validation/requestValidation");
 const calculat_score = require("../../util/quiz/calculat_score");
 const User = require("../../module/auth/user");
 const Quiz = require("../../module/quiz/quiz");
@@ -7,6 +8,8 @@ const QUESTIONTYPE = require("../../module/enum/QUESTIONTYPE");
 
 const answerQuiz = async (req, res, next) => {
   try {
+    requestErrorHandler(req);
+
     const userId = req.userId;
     const quizId = req.body.quizId;
     const questions = req.body.questions;

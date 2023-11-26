@@ -1,5 +1,7 @@
 const express = require("express");
-const { body } = require("express-validator");
+const { checkSchema } = require("express-validator");
+const create_validation = require("../util/validation/create_validation");
+const answer_validation = require("../util/validation/answer_validation");
 
 const quizController = require("../controller/quiz/quiz");
 
@@ -10,14 +12,18 @@ router.get("/:quizId", quizController.getPrivateQuiz);
 // TODO: update quiz
 
 
-// TODO: add validations for incomming quiz questions
-router.post("/create", quizController.createQuiz);
+router.post(
+  "/create",
+  [checkSchema(create_validation)],
 
+  quizController.createQuiz,
+);
 
-// TODO: add validations for incomming questions if all id gultig
-router.post("/answer", quizController.answerQuiz);
-
-
+router.post(
+  "/answer",
+  [checkSchema(answer_validation)],
+  quizController.answerQuiz,
+);
 
 router.delete("/delete/:quizId", quizController.deleteQuiz);
 

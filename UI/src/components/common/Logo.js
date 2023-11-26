@@ -1,7 +1,8 @@
 import React from "react";
 
 import "./logo.css";
+import logo from "../../img/logo.png";
 
-const logo = (props) => <h1 className="logo">TEST</h1>;
+const Logo = (props) => <img src={logo} alt="logo" width="100px"/>;
 
-export default logo;
+export default Logo;

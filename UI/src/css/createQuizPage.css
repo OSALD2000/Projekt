@@ -1,0 +1,43 @@
+.accordion_item{
+    background-color: rgba(46, 37, 51, 0.373);
+    border: 1px rgba(46, 37, 51, 0.373) solid;
+    margin-bottom: 5%;
+}
+
+.accordion_item button:not(.collapsed){
+    background-color: white;
+    border: 0px;
+}
+
+.accordion_body{
+    background-color: rgba(39, 35, 41, 0);
+}
+
+.accordion_body textarea{
+    width: 90%;
+    height: 85%;
+}
+
+.add_question_div{
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 3fr 1fr;
+}
+
+.add_question_div select{
+    grid-row: 1;
+    grid-column: 1;
+    width: 80%;
+    margin-right: 0;
+}
+
+
+.add_question_div button{
+    grid-row: 1;
+    grid-column: 2;
+    width: 100%
+}
+
+.questions{
+    background-color: rgba(31, 31, 31, 0.156) !important;
+}

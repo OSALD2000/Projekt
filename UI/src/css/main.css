@@ -3,13 +3,27 @@ html {
 }
 
 .btn {
-    color: white;
-    background-color: #5B1D8A;
+    color: white !important;
+    background-color: #5B1D8A !important;
 }
 
+.btn a {
+    text-decoration: none !important;
+    color: white !important;
+}
 .btn:hover {
-    color: white;
-    background-color: #411761;
+    color: white !important;
+    background-color: #2f1244 !important;
+}
+
+.btn.delete{
+    color: rgb(255, 255, 255) !important;
+    background-color: #b40e0e !important;
+}
+
+.btn.delete:hover{
+    color: rgb(255, 255, 255) !important;
+    background-color: #560e0e !important;
 }
 
 .invalid input {

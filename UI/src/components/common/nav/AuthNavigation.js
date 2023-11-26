@@ -7,6 +7,17 @@ const AuthNavigation = (props) => {
     <header className={classes.header}>
       <nav className={classes["navigation-style1"]}>
         <ul>
+        <li>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive ? classes.active : undefined
+              }
+              end
+            >
+              Home Page
+            </NavLink>
+          </li>
           <li>
             <NavLink
               to="/auth/signin"

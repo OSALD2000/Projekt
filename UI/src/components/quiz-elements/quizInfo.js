@@ -1,41 +1,64 @@
 import React from "react";
-import { QUIZART } from "../../util/enum/QUIZART";
+import { QUIZART } from "../../util/enum/QUIZART.js";
+import { useEffect, useState } from "react";
 import Input from "../common/Input";
+import classes from "./quiz.module.css";
 
 const Quizinfo = (props) => {
 
+  const [categorys, setCategorys] = useState([]);
+
+  useEffect(() => {
+    const list = []
+    for (const category in QUIZART) {
+      list.push(QUIZART[category])
+    }
+    setCategorys(list);
+  }, []
+  )
+
+
   return (
     <>
-      <Input
-        name="title"
-        art="text"
-        placeholder="text"
-        required={true}
-        ohneAddon={true}
-      />
+      <div className={classes.info_card}>
+        <div className={classes.title}>
+          <Input
+            name="title"
+            art="text"
+            placeholder="title"
+            required={true}
+            ohneAddon={true}
+            validationType="text"
+            min_length={10}
+          />
+        </div>
+        <div className={classes.select}>
+          <select className="form-select" name="category">
+            {categorys.map(category => {
+              return <option value={category} key={category}>{category.toLowerCase()}</option>
+            })}
+          </select>
+        </div>
+        <div className={classes.textarea}>
+          <textarea
 
-      <select className="form-select" name="category">
-        {QUIZART.entries().map(({ key, value }) => (
-          <option value={key} id={key}>
-            {value.toLowerCase()}
-          </option>
-        ))}
-      </select>
-
-      <textarea
-        name="beschreibunf"
-        id="beschreibunf"
-        cols="30"
-        rows="10"
-      ></textarea>
-
-      <Input
-        name="winNote"
-        art="number"
-        placeholder="winNote"
-        required={false}
-        ohneAddon={true}
-      />
+            name="beschreibunf"
+            id="beschreibunf"
+            placeholder="Beschreibung"
+            cols="30"
+            rows="10"
+          ></textarea>
+        </div>
+        <div className={classes.win}>
+          <Input
+            name="win"
+            art="number"
+            placeholder="win percent %"
+            required={true}
+            validationType="number"
+          >%</Input>
+        </div>
+      </div>
     </>
   );
 };

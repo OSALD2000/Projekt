@@ -1,19 +1,18 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./views/auth/LoginPage";
 import SignUpPage from "./views/auth/SignUpPage";
-import HomePage from "./views/HomePage";
+import HomePage, { loader as homePageLodaer } from "./views/HomePage";
 import EmailVerificationPage, {
   action as emailVerificationAction,
   loader as emailVerificationLoader,
 } from "./views/auth/EmailVerification";
-
+import CreateQuizPage from "./views/createQuiz";
 import RootLayout from "./views/RootLayout";
 import AuthLayout from "./views/auth/AuthLayout";
 
 import {
   action as authAction,
   tokenloader,
-  checkAuthLoader,
 } from "./views/auth/auth";
 import ErrorPage from "./views/Error";
 
@@ -23,11 +22,16 @@ const router = createBrowserRouter([
     loader: tokenloader,
     element: <RootLayout></RootLayout>,
     errorElement: <ErrorPage />,
-    children: [{ index: true, element: <HomePage />, loader: checkAuthLoader }],
+    children: [{ index: true, element: <HomePage />, loader: homePageLodaer }, {
+      path: "quiz",
+      children: [{
+        path: "create",
+        element: <CreateQuizPage />
+      }]
+    }],
   },
   {
     path: "/auth",
-    loader: tokenloader,
     element: <AuthLayout></AuthLayout>,
     errorElement: <ErrorPage />,
     children: [

@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState} from "react";
 import useInput from "../../util/hooks/use-input";
 
 const Input = (props) => {
@@ -19,7 +19,7 @@ const Input = (props) => {
     message,
     inputChangeHandler,
     inputOnBlurHandler,
-  } = useInput(type);
+  } = useInput(type, props.min_length);
 
   return (
     <>
@@ -32,7 +32,7 @@ const Input = (props) => {
         <input
           id={props.name}
           name={props.name}
-          type={props.art === "password" ? passwordType : type}
+          type={props.art === "password" ? passwordType : props.art}
           className="form-control"
           placeholder={props.placeholder}
           onChange={inputChangeHandler}
@@ -40,7 +40,8 @@ const Input = (props) => {
           aria-label={enteredInput}
           value={enteredInput}
           aria-describedby="basic-addon1"
-          required = {props.required}
+          required={props.required}
+          ref={props.reference ? props.reference : null}
         ></input>
 
         {props.art === "password" && (

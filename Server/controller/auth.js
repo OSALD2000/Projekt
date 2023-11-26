@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
 const mail = require("../util/mail");
-const requestErrorHandler = require("../util/requestValidation");
+const requestErrorHandler = require("../util/validation/requestValidation");
 
 const User = require("../module/auth/user");
 const Email = require("../module/auth/email");

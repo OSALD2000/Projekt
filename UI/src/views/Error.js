@@ -1,4 +1,7 @@
-import {  useRouteError } from "react-router-dom";
+import { useRouteError } from "react-router-dom";
+import React from "react";
+import Layout from "../components/layout/Lauout";
+import MainNavigation from "../components/common/nav/MainNavigation";
 
 function ErrorPage() {
   const error = useRouteError();
@@ -17,9 +20,9 @@ function ErrorPage() {
   }
 
   return (
-    <>
-        <p>{title} <br/> {message}</p>
-    </>
+    <Layout props={<MainNavigation />}>
+      <p>{title} <br /> {message}</p>
+    </Layout>
   );
 }
 

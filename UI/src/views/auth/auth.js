@@ -32,7 +32,6 @@ export const action = async ({ request }) => {
     },
   });
 
-  console.log(response);
   
   if (response.status === 423) {
     return redirect("/auth/emailverification");
@@ -65,7 +64,7 @@ export const getAuthToken = () => {
   const tokenDuration = getTokenDuration();
 
   if (!token) {
-    return null;
+    return false;
   }
 
   if (tokenDuration < 0) {

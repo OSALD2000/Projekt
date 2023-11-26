@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import validation  from "../validation/validation"
+import validation from "../validation/validation"
 
 const initialInputState = {
   value: "",
@@ -13,16 +13,16 @@ const inputStateReducer = (state, action) => {
       isTouched: state.isTouched,
     };
   } else if (action.type === "BLUR") {
-    return { value: state.value, isTouched: true};
+    return { value: state.value, isTouched: true };
   }
 
   return inputStateReducer
 };
 
-const useInput = (type) => {
+const useInput = (type, length) => {
   const [input, dispatch] = useReducer(inputStateReducer, initialInputState);
 
-  const {status:enteredInputIsValid, message} = validation(type, input.value);
+  const { status: enteredInputIsValid, message } = validation(type, input.value, length);
   const hasError = !enteredInputIsValid && input.isTouched;
 
   const inputClasses = hasError ? "invalid" : "";
