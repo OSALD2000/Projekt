@@ -1,3 +1,5 @@
+const { Op } = require('sequelize');
+
 const Quiz = require('../module/quiz/quiz');
 const User = require('../module/auth/user');
 
@@ -29,6 +31,7 @@ exports.loadQuizes = async (req, res, next) => {
         const quize = await Quiz.findAll({
             where: {
                 category: category.toUpperCase(),
+            creator: { [Op.notIn] : [req.userId]}
             },
             order: [
                 ['title', 'ASC']

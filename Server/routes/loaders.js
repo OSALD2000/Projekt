@@ -17,6 +17,6 @@ router.get("/quiz/participant/:quizId/:participantId",is_auth, loaderController.
 
 router.get("/quiz/:quizId",is_auth, loaderController.loadQuiz);
 
-router.get("/quizes/:category", loaderController.loadQuizes);
+router.get("/quizes/:category",is_auth, loaderController.loadQuizes);
 
 module.exports = router;
