@@ -8,7 +8,7 @@ for (const CATEGORY in QUIZCATEGORY) {
 }
 
 const create_validation = {
-  quizCategory: {
+  category: {
     in: ["body"],
     isIn: {
       options: QUIZCATEGORY_ARRAY,
@@ -27,6 +27,11 @@ const create_validation = {
     },
   },
 
+  title:{
+    in: ["body"],
+    isString:true
+  },
+  
   visibility: {
     in: ["body"],
     isIn: {
@@ -49,7 +54,6 @@ const create_validation = {
           throw new Error("max number of questions is 50 question");
         } else {
           questions.forEach((question, index) => {
-            console.log(question.right_answer);
             let answers = "";
             if (question.question_value.length < 4) {
               errors.push({
@@ -58,7 +62,7 @@ const create_validation = {
               });
             }
 
-            if (!Number.isInteger(question.weight)) {
+            if (!Number.isInteger(parseInt(question.weight))) {
               errors.push({ index, message: "Weight should be an integer" });
             }
 
@@ -69,7 +73,7 @@ const create_validation = {
                 );
 
                 if (
-                  !answers.includes(question.right_answer.trim().toLowerCase())
+                  !answers.includes(question.right_answer.value.trim().toLowerCase())
                 ) {
                   errors.push({
                     index,
@@ -102,11 +106,11 @@ const create_validation = {
                 );
 
                 if (Array.isArray(question.right_answer)) {
-                  question.right_answer.forEach((value) => {
+                  question.right_answer.forEach((ra) => {
                     if (
                       !answers.some(
                         (answer) =>
-                          value.trim().toLowerCase() ===
+                          ra.value.trim().toLowerCase() ===
                           answer.trim().toLowerCase(),
                       )
                     ) {

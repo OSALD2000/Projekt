@@ -9,16 +9,19 @@ import { QUESTIONTYPE_ARRAY } from "../util/enum/QUESTIONTYPE";
 import { createQuestion } from "../util/createQuestionObject";
 
 import "../css/createQuizPage.css";
-
+import { getAuthToken } from "./auth/auth";
+import { redirect, useActionData } from "react-router";
+import { Form, useSubmit, json, useLoaderData } from "react-router-dom";
 
 const CreateQuiz = (props) => {
   const [questions, setQuestions] = useState([]);
   const [id, setId] = useState(1);
-  
+  const submit = useSubmit();
+  const actionData = useActionData();
+
   const ref = useRef();
 
   const onUpdatehandler = (question) => {
-    console.log(question);
     setQuestions(current => [...current.filter(q => q.id !== question.id), question]);
   }
 
@@ -32,46 +35,109 @@ const CreateQuiz = (props) => {
     setId((current) => current + 1);
   }
 
+  const onSubmitHandler = (event) => {
+
+    event.preventDefault();
+
+    const title = event.target['title'].value;
+    const category = event.target['category'].options[event.target['category'].selectedIndex].value;
+    const beschreibung = event.target['beschreibung'].value;
+    const required_points = parseFloat(event.target['win'].value) / 100.0;
+
+    const quiz = {
+      title: title,
+      quizCategory: category,
+      beschreibung: beschreibung,
+      required_points: required_points,
+      visibility: "private",
+      questions: questions
+    }
+
+    const formData = new FormData();
+    formData.append('quiz', JSON.stringify(quiz));
+
+    submit(formData, { action: "/quiz/create", method: "POST" });
+  }
+
   return (
-    <QuizCart>
-      <header>
-        <h1>Create Quiz</h1>
-      </header>
-      <Accordion defaultActiveKey={['0', '1', '2']} alwaysOpen>
-        <Accordion.Item className="accordion_item" eventKey="0">
-          <Accordion.Header className="accordion_header">Quiz Info</Accordion.Header>
-          <Accordion.Body className="accordion_body">
-            <Quizinfo />
-          </Accordion.Body>
-        </Accordion.Item>
-        <Accordion.Item className="accordion_item" eventKey="1">
-          <Accordion.Header className="accordion_header">Add Question</Accordion.Header>
-          <Accordion.Body className="accordion_body">
-            <div className="add_question_div">
+    <Form method="post" onSubmit={onSubmitHandler}>
+      <QuizCart>
+        <header>
+          <h1>Create Quiz</h1>
+        </header>
+        {
+          actionData && <h3 className="errorText mb-5"> bitte versuchen Sie nochmal ein!! </h3>
+        }
+        <Accordion defaultActiveKey={['0', '1', '2']} alwaysOpen>
+          <Accordion.Item className="accordion_item" eventKey="0">
+            <Accordion.Header className="accordion_header">Quiz Info</Accordion.Header>
+            <Accordion.Body className="accordion_body">
+              <Quizinfo />
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item className="accordion_item" eventKey="1">
+            <Accordion.Header className="accordion_header">Add Question</Accordion.Header>
+            <Accordion.Body className="accordion_body">
+              <div className="add_question_div">
 
-              <select className="form-select" name="category" ref={ref}>
-                {QUESTIONTYPE_ARRAY.map(category => {
-                  return <option value={category} key={category}>{category.toLowerCase()}</option>
-                })}
-              </select>
+                <select className="form-select" name="category_question" ref={ref}>
+                  {QUESTIONTYPE_ARRAY.map(category => {
+                    return <option value={category} key={category}>{category.toLowerCase()}</option>
+                  })}
+                </select>
 
-              <button type="button" className="btn" onClick={onClickHanlder}>Add</button>
+                <button type="button" className="btn" onClick={onClickHanlder}>Add</button>
 
-            </div>
-          </Accordion.Body>
-        </Accordion.Item>
+              </div>
+            </Accordion.Body>
+          </Accordion.Item>
 
-        <Accordion.Item className="accordion_item questions" eventKey="2">
-          <Accordion.Header className="accordion_header">Questions</Accordion.Header>
-          <Accordion.Body className="accordion_body">
-            {questions.length === 0 ? <h2>Keine Fragen</h2> : questions.sort((a, b) => a.id - b.id).map(q => <Question key={Math.random() * q.id ** 100} onDeleteQuestion={onDeleteHanlder.bind(null, q.id)} question={q} mode={true} onUpdate={onUpdatehandler} />)}
-          </Accordion.Body>
-        </Accordion.Item>
-      </Accordion>
-
-
-    </QuizCart>
+          <Accordion.Item className="accordion_item questions" eventKey="2">
+            <Accordion.Header className="accordion_header">Questions</Accordion.Header>
+            <Accordion.Body className="accordion_body">
+              {questions.length === 0 ? <h2>Keine Fragen</h2> : questions.sort((a, b) => a.id - b.id).map(q => <Question key={Math.random() * q.id ** 100} onDeleteQuestion={onDeleteHanlder.bind(null, q.id)} question={q} mode={true} onUpdate={onUpdatehandler} />)}
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
+        <button type="submit" className="btn">Add Quiz</button>
+      </QuizCart>
+    </Form>
   );
 };
 
 export default CreateQuiz;
+
+
+
+
+
+
+export const action = async ({ request }) => {
+  const token = getAuthToken();
+
+  const data = await request.formData();
+  const quiz = data.get('quiz');
+
+  const response = await fetch("http://localhost:8080/quiz/create", {
+    method: "POST", headers: {
+      'authorization': token.toString(),
+      'Content-Type': 'application/json'
+    },
+    body: quiz
+  })
+
+  if (response.status === 401) {
+    return redirect("/auth/signin?mode=login");
+  }
+
+  if (response.status === 442) {
+    return response;
+  }
+
+  if (!response.ok) {
+    throw json({ message: "Could not authenticate user" }, { status: 500 });
+  }
+
+
+  return redirect("/?successful=true")
+}

@@ -47,15 +47,15 @@ const answerQuiz = async (req, res, next) => {
         });
       } else if (category === QUESTIONTYPE.MULTIPLECHOICE) {
         let is_right = true;
-        let answers = question.answer.split(",");
+        let answers = question.answer;
 
         const multiplechoice = await louded_question.getMultipleChoice();
-        const choices = multiplechoice.getDataValue("right_answer").split(",");
+        const choices = multiplechoice.getDataValue("right_answer").split(",").filter(t => t);
 
         for (const check of choices) {
           if (
             !answers.some(
-              (a) => a.toLowerCase().trim() === check.toLowerCase().trim(),
+              (a) => a.value.toLowerCase().trim() === check.trim().toLowerCase(),
             )
           ) {
             is_right = false;
@@ -63,37 +63,15 @@ const answerQuiz = async (req, res, next) => {
           }
         }
 
+        const edit_answer = question.answer.reduce((accumulator, currentValue) => accumulator.value + currentValue.value + "," , {
+          value: "",
+        });
+
         participant_answers.push({
           weight: louded_question.getDataValue("weight"),
-          answer: question.answer,
+          answer: edit_answer,
           is_right: is_right,
           category: QUESTIONTYPE.MULTIPLECHOICE,
-          questionId: louded_question.getDataValue("_id"),
-        });
-      } else if (category === QUESTIONTYPE.ORDERING) {
-        let is_right = true;
-
-        let answers = question.answer.split("then");
-
-        const ordering = await louded_question.getOrdering();
-
-        let right_order = ordering.getDataValue("right_order").split("then");
-
-        for (let i = 0; i < ordering.getDataValue("order_length"); i++) {
-          if (
-            right_order[i].toLowerCase().trim().trim() !==
-            answers[i].toLowerCase().trim().trim()
-          ) {
-            is_right = false;
-            break;
-          }
-        }
-
-        participant_answers.push({
-          weight: louded_question.getDataValue("weight"),
-          answer: question.answer,
-          is_right: is_right,
-          category: QUESTIONTYPE.ORDERING,
           questionId: louded_question.getDataValue("_id"),
         });
       } else if (category === QUESTIONTYPE.TRUEORFALSE) {
@@ -133,7 +111,7 @@ const answerQuiz = async (req, res, next) => {
       }
     }
 
-    const { score, bestanden } = calculat_score(participant_answers);
+    const { score, bestanden } = calculat_score(participant_answers, quiz.getDataValue('required_points'));
 
     const participant = await user.createParticipant({
       _id: uuid.v4(),
@@ -150,7 +128,7 @@ const answerQuiz = async (req, res, next) => {
         questionId: participant_answer.questionId,
       });
     }
-    
+
     user.createScoure({
       _id: uuid.v4(),
       result: score,
@@ -164,7 +142,7 @@ const answerQuiz = async (req, res, next) => {
     });
 
     /**
-     * TODO:
+     * //TODO:
      *        - update statistcs
      */
   } catch (err) {

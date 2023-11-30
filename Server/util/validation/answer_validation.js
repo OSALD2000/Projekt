@@ -62,36 +62,14 @@ const answer_validation = {
                   question.category.toUpperCase() ===
                   QUESTIONTYPE.MULTIPLECHOICE
                 ) {
-                  if (!Array.isArray(question.answer.split(","))) {
+                  if (!Array.isArray(question.answer)) {
                     errors.push({
                       message:
-                        "MULTIPLECHOICE question with should have answer in this form 'test, test1, .... , testn'",
+                        "MULTIPLECHOICE question  should have answer as Array",
                       question: question,
                     });
                   }
                 }
-
-                if (question.category.toUpperCase() === QUESTIONTYPE.ORDERING) {
-                  const ordering = await loaded_question.getOrdering();
-
-                  if (!Array.isArray(question.answer.split("then"))) {
-                    errors.push({
-                      message:
-                        "ORDERING question with should have answer in this form 'test then test1 then  .... then testn'",
-                      question: question,
-                    });
-                  } else if (
-                    question.answer.split("then").length !==
-                    ordering.getDataValue("order_length")
-                  ) {
-                    errors.push({
-                      message:
-                        "ORDERING question with  should have answers number equals options number!",
-                      question: question,
-                    });
-                  }
-                }
-
                 if (
                   question.category.toUpperCase() === QUESTIONTYPE.TRUEORFALSE
                 ) {

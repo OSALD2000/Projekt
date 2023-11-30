@@ -1,4 +1,4 @@
-const calculat_score = (result) => {
+const calculat_score = (result, required_points) => {
   try {
     let summe = 0.0;
     let anzahl = 0.0;
@@ -9,7 +9,7 @@ const calculat_score = (result) => {
     }
 
     const score = Math.round((summe / anzahl) * 100.0) / 100.0;
-    const bestanden = score < 0.5 ? false : true;
+    const bestanden = score < required_points ? false : true;
 
 
     return {

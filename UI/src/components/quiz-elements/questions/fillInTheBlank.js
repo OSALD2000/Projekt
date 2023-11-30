@@ -3,40 +3,50 @@ import classes from "../quiz.module.css";
 
 
 const FillInTheBlank = (props) => {
-    const [changed, setChanged] = useState(false);
     const [question, setQuestion] = useState(props.question);
+    const [answer, setAnswer] = useState({
+        category: props.question.category,
+        questionId: props.question.questionId,
+        answer: "",
+    })
 
 
     const onQuestionChangeHandler = (event) => {
         setQuestion(curent => {
             return { ...curent, question_value: event.target.value }
         });
-        setChanged(true);
     }
 
     const onWeightChangeHandler = (event) => {
         setQuestion(curent => {
             return { ...curent, weight: event.target.value }
         });
-        setChanged(true);
     }
 
     const onRgihtAnswerChangeHandler = (event) => {
-        setQuestion(curent => {
-            return {
-                ...curent, right_answer: event.target.value
-            }
-        });
-        setChanged(true);
+        if (props.create) {
+            setQuestion(curent => {
+                return {
+                    ...curent, right_answer: event.target.value
+                }
+            });
+        } else {
+            setAnswer(curent => {
+                return {
+                    ...curent, answer: event.target.value
+                }
+            })
+        }
     }
 
     const saveChangesHandler = (event) => {
-        event.preventDefault();
-        if (question.right_answer.trim() === "") {
-            alert("bitte geben Sie ein richtiges Answer ein!!");
-        }
         props.onUpdate(question);
     }
+
+    const onSaveAnswerHandler = () => {
+        props.onUpdate(answer);
+    }
+
 
     return (
         <>
@@ -45,7 +55,7 @@ const FillInTheBlank = (props) => {
 
                     ?
 
-                    <form onSubmit={saveChangesHandler}>
+                    <div onBlur={saveChangesHandler}>
                         <h2 className={classes.question_title} >Fill The Blank</h2>
                         <div className={classes.choiceOne_grid}>
 
@@ -54,11 +64,10 @@ const FillInTheBlank = (props) => {
                             </div>
 
                             <div className={classes.whight}>
-                                <input placeholder="whight" type="text" name="test" value={question.weight} onChange={onWeightChangeHandler} required />
+                                <input placeholder="whight" type="number" name="test" value={question.weight} onChange={onWeightChangeHandler} required />
                             </div>
 
                             <div className={classes.choiceOne_action}>
-                                <button type="submit" className={`btn`} disabled={!changed}>Save</button>
                                 <button type="button" className="btn" onClick={props.onDeleteQuestion}>delete</button>
                             </div>
                             <div className={classes.choiceOne_answers}>
@@ -66,11 +75,28 @@ const FillInTheBlank = (props) => {
                             </div>
 
                         </div>
-                    </form>
+                    </div>
 
                     :
 
-                    <h1>answer</h1>
+                    <div onBlur={onSaveAnswerHandler}>
+                        <h2 className={classes.question_title} >Fill The Blank</h2>
+                        <div className={classes.answer_grid}>
+
+                            <div className={classes.question_value}>
+                                <input placeholder="question" type="text" name="test" value={question.question_value} readOnly={true} />
+                            </div>
+
+                            <div className={classes.whight}>
+                                <input placeholder="whight" type="number" name="test" value={question.weight} readOnly={true} />
+                            </div>
+
+                            <div className={classes.choiceOne_answers}>
+                                <input type="text"  className={classes.fillInTheBlank_answers}  name="answer"  onChange={onRgihtAnswerChangeHandler} required/>
+                            </div>
+
+                        </div>
+                    </div>
 
             }
 

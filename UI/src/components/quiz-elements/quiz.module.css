@@ -181,3 +181,32 @@
     margin-top: 2%;
     height: 50px;
 }
+
+
+
+.answer_grid {
+    display: grid;
+    gap: 5%;
+    grid-template-columns: 6fr 1fr;
+    border: 1px rgba(0, 0, 0, 0.183) solid;
+    background-color: rgba(46, 37, 51, 0.373);
+    padding: 2%;
+    padding-bottom: 7rem;
+    box-shadow: 1px 1px 10px #2e2c2f, -1px -1px 10px #302c32;
+    margin-bottom: 4%;
+}
+
+.answer_grid .question_value{
+    grid-row: 1;
+    grid-column: 1;
+    margin-left: 7%;
+}
+
+.answer_grid .whight{
+    grid-row: 1;
+    grid-column: 2;
+}
+
+.answer_grid .whight input{
+    text-align: center;
+}

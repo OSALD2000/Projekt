@@ -8,8 +8,11 @@ const getPrivateQuiz = async (req, res, next) => {
 
     const quiz = await Quiz.findByPk(quizId);
 
-    // TODO : quiz validation if EXISTS
-    const quiz_object = await create_quiz_object(quiz);
+    if (!quiz.getDataValue('visibility')) {
+      res.status(401).json({ message: 'not authorised quiz is not public' });
+    }
+
+    const quiz_object = await create_quiz_object(quiz, false);
 
     if (!quiz_object) {
       res.status(442).json({ quizId: quizId, message: "quiz not found" });

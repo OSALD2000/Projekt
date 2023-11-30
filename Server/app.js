@@ -8,7 +8,6 @@ const bcrypt = require("bcryptjs");
 const loeaderRoutes = require("./routes/loaders");
 const authRoutes = require("./routes/auth");
 const quizRoutes = require("./routes/quiz");
-const is_auth = require("./middleware/is-auth");
 
 const sequelize = require("./util/db");
 const createRelation = require("./util/db_relation");
@@ -31,11 +30,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/", loeaderRoutes);
+app.use("/loader", loeaderRoutes);
 
 app.use("/auth", authRoutes);
-
-app.use(is_auth);
 
 app.use("/quiz", quizRoutes);
 

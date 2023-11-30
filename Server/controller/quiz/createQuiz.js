@@ -16,6 +16,9 @@ const createQuiz = async (req, res, next) => {
     const question_number = questions.length;
     const quizCategory = req.body.quizCategory;
     const required_points = req.body.required_points;
+    const title = req.body.title;
+    const beschreibung = req.body.beschreibung || "keine Beschreibung";
+
     const quizId = uuid.v4();
     const visibility =
       req.body.visibility.toUpperCase() === VISIBILITY.PRIVATE ? false : true;
@@ -24,6 +27,8 @@ const createQuiz = async (req, res, next) => {
 
     const quiz = await user.createQuiz({
       _id: quizId,
+      title: title,
+      beschreibung:beschreibung,
       category: quizCategory,
       question_number: question_number,
       required_points: required_points,
@@ -38,14 +43,14 @@ const createQuiz = async (req, res, next) => {
       const question = await quiz.createQuestion({
         _id: uuid.v4(),
         question_value: req_question.question_value,
-        weight: req_question.weight,
+        weight: parseInt(req_question.weight),
         category: category,
       });
 
       if (category === QUESTIONTYPE.CHOICEONE) {
         question.createChoiceone({
           _id: uuid.v4(),
-          right_answer: req_question.right_answer,
+          right_answer: req_question.right_answer.value,
         });
       }
 
@@ -53,7 +58,7 @@ const createQuiz = async (req, res, next) => {
       else if (category === QUESTIONTYPE.MULTIPLECHOICE) {
         let answers;
         for (const a of req_question.right_answer) {
-          answers = ` ${answers ? answers + " , " : ""} ${a} `;
+          answers = ` ${answers ? answers + " , " : ""} ${a.value} `;
         }
 
         question.createMultipleChoice({

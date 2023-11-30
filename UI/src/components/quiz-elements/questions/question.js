@@ -12,19 +12,19 @@ const Question = ({ mode, question, onUpdate, onDeleteQuestion }) => {
     switch (QUESTIONTYPE.getType(question.category.toUpperCase())) {
 
         case QUESTIONTYPE.TRUEORFALSE:
-            return <TrueOrFalse create={mode} onDeleteQuestion={onDeleteQuestion} question={question} onUpdate={onUpdate} />;
+            return <TrueOrFalse create={mode} onDeleteQuestion={onDeleteQuestion || null} question={question} onUpdate={onUpdate} />;
 
         case QUESTIONTYPE.CHOICEONE:
-            return <ChoiceOne create={mode} onDeleteQuestion={onDeleteQuestion} question={question} onUpdate={onUpdate} />;
+            return <ChoiceOne create={mode} onDeleteQuestion={onDeleteQuestion || null} question={question} onUpdate={onUpdate} />;
 
         case QUESTIONTYPE.MULTIPLECHOICE:
-            return <MultipleChoice create={mode} onDeleteQuestion={onDeleteQuestion} question={question} onUpdate={onUpdate} />;
+            return <MultipleChoice create={mode} onDeleteQuestion={onDeleteQuestion || null} question={question} onUpdate={onUpdate} />;
 
         case QUESTIONTYPE.FILLINTHEBLANK:
-            return <FillInTheBlank create={mode} onDeleteQuestion={onDeleteQuestion} question={question} onUpdate={onUpdate} />;
+            return <FillInTheBlank create={mode} onDeleteQuestion={onDeleteQuestion || null} question={question} onUpdate={onUpdate} />;
 
-        case QUESTIONTYPE.ORDERING:
-            return <Ordering create={mode} onDeleteQuestion={onDeleteQuestion} question={question} onUpdate={onUpdate} />;
+        // case QUESTIONTYPE.ORDERING:
+        //     return <Ordering create={mode} onDeleteQuestion={onDeleteQuestion} question={question} onUpdate={onUpdate} />;
 
         default:
             alert('Falsche Category');

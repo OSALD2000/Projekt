@@ -46,6 +46,19 @@ html {
     box-shadow: 5px 5px 5px rgb(244, 194, 194);
 }
 
+.successText{
+    color: #0eb427;
+    text-align: center;
+    width: 50%;
+    background-color: #adffa9;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5%;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px rgb(203, 244, 194);
+    padding: 1%;
+}
+
 .error-text .password {
     text-align: start;
     padding-left: 2%;

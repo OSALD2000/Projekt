@@ -6,12 +6,16 @@ import EmailVerificationPage, {
   action as emailVerificationAction,
   loader as emailVerificationLoader,
 } from "./views/auth/EmailVerification";
-import CreateQuizPage from "./views/createQuiz";
+import CreateQuizPage, { action as CreateAction } from "./views/createQuiz";
+import QuizePage, { loader as quizLoader } from "./views/QuizePage";
 import RootLayout from "./views/RootLayout";
 import AuthLayout from "./views/auth/AuthLayout";
+import AnswerQuiz, { action as answerAction, loader as loadQuiz } from "./views/answerQuiz";
+
 
 import {
   action as authAction,
+  checkAuthLoader,
   tokenloader,
 } from "./views/auth/auth";
 import ErrorPage from "./views/Error";
@@ -24,10 +28,24 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [{ index: true, element: <HomePage />, loader: homePageLodaer }, {
       path: "quiz",
-      children: [{
-        path: "create",
-        element: <CreateQuizPage />
-      }]
+      loader: checkAuthLoader,
+      children: [
+        {
+          path: ":category",
+          element: <QuizePage />,
+          loader: quizLoader,
+        },
+        {
+          path: "create",
+          element: <CreateQuizPage />,
+          action: CreateAction
+        },
+        {
+          path: "answerQuiz/:quizId",
+          element: <AnswerQuiz />,
+          action: answerAction,
+          loader: loadQuiz
+        }]
     }],
   },
   {

@@ -41,9 +41,8 @@ const Quizinfo = (props) => {
         </div>
         <div className={classes.textarea}>
           <textarea
-
-            name="beschreibunf"
-            id="beschreibunf"
+            name="beschreibung"
+            id="beschreibung"
             placeholder="Beschreibung"
             cols="30"
             rows="10"

@@ -2,6 +2,7 @@ TODO:
     update Quiz
     update User information
     User delete account 
+    delete Ordering
     admin roll:
             -   create User 
             -   create Quiz 
