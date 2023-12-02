@@ -23,9 +23,6 @@ const Question = ({ mode, question, onUpdate, onDeleteQuestion }) => {
         case QUESTIONTYPE.FILLINTHEBLANK:
             return <FillInTheBlank create={mode} onDeleteQuestion={onDeleteQuestion || null} question={question} onUpdate={onUpdate} />;
 
-        // case QUESTIONTYPE.ORDERING:
-        //     return <Ordering create={mode} onDeleteQuestion={onDeleteQuestion} question={question} onUpdate={onUpdate} />;
-
         default:
             alert('Falsche Category');
     }

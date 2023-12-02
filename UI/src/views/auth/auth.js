@@ -68,7 +68,8 @@ export const getAuthToken = () => {
   }
 
   if (tokenDuration < 0) {
-    return "EXPIRED";
+    localStorage.clear();
+    return redirect("/auth/signin");
   }
 
   return token;

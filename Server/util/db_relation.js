@@ -29,14 +29,14 @@ const create_relation = () => {
 
   Quiz.hasMany(Participant, { constraints: true, onDelete: "CASCADE" });
 
-  Participant.hasOne(Answer, { constraints: true, onDelete: "CASCADE" });
+  Participant.hasMany(Answer, { constraints: true, onDelete: "CASCADE" });
   Answer.belongsTo(Participant);
 
   Quiz.hasMany(Question, { constraints: true, onDelete: "CASCADE" });
   Question.belongsTo(Quiz);
 
   Question.hasMany(Answer, { constraints: true, onDelete: "CASCADE" });
-  Answer.belongsTo(Participant, { constraints: true, onDelete: "CASCADE" });
+  Answer.belongsTo(Question, { constraints: true, onDelete: "CASCADE" });
 
   Question.hasMany(Option, { constraints: true, onDelete: "CASCADE" });
 

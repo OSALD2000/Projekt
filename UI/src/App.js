@@ -11,7 +11,7 @@ import QuizePage, { loader as quizLoader } from "./views/QuizePage";
 import RootLayout from "./views/RootLayout";
 import AuthLayout from "./views/auth/AuthLayout";
 import AnswerQuiz, { action as answerAction, loader as loadQuiz } from "./views/answerQuiz";
-
+import ViewAnswerPage, {loader as viewAnswerPageLoader} from "./views/viewAnswerPage";
 
 import {
   action as authAction,
@@ -45,6 +45,11 @@ const router = createBrowserRouter([
           element: <AnswerQuiz />,
           action: answerAction,
           loader: loadQuiz
+        },
+        {
+          path: "view-answers/:quizId/:participantId",
+          element: <ViewAnswerPage />,
+          loader: viewAnswerPageLoader
         }]
     }],
   },

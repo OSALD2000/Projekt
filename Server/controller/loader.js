@@ -31,7 +31,7 @@ exports.loadQuizes = async (req, res, next) => {
         const quize = await Quiz.findAll({
             where: {
                 category: category.toUpperCase(),
-            creator: { [Op.notIn] : [req.userId]}
+                creator: { [Op.notIn]: [req.userId] }
             },
             order: [
                 ['title', 'ASC']
@@ -182,26 +182,41 @@ exports.loadParticipant = async (req, res, next) => {
             res.json(442).message({ message: "user muss teilnehmer sein um andere Teilnehmer zu sehen" });
         }
 
-        const participant = await quiz.getParticipants({
+        const participants = await quiz.getParticipants({
             where: {
-                _id: participantId
+                id: participantId
             }
         });
 
-        if (!participant) {
+
+        if (participants.length === 0) {
             res.json(442).json({ message: "keine Teilnehmer unter dieses Id" });
         }
 
+        const participant = participants[0];
+
         const participant_info = await participant.getUser();
+        const answers = await participant.getAnswers();
+        const question_with_answer = [];
+
+        for (const answer of answers) {
+            const question = await answer.getQuestion();
+            question_with_answer.push({
+                question: question,
+                answer: answer,
+            })
+        }
 
         const participant_obj = {
             id: participantId,
+            quizInfo: quiz,
             username: participant_info.getDataValue('username'),
             result: participant.getDataValue('result'),
             passed: participant.getDataValue('passed'),
+            questions: question_with_answer,
         }
 
-        res.json(200).json({ message: "Teilnehmer", participant: participant_obj });
+        res.status(200).json({ message: "Teilnehmer", participant: participant_obj });
 
     } catch (err) {
         next(err)

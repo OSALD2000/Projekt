@@ -63,9 +63,7 @@ const answerQuiz = async (req, res, next) => {
           }
         }
 
-        const edit_answer = question.answer.reduce((accumulator, currentValue) => accumulator.value + currentValue.value + "," , {
-          value: "",
-        });
+        const edit_answer = answers.map(a => a.value).join(",");
 
         participant_answers.push({
           weight: louded_question.getDataValue("weight"),
@@ -135,10 +133,12 @@ const answerQuiz = async (req, res, next) => {
       quizId: quizId,
     });
 
+    // TODO: andere participant id to _id hier und im schema : )
     res.status(200).json({
       message: "teilnahme ist angeliegt!",
-      scoure: score,
-      bestanden: bestanden,
+      quizId: quizId,
+      participantId: participant.getDataValue('id'),
+
     });
 
     /**
