@@ -13,7 +13,6 @@ const Choiceone = require("../module/quiz/question/choiceone");
 const FillInTheBlank = require("../module/quiz/question/fillInTheBlank");
 const MultipleChoice = require("../module/quiz/question/multipleChoice");
 const TrueOrFalse = require("../module/quiz/question/trueOrFalse");
-const Ordering = require("../module/quiz/question/ordering");
 
 const create_relation = () => {
   User.hasMany(Quiz, {

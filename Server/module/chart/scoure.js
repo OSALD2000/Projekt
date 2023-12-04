@@ -8,6 +8,10 @@ const scoure = sequelize.define("scoure", {
     primaryKey: true,
     allowNull: false,
   },
+  quiz_title:{
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
   result:{
     type: Sequelize.DOUBLE,
     allowNull: false,

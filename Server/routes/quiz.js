@@ -8,10 +8,6 @@ const quizController = require("../controller/quiz/quiz");
 const router = express.Router();
 
 
-
-// TODO: update quiz
-
-
 router.post(
   "/create", is_auth,
   [checkSchema(create_validation)],

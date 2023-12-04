@@ -151,38 +151,7 @@ const create_validation = {
                 }
                 break;
 
-              case QUESTIONTYPE.ORDERING:
-                answers = question.answers.map((answer) =>
-                  answer.value.trim().toLowerCase(),
-                );
-
-                if (Array.isArray(question.right_answer)) {
-                  question.right_answer.forEach((value) => {
-                    if (
-                      !answers.some(
-                        (answer) =>
-                          value.trim().toLowerCase() ===
-                          answer.trim().toLowerCase(),
-                      )
-                    ) {
-                      errors.push({
-                        index,
-                        category: QUESTIONTYPE.ORDERING,
-                        value: value,
-                        message:
-                          "ORDERING one of the value of right_answer array is not in answers array!",
-                      });
-                    }
-                  });
-                } else {
-                  errors.push({
-                    index,
-                    category: QUESTIONTYPE.MULTIPLECHOICE,
-                    message:
-                      "ORDERING right_answer should be a array of answer",
-                  });
-                }
-                break;
+              
               default:
                 errors.push({ index, message: "Category not supported" });
                 break;

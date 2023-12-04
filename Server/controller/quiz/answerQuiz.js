@@ -5,8 +5,11 @@ const calculat_score = require("../../util/quiz/calculat_score");
 const User = require("../../module/auth/user");
 const Quiz = require("../../module/quiz/quiz");
 const QUESTIONTYPE = require("../../module/enum/QUESTIONTYPE");
+const ubdate_statistic = require("../../util/statistics/ubdate_statistic");
 
 const answerQuiz = async (req, res, next) => {
+  let participant;
+
   try {
     requestErrorHandler(req);
 
@@ -84,7 +87,7 @@ const answerQuiz = async (req, res, next) => {
 
         participant_answers.push({
           weight: louded_question.getDataValue("weight"),
-          answer: question.answer,
+          answer: question.answer ? "true" : false,
           is_right: is_right,
           category: QUESTIONTYPE.TRUEORFALSE,
           questionId: louded_question.getDataValue("_id"),
@@ -111,7 +114,7 @@ const answerQuiz = async (req, res, next) => {
 
     const { score, bestanden } = calculat_score(participant_answers, quiz.getDataValue('required_points'));
 
-    const participant = await user.createParticipant({
+    participant = await user.createParticipant({
       _id: uuid.v4(),
       result: score,
       passed: bestanden,
@@ -130,27 +133,34 @@ const answerQuiz = async (req, res, next) => {
     user.createScoure({
       _id: uuid.v4(),
       result: score,
+      quiz_title: quiz.getDataValue('title'),
       quizId: quizId,
     });
+
+    ubdate_statistic(quiz, participant);
 
     // TODO: andere participant id to _id hier und im schema : )
     res.status(200).json({
       message: "teilnahme ist angeliegt!",
       quizId: quizId,
-      participantId: participant.getDataValue('id'),
+      participantId: participant.getDataValue('_id'),
 
     });
 
-    /**
-     * //TODO:
-     *        - update statistcs
-     */
-  } catch (err) {
-    console.log(err);
-    if (!err.statusCode) {
+  } catch (error) {
+    console.log(error);
+
+    participant.destroy().then(() => {
+      if (!error.statusCode) {
+        error.statusCode = 500;
+        error.message = "Internal Server Error";
+      }
+      res.status(error.statusCode).json({ error: error.message, data: error.data });
+    }).catch(err => {
       err.statusCode = 500;
-    }
-    next(err);
+      err.message = "Internal Server Error";
+      res.status(error.statusCode).json({ error: error.message, data: error.data });
+    });
   }
 };
 

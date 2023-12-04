@@ -2,12 +2,10 @@ const express = require("express");
 
 const is_auth = require("../middleware/is-auth");
 
-const loaderController = require("../controller/loader");
+const loaderController = require("../controller/loader/loader");
 
 const router = express.Router();
 
-
-router.get("/user",is_auth, loaderController.loadUserDaten);
 
 router.get("/categorys", loaderController.loadCategory);
 

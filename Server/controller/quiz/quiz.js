@@ -9,6 +9,4 @@ exports.createQuiz = createQuiz;
 
 exports.answerQuiz = answerQuiz;
 
-exports.updateQuiz = (req, res, next) => {};
-
 exports.deleteQuiz = deleteQuiz;

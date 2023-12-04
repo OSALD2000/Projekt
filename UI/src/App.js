@@ -11,7 +11,8 @@ import QuizePage, { loader as quizLoader } from "./views/QuizePage";
 import RootLayout from "./views/RootLayout";
 import AuthLayout from "./views/auth/AuthLayout";
 import AnswerQuiz, { action as answerAction, loader as loadQuiz } from "./views/answerQuiz";
-import ViewAnswerPage, {loader as viewAnswerPageLoader} from "./views/viewAnswerPage";
+import ViewAnswerPage, { loader as viewAnswerPageLoader } from "./views/ViewAnswerPage";
+import ProfilePage, { loader as profileDatenLoader } from "./views/ProfilePage";
 
 import {
   action as authAction,
@@ -26,32 +27,43 @@ const router = createBrowserRouter([
     loader: tokenloader,
     element: <RootLayout></RootLayout>,
     errorElement: <ErrorPage />,
-    children: [{ index: true, element: <HomePage />, loader: homePageLodaer }, {
-      path: "quiz",
-      loader: checkAuthLoader,
-      children: [
-        {
-          path: ":category",
-          element: <QuizePage />,
-          loader: quizLoader,
-        },
-        {
-          path: "create",
-          element: <CreateQuizPage />,
-          action: CreateAction
-        },
-        {
-          path: "answerQuiz/:quizId",
-          element: <AnswerQuiz />,
-          action: answerAction,
-          loader: loadQuiz
-        },
-        {
-          path: "view-answers/:quizId/:participantId",
-          element: <ViewAnswerPage />,
-          loader: viewAnswerPageLoader
-        }]
-    }],
+    children: [
+      { index: true, element: <HomePage />, loader: homePageLodaer }
+      , {
+        path: "quiz",
+        loader: checkAuthLoader,
+        children: [
+          {
+            path: ":category",
+            element: <QuizePage />,
+            loader: quizLoader,
+          },
+          {
+            path: "create",
+            element: <CreateQuizPage />,
+            action: CreateAction
+          },
+          {
+            path: "answerQuiz/:quizId",
+            element: <AnswerQuiz />,
+            action: answerAction,
+            loader: loadQuiz
+          },
+          {
+            path: "view-answers/:quizId/:participantId",
+            element: <ViewAnswerPage />,
+            loader: viewAnswerPageLoader
+          }]
+      }
+      , {
+        path: "user",
+        loader: checkAuthLoader,
+        children: [{
+          path: "profile",
+          element: <ProfilePage />,
+          loader: profileDatenLoader,
+        }],
+      }],
   },
   {
     path: "/auth",

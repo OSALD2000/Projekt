@@ -3,7 +3,7 @@ const QUESTIONTYPE = {
   CHOICEONE: "CHOICEONE",
   MULTIPLECHOICE: "MULTIPLECHOICE",
   FILLINTHEBLANK: "FILLINTHEBLANK",
-  ORDERING: "ORDERING",
+
 
   getType: (type) => {
     switch (type) {
@@ -15,8 +15,7 @@ const QUESTIONTYPE = {
         return QUESTIONTYPE.MULTIPLECHOICE;
       case QUESTIONTYPE.FILLINTHEBLANK:
         return QUESTIONTYPE.FILLINTHEBLANK;
-      case QUESTIONTYPE.ORDERING:
-        return QUESTIONTYPE.ORDERING;
+
      
       default:
         throw Error('Type not supported!')

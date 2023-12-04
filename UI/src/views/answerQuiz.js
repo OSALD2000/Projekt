@@ -113,8 +113,6 @@ export const loader = async ({ params }) => {
 
     const data = await response.json();
 
-    console.log(data);
-
     const { quiz } = data;
 
     return quiz;

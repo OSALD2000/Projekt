@@ -43,7 +43,11 @@ const MinNavigation = (props) => {
             </li>
 
             <li>
-              <NavLink to="/profile">Profile</NavLink>
+              <NavLink to="/user/profile">Profile</NavLink>
+            </li>
+            
+            <li>
+              <NavLink to="/quiz/create">Create</NavLink>
             </li>
           </>
         }

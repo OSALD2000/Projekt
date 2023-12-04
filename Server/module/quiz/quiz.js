@@ -32,11 +32,13 @@ const quiz = sequelize.define("quiz", {
     type: Sequelize.DOUBLE,
     allowNull: false,
   },
-  
+
   visibility: {
     type: Sequelize.BOOLEAN,
     allowNull: false,
   },
+}, {
+  timestamps: false,
 });
 
 module.exports = quiz;

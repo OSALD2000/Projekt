@@ -8,6 +8,7 @@ const bcrypt = require("bcryptjs");
 const loeaderRoutes = require("./routes/loaders");
 const authRoutes = require("./routes/auth");
 const quizRoutes = require("./routes/quiz");
+const userRoutes = require("./routes/user");
 
 const sequelize = require("./util/db");
 const createRelation = require("./util/db_relation");
@@ -36,6 +37,8 @@ app.use("/auth", authRoutes);
 
 app.use("/quiz", quizRoutes);
 
+app.use("/user", userRoutes);
+
 app.use((error, req, res, next) => {
   console.log(error);
   res
@@ -44,18 +47,18 @@ app.use((error, req, res, next) => {
 });
 
 sequelize
-  .sync({force : false})
+  .sync({force : true})
   .then(() => {
     return bcrypt.hash("root", 12);
   })
   .then((hashedPw) => {
-    // return User.create({
-    //   _id: "1213123124",
-    //   email: "test@test.de",
-    //   password: hashedPw,
-    //   username: "TESTES",
-    //   emailverified: true,
-    // });
+    return User.create({
+      _id: "1213123124",
+      email: "test@test.de",
+      password: hashedPw,
+      username: "TESTES",
+      emailverified: true,
+    });
   })
   .then(() => {
     app.listen(8080);

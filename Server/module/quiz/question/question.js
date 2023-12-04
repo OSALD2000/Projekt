@@ -24,7 +24,6 @@ const question = sequelize.define(
         "FILLINTHEBLANK",
         "TRUEORFALSE",
         "CHOICEONE",
-        "ORDERING",
       ),
       allowNull: false,
     },

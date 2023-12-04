@@ -38,86 +38,54 @@ const statistics = sequelize.define(
     chart_doughnut_data: {
       type: Sequelize.JSON,
       allowNull: false,
-      defaultValue: JSON.stringify({
-        labels: [],
-        datasets: [
-          {
-            label: "",
-            data: [],
-            backgroundColor: [],
-            hoverOffset: 0,
-          },
-        ],
-      }),
     },
 
     chart_bar_data: {
       type: Sequelize.JSON,
       allowNull: false,
-      defaultValue: JSON.stringify({
-        questionsIds: [],
-        data: {
-          labels: [],
-          datasets: [
-            {
-              label: "",
-              data: [],
-              backgroundColor: [],
-              borderColor: [],
-              borderWidth: 1,
-            },
-            {
-              label: "",
-              data: [],
-              backgroundColor: [],
-              borderColor: [],
-              borderWidth: 1,
-            },
-          ],
-        },
-      }),
     },
 
-    visibility: {
-      type: Sequelize.ENUM("private", "public"),
-      allowNull: false,
-    },
 
     last_participant: {
       type: Sequelize.STRING,
-      allowNull: false,
+      defaultValue: "keine Teilnehmer",
     },
   },
   {
     timestamps: false,
     // TODO: try catch überall "Fehlerhandlung"
     hooks: {
-      afterUpdate: async (record) => {
+      afterSave: async (record) => {
         const last_participant = await Participant.findByPk(
           record.getDataValue("last_participant"),
         );
+        if (last_participant) {
+          if (last_participant.getDataValue("passed")) {
+            record.increment("success_Participants", { by: 1 });
+          } else {
+            record.increment("failed_Participants", { by: 1 });
+          }
 
-        if (last_participant.getDataValue("passed")) {
-          record.increment("success_Participants", { by: 1 });
-        } else {
-          record.increment("failed_Participants", { by: 1 });
+          const chart_doughnut_data_loaded = record.getDataValue("chart_doughnut_data");
+
+          const chart_doughnut_data_updated = chart_doughnut_data_update(
+            chart_doughnut_data_loaded,
+            last_participant.getDataValue("result"),
+          );
+
+          record.chart_doughnut_data = chart_doughnut_data_updated;
+
+          const chart_bar_data_loaded  = record.getDataValue("chart_bar_data");
+          const chart_bar_data_updated = await chart_bar_data_update(
+            chart_bar_data_loaded,
+            last_participant,
+          );
+
+          record.chart_bar_data = chart_bar_data_updated;
+          record.last_participant = "Updated";
+          
+          record.save();
         }
-
-        let chart_doughnut_data = record.getDataValue("chart_doughnut_data");
-        chart_doughnut_data = chart_doughnut_data_update(
-          chart_doughnut_data,
-          last_participant.getDataValue("result"),
-        );
-        record.chart_doughnut_data = chart_doughnut_data;
-
-        let chart_bar_data = record.getDataValue("chart_bar_data");
-        chart_bar_data = await chart_bar_data_update(
-          chart_bar_data,
-          last_participant,
-        );
-        record.chart_bar_data = chart_bar_data;
-
-        record.save();
       },
     },
   },

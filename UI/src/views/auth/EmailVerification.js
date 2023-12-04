@@ -40,7 +40,7 @@ const EmailVerification = (props) => {
           >
             Bitte Bestätigen Sie Ihre Email Addresse
           </label>
-          {loding ? <div class="lds-dual-ring"></div> : (
+          {loding ? <div className="lds-dual-ring"></div> : (
             <>
               <Input
                 validationType={TYPE.EMAILVERIFICATION}

@@ -43,7 +43,7 @@ const ShowResult = ({ quizInfo, username, result, passed, questions }) => {
             </InputGroup>
         </div>)}
         {
-            questions.map(({ question, answer }) =>
+            questions.map(({ question, answer, right_answer }) =>
                 <div key={Math.random() * 1000}>
                     <QuestionResult
                         question_value={question.question_value}
@@ -51,6 +51,7 @@ const ShowResult = ({ quizInfo, username, result, passed, questions }) => {
                         category={question.category}
                         answer={answer.answer}
                         is_right={answer.is_right}
+                        right_answer={right_answer}
                     />
                 </div>)
         }

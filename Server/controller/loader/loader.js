@@ -1,10 +1,11 @@
 const { Op } = require('sequelize');
 
-const Quiz = require('../module/quiz/quiz');
-const User = require('../module/auth/user');
+const Quiz = require('../../module/quiz/quiz');
+const User = require('../../module/auth/user');
 
-const QUIZCATEGORY = require("../module/enum/QUIZCATEGORY");
-const create_quiz_object = require("../util/quiz/create_quiz_object");
+const QUIZCATEGORY = require("../../module/enum/QUIZCATEGORY");
+const create_quiz_object = require("../../util/quiz/create_quiz_object");
+const question = require('../../module/quiz/question/question');
 
 
 exports.loadCategory = (req, res, next) => {
@@ -90,22 +91,6 @@ exports.loadQuiz = async (req, res, next) => {
 }
 
 
-exports.loadUserDaten = async (req, res, next) => {
-    try {
-        const userId = req.userId;
-
-        const user = await User.findByPk(userId);
-
-        const _id = user.getDataValue('_id');
-        const email = user.getDataValue('email');
-        const username = user.getDataValue('username');
-
-        res.status(200).json({ message: "user information", user: { id: _id, email: email, username: username } });
-
-    } catch (err) {
-        next(err)
-    }
-}
 
 
 exports.loadParticipants = async (req, res, next) => {
@@ -184,7 +169,7 @@ exports.loadParticipant = async (req, res, next) => {
 
         const participants = await quiz.getParticipants({
             where: {
-                id: participantId
+                _id: participantId
             }
         });
 
@@ -197,15 +182,26 @@ exports.loadParticipant = async (req, res, next) => {
 
         const participant_info = await participant.getUser();
         const answers = await participant.getAnswers();
-        const question_with_answer = [];
+        const question_with_participant_answer = [];
 
         for (const answer of answers) {
             const question = await answer.getQuestion();
-            question_with_answer.push({
+            question_with_participant_answer.push({
                 question: question,
                 answer: answer,
             })
         }
+
+
+        const quiz_obj = await create_quiz_object(quiz, true, true);
+
+
+        const question_with_participant_answer_and_right_answers =
+            question_with_participant_answer.map(obj => {
+                obj.right_answer = quiz_obj.questions
+                    .filter(q => q.questionId === obj.question.getDataValue('_id'))[0].right_answer;
+                return obj;
+            })
 
         const participant_obj = {
             id: participantId,
@@ -213,7 +209,7 @@ exports.loadParticipant = async (req, res, next) => {
             username: participant_info.getDataValue('username'),
             result: participant.getDataValue('result'),
             passed: participant.getDataValue('passed'),
-            questions: question_with_answer,
+            questions: question_with_participant_answer_and_right_answers,
         }
 
         res.status(200).json({ message: "Teilnehmer", participant: participant_obj });

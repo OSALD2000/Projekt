@@ -16,16 +16,16 @@ const QUESTIONTYPE = require("../../module/enum/QUESTIONTYPE")
 }
 */
 // TODO : creator zu quiz_object hinzufügen
-const create_quiz_objekt = async (quiz, creator) => {
+const create_quiz_objekt = async (quiz, with_answer, view) => {
     try {
         const quiz_object = {}
 
         quiz_object.quizId = quiz.getDataValue('_id');
-        quiz_object.title = quiz.getDataValue('title'); 
-        quiz_object.beschreibung = quiz.getDataValue('beschreibung'); 
+        quiz_object.title = quiz.getDataValue('title');
+        quiz_object.beschreibung = quiz.getDataValue('beschreibung');
         quiz_object.quizCategory = quiz.getDataValue('quizCategory');
         quiz_object.question_number = quiz.getDataValue('question_number');
-        quiz_object.required_points = quiz.getDataValue('required_points') * 100 + " %" 
+        quiz_object.required_points = quiz.getDataValue('required_points') * 100 + " %"
         quiz_object.questions = [];
 
 
@@ -35,16 +35,18 @@ const create_quiz_objekt = async (quiz, creator) => {
 
         for (const quiz_question of quiz_questions) {
             const question_object = {}
-
-            question_object.id = question_idx;
-            question_object.questionId = quiz_question.getDataValue('_id');
-            question_object.question_value = quiz_question.getDataValue('question_value');
-            question_object.category = quiz_question.getDataValue('category');
-            question_object.weight =  quiz_question.getDataValue('weight');
             
+            if (!view) {
+                question_object.id = question_idx;
+                question_object.question_value = quiz_question.getDataValue('question_value');
+                question_object.category = quiz_question.getDataValue('category');
+                question_object.weight = quiz_question.getDataValue('weight');
+            }
+            question_object.questionId = quiz_question.getDataValue('_id');
+
             question_idx += 1;
 
-            if (creator) {
+            if (with_answer) {
                 switch (quiz_question.category.toUpperCase()) {
 
                     case QUESTIONTYPE.TRUEORFALSE:
