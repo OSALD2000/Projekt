@@ -1,7 +1,7 @@
 import React from "react";
-import ShowResult from "../components/quiz-elements/showResult/showResult";
+import ShowResult from "../../components/quiz-elements/showResult/showResult";
 import { redirect, useLoaderData, json } from "react-router";
-import { getAuthToken } from "./auth/auth";
+import { getAuthToken } from "../auth/auth";
 
 
 const ViewAnswerPage = () => {
@@ -22,14 +22,18 @@ const ViewAnswerPage = () => {
 
 export const loader = async ({ params }) => {
     const quizId = params.quizId;
-    const participantId = params.participantId;
     const token = getAuthToken();
 
-    if (!participantId || !quizId) {
+    if(!token){
+        return redirect("/auth/signin");
+    }
+
+    if (!quizId) {
         alert('versuchen Sie es nochmal :)');
         return redirect('/');
     }
-    const url = `http://localhost:8080/loader/quiz/participant/${quizId}/${participantId}`;
+
+    const url = `http://localhost:8080/loader/quiz/participant/${quizId}`;
 
     const response = await fetch(url, {
         headers: {

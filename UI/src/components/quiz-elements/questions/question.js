@@ -4,7 +4,6 @@ import QUESTIONTYPE from "../../../util/enum/QUESTIONTYPE";
 import TrueOrFalse from "./trueOrFalse";
 import ChoiceOne from "./choiceOne";
 import FillInTheBlank from "./fillInTheBlank";
-import Ordering from "./ordering"
 import MultipleChoice from "./multipleChoice";
 
 const Question = ({ mode, question, onUpdate, onDeleteQuestion }) => {

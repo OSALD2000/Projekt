@@ -11,7 +11,7 @@ router.get("/categorys", loaderController.loadCategory);
 
 router.get("/quiz/participants/:quizId",is_auth, loaderController.loadParticipants);
 
-router.get("/quiz/participant/:quizId/:participantId",is_auth, loaderController.loadParticipant);
+router.get("/quiz/participant/:quizId",is_auth, loaderController.loadParticipant);
 
 router.get("/quiz/:quizId",is_auth, loaderController.loadQuiz);
 

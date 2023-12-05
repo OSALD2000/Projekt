@@ -30,7 +30,7 @@
     width: 25%;
     border: 0.5px #554f5a solid;
     background-color: #411761;
-    border-radius: 20%;
+    border-radius: 100px;
     box-shadow: 5px 5px 10px #21122c
 }
 .main-nav__items li a{

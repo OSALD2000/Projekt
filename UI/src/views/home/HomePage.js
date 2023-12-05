@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useLoaderData } from "react-router";
-import QuizCategory from "../components/quiz-elements/quizCategory";
+import QuizCategory from "../../components/quiz-elements/quizCategory";
 import { json } from "react-router-dom";
-import { Card } from "../components/common/card";
+import { Card } from "../../components/common/card";
 
 const Home = (props) => {
   const data = useLoaderData();

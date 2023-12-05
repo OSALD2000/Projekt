@@ -1,25 +1,18 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./views/auth/LoginPage";
 import SignUpPage from "./views/auth/SignUpPage";
-import HomePage, { loader as homePageLodaer } from "./views/HomePage";
-import EmailVerificationPage, {
-  action as emailVerificationAction,
-  loader as emailVerificationLoader,
-} from "./views/auth/EmailVerification";
-import CreateQuizPage, { action as CreateAction } from "./views/createQuiz";
-import QuizePage, { loader as quizLoader } from "./views/QuizePage";
-import RootLayout from "./views/RootLayout";
+import HomePage, { loader as homePageLodaer } from "./views/home/HomePage";
+import EmailVerificationPage, {action as emailVerificationAction,loader as emailVerificationLoader,} from "./views/auth/EmailVerification";
+import CreateQuizPage, { action as CreateAction } from "./views/quiz/CreateQuiz";
+import QuizePage, { loader as quizLoader } from "./views/quiz/QuizePage";
+import RootLayout from "./views/layout/RootLayout";
 import AuthLayout from "./views/auth/AuthLayout";
-import AnswerQuiz, { action as answerAction, loader as loadQuiz } from "./views/answerQuiz";
-import ViewAnswerPage, { loader as viewAnswerPageLoader } from "./views/ViewAnswerPage";
+import AnswerQuiz, { action as answerAction, loader as loadQuiz } from "./views/quiz/AnswerQuiz";
+import ViewAnswerPage, { loader as viewAnswerPageLoader } from "./views/quiz/ViewAnswerPage";
 import ProfilePage, { loader as profileDatenLoader } from "./views/profielPage/ProfilePage";
-
-import {
-  action as authAction,
-  checkAuthLoader,
-  tokenloader,
-} from "./views/auth/auth";
-import ErrorPage from "./views/Error";
+import {action as authAction, checkAuthLoader,tokenloader,} from "./views/auth/auth";
+import StatisticPage, {loader as statisticLoader} from "./views/statisticPage/StatisticPage";
+import ErrorPage from "./views/error/Error";
 
 const router = createBrowserRouter([
   {
@@ -50,9 +43,14 @@ const router = createBrowserRouter([
             loader: loadQuiz
           },
           {
-            path: "view-answers/:quizId/:participantId",
+            path: "view-answers/:quizId",
             element: <ViewAnswerPage />,
             loader: viewAnswerPageLoader
+          },
+          {
+            path: "view-statistic/:quizId",
+            element: <StatisticPage />,
+            loader: statisticLoader
           }]
       }
       , {

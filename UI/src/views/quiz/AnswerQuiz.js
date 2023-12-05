@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { getAuthToken } from "./auth/auth";
+import { getAuthToken } from "../auth/auth";
 import { redirect, json, useLoaderData, useActionData } from "react-router";
-import Question from "../components/quiz-elements/questions/question";
+import Question from "../../components/quiz-elements/questions/question";
 import { Form, useSubmit } from "react-router-dom";
-import { answerValidtion } from "../util/validation/answersValidtion";
-import classes from "../css/answer.module.css";
+import { answerValidtion } from "../../util/validation/answersValidtion";
+import classes from "../../css/answer.module.css";
 
 const AnswerQuiz = (props) => {
     const data = useLoaderData();
@@ -87,7 +87,7 @@ export const action = async ({ request }) => {
     }
 
     const data = await response.json();
-    const url = `/quiz/view-answers/${data.quizId}/${data.participantId}`;
+    const url = `/quiz/view-answers/${data.quizId}`;
 
     return redirect(url);
 }

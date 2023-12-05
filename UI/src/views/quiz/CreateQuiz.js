@@ -1,17 +1,18 @@
 import React, { useRef, useState } from "react";
 
-import Quizinfo from "../components/quiz-elements/quizInfo";
-import QuizCart from "../components/quiz-elements/quizCart";
-import Question from "../components/quiz-elements/questions/question";
+import Quizinfo from "../../components/quiz-elements/quizInfo";
+import QuizCart from "../../components/quiz-elements/quizCart";
+import Question from "../../components/quiz-elements/questions/question";
 import Accordion from 'react-bootstrap/Accordion';
-import { QUESTIONTYPE_ARRAY } from "../util/enum/QUESTIONTYPE";
+import { QUESTIONTYPE_ARRAY } from "../../util/enum/QUESTIONTYPE";
 
-import { createQuestion } from "../util/createQuestionObject";
+import { createQuestion } from "../../util/createQuestionObject";
 
-import "../css/createQuizPage.css";
-import { getAuthToken } from "./auth/auth";
+import { getAuthToken } from "../auth/auth";
 import { redirect, useActionData } from "react-router";
-import { Form, useSubmit, json, useLoaderData } from "react-router-dom";
+import { Form, useSubmit, json } from "react-router-dom";
+
+import "../../css/createQuizPage.css";
 
 const CreateQuiz = (props) => {
   const [questions, setQuestions] = useState([]);

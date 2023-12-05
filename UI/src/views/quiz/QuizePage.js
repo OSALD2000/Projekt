@@ -1,8 +1,8 @@
 import React from "react";
 import { useLoaderData, json, redirect } from "react-router";
-import { Card } from "../components/common/card";
-import Quiz from "../components/quiz-elements/quiz";
-import { getAuthToken } from "./auth/auth";
+import { Card } from "../../components/common/card";
+import Quiz from "../../components/quiz-elements/quiz";
+import { getAuthToken } from "../auth/auth";
 
 const QuizePage = () => {
     const quize = useLoaderData();

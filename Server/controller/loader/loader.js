@@ -147,35 +147,23 @@ exports.loadParticipants = async (req, res, next) => {
 exports.loadParticipant = async (req, res, next) => {
     try {
         const quizId = req.params.quizId;
-        const participantId = req.params.participantId;
 
         const userId = req.userId;
 
         const quiz = await Quiz.findByPk(quizId);
 
         if (!quiz) {
-            res.json(442).message({ message: "keine Quiz unter dieses Id" });
+            res.status(442).message({ message: "keine Quiz unter dieses Id" });
         }
 
-        const user_participant = await quiz.getParticipants({
+        const participants = await quiz.getParticipants({
             where: {
                 userId: userId
             }
         });
 
-        if (user_participant.length === 0) {
-            res.json(442).message({ message: "user muss teilnehmer sein um andere Teilnehmer zu sehen" });
-        }
-
-        const participants = await quiz.getParticipants({
-            where: {
-                _id: participantId
-            }
-        });
-
-
         if (participants.length === 0) {
-            res.json(442).json({ message: "keine Teilnehmer unter dieses Id" });
+            res.status(442).message({ message: "user muss teilnehmer sein um andere Teilnehmer zu sehen" });
         }
 
         const participant = participants[0];
@@ -204,7 +192,7 @@ exports.loadParticipant = async (req, res, next) => {
             })
 
         const participant_obj = {
-            id: participantId,
+            id: participant.getDataValue('_id'),
             quizInfo: quiz,
             username: participant_info.getDataValue('username'),
             result: participant.getDataValue('result'),

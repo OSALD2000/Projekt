@@ -1,16 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 
 import classes from "../../css/profile.module.css"
-import { getAuthToken } from "../../views/auth/auth";
-import { redirect } from "react-router";
+import { NavLink } from "react-router-dom";
 
-const Quize = ({ quize, onDeleteClick }) => {
 
-    const onStatistikClickHandler = (id) => {
-        console.log(id);
+const Quize = ({ quize, onDeleteClick  }) => {
 
-    }
-
+ 
     return (
 
         <div>
@@ -32,7 +28,7 @@ const Quize = ({ quize, onDeleteClick }) => {
                                 <td className={classes.labels}>{q.title}</td>
                                 <td className={classes.labels}>{q.category}</td>
                                 <td className={classes.labels}>{q.visibility ? "Public" : "Private"}</td>
-                                <td className={classes.action}><button className="btn" onClick={onStatistikClickHandler.bind(null, q._id)}>Statistik</button></td>
+                                <td className={classes.action}><button className="btn"><NavLink to={`/quiz/view-statistic/${q._id}`}>Statistik</NavLink></button></td>
                                 <td className={classes.action}><button className="btn" onClick={onDeleteClick.bind(null, q._id)}>l&ouml;schen</button></td>
                             </tr>
                         })}
