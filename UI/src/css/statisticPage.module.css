@@ -1,0 +1,58 @@
+.continer {
+    background-color: rgba(46, 37, 51, 0.373);
+    width: 90vw;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2%;
+    box-shadow: 5px 5px 10px #411761, -5px 5px 10px #411761;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1%;
+    row-gap: 5%;
+}
+
+.bar{
+    background-color: white;
+    box-shadow: 5px 5px 10px #411761, -5px 5px 10px #411761;
+    grid-column: 2;
+    grid-row:1;
+}
+
+.bar canvas{
+    width: 100%;
+}
+
+.doughnut{
+    background-color: white;
+    box-shadow: 5px 5px 10px #411761, -5px 5px 10px #411761;
+    grid-column: 1;
+    grid-row:1;
+}
+
+.doughnut canvas{
+    width: 100%;
+}
+
+.info input{
+    text-align: center;
+}
+
+.info>* {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1%;
+}
+
+.info span {
+    width: 30%;
+    background-color: #411761;
+    color: white;
+    border: #411761;
+}
+
+
+.infos{
+    grid-column: 1 / 3;
+    grid-row:2;
+}

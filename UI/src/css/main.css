@@ -14,6 +14,7 @@ html {
     width: 100%;
     height: 100%;
 }
+
 .btn:hover {
     color: white !important;
     background-color: #2f1244 !important;

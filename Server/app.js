@@ -9,6 +9,7 @@ const loeaderRoutes = require("./routes/loaders");
 const authRoutes = require("./routes/auth");
 const quizRoutes = require("./routes/quiz");
 const userRoutes = require("./routes/user");
+const statisticRoutes = require("./routes/statistic");
 
 const sequelize = require("./util/db");
 const createRelation = require("./util/db_relation");
@@ -38,6 +39,8 @@ app.use("/auth", authRoutes);
 app.use("/quiz", quizRoutes);
 
 app.use("/user", userRoutes);
+
+app.use("/statistics", statisticRoutes);
 
 app.use((error, req, res, next) => {
   console.log(error);
