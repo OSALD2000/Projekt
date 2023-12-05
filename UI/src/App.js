@@ -12,7 +12,7 @@ import RootLayout from "./views/RootLayout";
 import AuthLayout from "./views/auth/AuthLayout";
 import AnswerQuiz, { action as answerAction, loader as loadQuiz } from "./views/answerQuiz";
 import ViewAnswerPage, { loader as viewAnswerPageLoader } from "./views/ViewAnswerPage";
-import ProfilePage, { loader as profileDatenLoader } from "./views/ProfilePage";
+import ProfilePage, { loader as profileDatenLoader } from "./views/profielPage/ProfilePage";
 
 import {
   action as authAction,

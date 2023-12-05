@@ -21,6 +21,4 @@ exports.loadUserDaten = async (req, res, next) => {
     }
 }
 
-// TODO: 1. get User quiz
-//       2. get User Infos
-//       3. update password
+// TODO: 3. update password
