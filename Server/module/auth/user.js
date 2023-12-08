@@ -26,6 +26,9 @@ const user = sequelize.define(
       type: Sequelize.BOOLEAN,
       allowNull: false,
     },
+    roll: {
+      type: Sequelize.STRING,
+    }
   },
   {
     timestamps: false,

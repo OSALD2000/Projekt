@@ -51,7 +51,7 @@ const create_quiz_objekt = async (quiz, with_answer, view) => {
 
                     case QUESTIONTYPE.TRUEORFALSE:
                         const q1 = await quiz_question.getTrueorfalse();
-                        question_object.right_answer = q1.getDataValue('right_answer');
+                        question_object.right_answer = q1.getDataValue('right_answer') ? "true" : "false";
                         break;
 
                     case QUESTIONTYPE.CHOICEONE:

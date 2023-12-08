@@ -4,6 +4,8 @@ const requestErrorHandler = require("../../util/validation/requestValidation");
 const calculat_score = require("../../util/quiz/calculat_score");
 const User = require("../../module/auth/user");
 const Quiz = require("../../module/quiz/quiz");
+const Participant = require("../../module/quiz/participant");
+
 const QUESTIONTYPE = require("../../module/enum/QUESTIONTYPE");
 const ubdate_statistic = require("../../util/statistics/ubdate_statistic");
 
@@ -19,6 +21,26 @@ const answerQuiz = async (req, res, next) => {
     const participant_answers = [];
     const user = await User.findByPk(userId);
     const quiz = await Quiz.findByPk(quizId);
+
+    const is_participant = await quiz.getParticipants({
+      where: {
+        userId: userId,
+      }
+    })
+
+    if (is_participant.length !== 0) {
+      res.status(403).json({
+        message: "sie sind schon Teilnehmer dieser Quiz",
+        quizId: quizId,
+      });
+    }
+
+    if (userId === quiz.getDataValue('creator')) {
+      res.status(403).json({
+        message: "creator darf an seiner erstellter Quiz nicht Teilnehemn",
+        quizId: quizId,
+      });
+    }
 
     for (const question of questions) {
       const category = QUESTIONTYPE.getType(question.category.toUpperCase());
@@ -87,7 +109,7 @@ const answerQuiz = async (req, res, next) => {
 
         participant_answers.push({
           weight: louded_question.getDataValue("weight"),
-          answer: question.answer ? "true" : false,
+          answer: question.answer ? "true" : "false",
           is_right: is_right,
           category: QUESTIONTYPE.TRUEORFALSE,
           questionId: louded_question.getDataValue("_id"),

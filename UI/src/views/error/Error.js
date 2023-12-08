@@ -1,4 +1,4 @@
-import { useRouteError } from "react-router-dom";
+import { NavLink, useRouteError } from "react-router-dom";
 import React from "react";
 import Layout from "../../components/layout/Lauout";
 import MainNavigation from "../../components/common/nav/MainNavigation";
@@ -20,9 +20,10 @@ function ErrorPage() {
   }
 
   return (
-    <Layout props={<MainNavigation />}>
+    <div>
+      <NavLink to="/">HOME</NavLink>
       <p>{title} <br /> {message}</p>
-    </Layout>
+    </div>
   );
 }
 

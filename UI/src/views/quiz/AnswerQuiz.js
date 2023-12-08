@@ -107,6 +107,11 @@ export const loader = async ({ params }) => {
         return redirect("/auth/signin");
     }
 
+    if (response.status === 403) {
+        const url = `/quiz/view-answers/${quizId}`;
+        return redirect(url);
+    }
+
     if (!response.ok) {
         throw json({ message: "Could not authenticate user" }, { status: 500 });
     }

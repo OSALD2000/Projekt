@@ -32,7 +32,7 @@ export const action = async ({ request }) => {
     },
   });
 
-  
+
   if (response.status === 423) {
     return redirect("/auth/emailverification");
   }
@@ -48,6 +48,9 @@ export const action = async ({ request }) => {
   if (mode === "login") {
     const resData = await response.json();
     const token = resData.token;
+    if (resData.admin) {
+      localStorage.setItem('admin', true);
+    }
     storeToken(token, 1);
     return redirect("/");
   }

@@ -52,6 +52,7 @@ export const loader = async ({ params }) => {
 
     const data = await response.json();
 
+    console.log(data);
     return data.participant;
 
 }

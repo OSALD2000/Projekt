@@ -8,6 +8,7 @@ import Logo from "../Logo";
 const MinNavigation = (props) => {
   const data = useLoaderData();
   const [auth, setAuth] = useState(data);
+  const isAdmin = localStorage.getItem('admin');
 
   const logoutHandler = () => {
     localStorage.clear();
@@ -45,10 +46,16 @@ const MinNavigation = (props) => {
             <li>
               <NavLink to="/user/profile">Profile</NavLink>
             </li>
-            
+
             <li>
               <NavLink to="/quiz/create">Create</NavLink>
             </li>
+            {
+              isAdmin &&
+              <li>
+                <NavLink to="/admin">Control Panel</NavLink>
+              </li>
+            }
           </>
         }
       </ul>

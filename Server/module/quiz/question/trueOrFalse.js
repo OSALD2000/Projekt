@@ -12,7 +12,7 @@ const TrueOrFalse = sequelize.define(
       allowNull: false,
     },
     right_answer: {
-      type: Sequelize.BOOLEAN,
+      type: Sequelize.STRING,
       allowNull: false,
     },
   },

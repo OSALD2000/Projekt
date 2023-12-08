@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./views/auth/LoginPage";
 import SignUpPage from "./views/auth/SignUpPage";
 import HomePage, { loader as homePageLodaer } from "./views/home/HomePage";
-import EmailVerificationPage, {action as emailVerificationAction,loader as emailVerificationLoader,} from "./views/auth/EmailVerification";
+import EmailVerificationPage, { action as emailVerificationAction, loader as emailVerificationLoader, } from "./views/auth/EmailVerification";
 import CreateQuizPage, { action as CreateAction } from "./views/quiz/CreateQuiz";
 import QuizePage, { loader as quizLoader } from "./views/quiz/QuizePage";
 import RootLayout from "./views/layout/RootLayout";
@@ -10,8 +10,9 @@ import AuthLayout from "./views/auth/AuthLayout";
 import AnswerQuiz, { action as answerAction, loader as loadQuiz } from "./views/quiz/AnswerQuiz";
 import ViewAnswerPage, { loader as viewAnswerPageLoader } from "./views/quiz/ViewAnswerPage";
 import ProfilePage, { loader as profileDatenLoader } from "./views/profielPage/ProfilePage";
-import {action as authAction, checkAuthLoader,tokenloader,} from "./views/auth/auth";
-import StatisticPage, {loader as statisticLoader} from "./views/statisticPage/StatisticPage";
+import { action as authAction, checkAuthLoader, tokenloader, } from "./views/auth/auth";
+import StatisticPage, { loader as statisticLoader } from "./views/statisticPage/StatisticPage";
+import ControlPanel from "./views/admin/controlPanel";
 import ErrorPage from "./views/error/Error";
 
 const router = createBrowserRouter([
@@ -61,7 +62,15 @@ const router = createBrowserRouter([
           element: <ProfilePage />,
           loader: profileDatenLoader,
         }],
-      }],
+      }, {
+        path: "/admin",
+        children: [
+          {
+            index: true, element: <ControlPanel />
+          }
+        ]
+      }
+    ],
   },
   {
     path: "/auth",
@@ -82,6 +91,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+
 ]);
 
 function App() {

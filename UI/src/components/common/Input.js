@@ -47,6 +47,7 @@ const Input = (props) => {
         {props.art === "password" && (
           <span
             className="input-group-text"
+            id="showPassword"
             style={{ cursor: "pointer" }}
             onClick={showPasswordHanlder}
           >

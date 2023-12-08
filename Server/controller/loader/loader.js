@@ -1,11 +1,9 @@
 const { Op } = require('sequelize');
 
 const Quiz = require('../../module/quiz/quiz');
-const User = require('../../module/auth/user');
 
 const QUIZCATEGORY = require("../../module/enum/QUIZCATEGORY");
 const create_quiz_object = require("../../util/quiz/create_quiz_object");
-const question = require('../../module/quiz/question/question');
 
 
 exports.loadCategory = (req, res, next) => {
@@ -68,6 +66,19 @@ exports.loadQuiz = async (req, res, next) => {
         }
 
         const userId = quiz.getDataValue('creator');
+        const is_participant = await quiz.getParticipants({
+            where: {
+                userId: req.userId,
+            }
+        })
+
+
+        if (is_participant.length !== 0) {
+            res.status(403).json({
+                message: "sie sind schon Teilnehmer dieser Quiz",
+                quizId: req.userId,
+            });
+        }
 
         if (userId === req.userId) {
             const quiz_object = await create_quiz_object(quiz, true);
@@ -204,5 +215,37 @@ exports.loadParticipant = async (req, res, next) => {
 
     } catch (err) {
         next(err)
+    }
+}
+
+
+exports.searchQuizes = async (req, res, next) => {
+    try {
+        const arg = req.params.arg;
+        const category = req.params.category;
+        const quize = await Quiz.findAll({
+            where: {
+                category: category.toUpperCase(),
+                creator: { [Op.notIn]: [req.userId] },
+                title: { [Op.startsWith]: [arg] }
+            },
+            order: [
+                ['title', 'ASC']
+            ]
+        });
+
+        if (quize.length === 0) {
+            res.status(200).json({
+                message: "Keine Quiz unter dieses Title " + arg,
+                quize: [],
+            });
+        } else {
+            res.status(200).json({
+                message: "All Quize",
+                quize: quize,
+            })
+        }
+    } catch (err) {
+        next(err);
     }
 }
