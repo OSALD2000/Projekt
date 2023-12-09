@@ -12,7 +12,9 @@ import ViewAnswerPage, { loader as viewAnswerPageLoader } from "./views/quiz/Vie
 import ProfilePage, { loader as profileDatenLoader } from "./views/profielPage/ProfilePage";
 import { action as authAction, checkAuthLoader, tokenloader, } from "./views/auth/auth";
 import StatisticPage, { loader as statisticLoader } from "./views/statisticPage/StatisticPage";
-import ControlPanel from "./views/admin/controlPanel";
+import ViewQuizPage, { loader as viewQuizPageLoader } from "./views/quiz/ViewQuizPage";
+import ControlPanel, { loader as controlPanelLoader } from "./views/admin/controlPanel";
+import { loadUserProfile } from "./views/admin/admin_loaders";
 import ErrorPage from "./views/error/Error";
 
 const router = createBrowserRouter([
@@ -61,12 +63,21 @@ const router = createBrowserRouter([
           path: "profile",
           element: <ProfilePage />,
           loader: profileDatenLoader,
+        },
+        {
+          path: "view-quiz/:quizId",
+          element: <ViewQuizPage />,
+          loader: viewQuizPageLoader,
         }],
       }, {
         path: "/admin",
         children: [
           {
-            index: true, element: <ControlPanel />
+            index: true, element: <ControlPanel />, loader: controlPanelLoader
+          }, {
+            path: "user/profile/:userId",
+            element: <ProfilePage />,
+            loader: loadUserProfile
           }
         ]
       }

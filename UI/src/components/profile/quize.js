@@ -4,7 +4,7 @@ import classes from "../../css/profile.module.css"
 import { NavLink } from "react-router-dom";
 
 
-const Quize = ({ quize, onDeleteClick  }) => {
+const Quize = ({admin, quize, onDeleteClick  }) => {
 
  
     return (
@@ -29,7 +29,8 @@ const Quize = ({ quize, onDeleteClick  }) => {
                                 <td className={classes.labels}>{q.category}</td>
                                 <td className={classes.labels}>{q.visibility ? "Public" : "Private"}</td>
                                 <td className={classes.action}><button className="btn"><NavLink to={`/quiz/view-statistic/${q._id}`}>Statistik</NavLink></button></td>
-                                <td className={classes.action}><button className="btn" onClick={onDeleteClick.bind(null, q._id)}>l&ouml;schen</button></td>
+                                <td className={classes.action}><button className="btn"><NavLink to={`/user/view-quiz/${q._id}`}>View</NavLink></button></td>
+                                {admin && <td className={classes.action}><button className="btn" onClick={onDeleteClick.bind(null, q._id)}>l&ouml;schen</button></td>}
                             </tr>
                         })}
                     </tbody>

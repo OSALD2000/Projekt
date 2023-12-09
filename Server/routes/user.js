@@ -15,4 +15,8 @@ const router = express.Router();
 
 router.get("/profile/daten", is_auth, userController.loadUserDaten);
 
+router.get("/quiz/:quizId", is_auth, userController.loadQuiz);
+
+router.post("/update", is_auth, userController.userUpdatePassord);
+
 module.exports = router;

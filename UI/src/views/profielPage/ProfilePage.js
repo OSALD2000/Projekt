@@ -11,6 +11,7 @@ const ProfilePage = () => {
     const data = useLoaderData();
     const navigate = useNavigate();
 
+    console.log(data);
     const [deleteQuiz, setDeleteQuiz] = useState({
         delete: false,
         id: "",
@@ -55,7 +56,7 @@ const ProfilePage = () => {
             <Daten username={data.username} email={data.email} id={data.id} />
             <div className={classes.quize}>
                 {deleteQuiz.delete && <div className={classes.center}><div className={classes["lds-dual-ring"]}></div></div>}
-                {!deleteQuiz.delete && <Quize quize={data.quize} onDeleteClick={onDeleteClickHandler} />}
+                {!deleteQuiz.delete && <Quize admin={data.admin} quize={data.quize} onDeleteClick={onDeleteClickHandler} />}
             </div>
             <Scoure  scoures={data.scoures}/>
         </div>

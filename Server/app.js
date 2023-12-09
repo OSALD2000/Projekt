@@ -5,6 +5,7 @@ require("dotenv").config();
 const bodyParser = require("body-parser");
 const bcrypt = require("bcryptjs");
 
+const adminRoutes = require("./routes/admin");
 const loeaderRoutes = require("./routes/loaders");
 const authRoutes = require("./routes/auth");
 const quizRoutes = require("./routes/quiz");
@@ -32,6 +33,7 @@ app.use((req, res, next) => {
   next();
 });
 
+
 app.use("/loader", loeaderRoutes);
 
 app.use("/auth", authRoutes);
@@ -41,6 +43,8 @@ app.use("/quiz", quizRoutes);
 app.use("/user", userRoutes);
 
 app.use("/statistics", statisticRoutes);
+
+app.use("/admin", adminRoutes);
 
 app.use((error, req, res, next) => {
   console.log(error);

@@ -15,7 +15,6 @@ const QUESTIONTYPE = require("../../module/enum/QUESTIONTYPE")
     ]
 }
 */
-// TODO : creator zu quiz_object hinzufügen
 const create_quiz_objekt = async (quiz, with_answer, view) => {
     try {
         const quiz_object = {}
@@ -23,7 +22,7 @@ const create_quiz_objekt = async (quiz, with_answer, view) => {
         quiz_object.quizId = quiz.getDataValue('_id');
         quiz_object.title = quiz.getDataValue('title');
         quiz_object.beschreibung = quiz.getDataValue('beschreibung');
-        quiz_object.quizCategory = quiz.getDataValue('quizCategory');
+        quiz_object.quizCategory = quiz.getDataValue('category');
         quiz_object.question_number = quiz.getDataValue('question_number');
         quiz_object.required_points = quiz.getDataValue('required_points') * 100 + " %"
         quiz_object.questions = [];

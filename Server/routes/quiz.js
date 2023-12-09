@@ -23,7 +23,6 @@ router.post(
 
 router.delete("/delete/:quizId", is_auth, quizController.deleteQuiz);
 
-router.get("/:quizId", quizController.getPrivateQuiz);
 
 
 module.exports = router;
