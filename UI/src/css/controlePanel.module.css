@@ -30,3 +30,13 @@
     display: flex;
     gap: 20%;
 }
+
+.search{
+    width: 100%;
+}
+.search span {
+    width: 10%;
+    background-color: #411761;
+    border: 1px #411761 solid;
+    color: white;
+}

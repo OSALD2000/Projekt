@@ -49,14 +49,13 @@ const ProfilePage = () => {
         }
     }, [deleteQuiz.delete, deleteQuiz.id, navigate])
 
-
     return (
         <div className={classes.continer}>
             <h1>Profile Page</h1>
             <Daten username={data.username} email={data.email} id={data.id} />
             <div className={classes.quize}>
                 {deleteQuiz.delete && <div className={classes.center}><div className={classes["lds-dual-ring"]}></div></div>}
-                {!deleteQuiz.delete && <Quize admin={data.admin} quize={data.quize} onDeleteClick={onDeleteClickHandler} />}
+                {!deleteQuiz.delete && <Quize id={data.id} admin={data.admin} quize={data.quize} onDeleteClick={onDeleteClickHandler} />}
             </div>
             <Scoure  scoures={data.scoures}/>
         </div>

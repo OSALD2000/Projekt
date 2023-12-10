@@ -16,7 +16,7 @@ exports.loadStatistic = async (req, res, next) => {
         });
 
         if (user_quiz.length === 0) {
-            const participant = Participant.findOne({
+            const participant = await Participant.findOne({
                 where: {
                     userId: userId,
                     quizId: quizId
@@ -46,7 +46,7 @@ exports.loadStatistic = async (req, res, next) => {
 
             res.status(200).json({ message: "Statistik", data: statistic });
         }
-    }catch(err){
+    } catch (err) {
         next(err);
     }
 }

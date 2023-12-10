@@ -13,7 +13,7 @@ router.get('/quiz/delete/:quizId', is_admin, adminController.deleteQuiz);
 
 router.get('/statistic/:quizId', is_admin, adminController.loadQuizStatic);
 
-router.get('/user/quiz/:userId', is_admin, adminController.loadUserQuiz);
+router.get('/user/quiz/:userId/:quizId', is_admin, adminController.loadUserQuiz);
 
 router.get('/search/quiz/:arg', is_admin, adminController.searchQuiz);
 

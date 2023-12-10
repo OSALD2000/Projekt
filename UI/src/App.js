@@ -14,7 +14,7 @@ import { action as authAction, checkAuthLoader, tokenloader, } from "./views/aut
 import StatisticPage, { loader as statisticLoader } from "./views/statisticPage/StatisticPage";
 import ViewQuizPage, { loader as viewQuizPageLoader } from "./views/quiz/ViewQuizPage";
 import ControlPanel, { loader as controlPanelLoader } from "./views/admin/controlPanel";
-import { loadUserProfile } from "./views/admin/admin_loaders";
+import { loadUserProfile, loadUserQuiz, loadStatistic } from "./views/admin/admin_loaders";
 import ErrorPage from "./views/error/Error";
 
 const router = createBrowserRouter([
@@ -78,6 +78,14 @@ const router = createBrowserRouter([
             path: "user/profile/:userId",
             element: <ProfilePage />,
             loader: loadUserProfile
+          }, {
+            path: "user/quiz/:userId/:quizId",
+            element: <ViewQuizPage />,
+            loader: loadUserQuiz
+          }, {
+            path: "statistic/:quizId",
+            element: <StatisticPage />,
+            loader: loadStatistic
           }
         ]
       }

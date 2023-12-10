@@ -1,6 +1,7 @@
 const User = require('../../module/auth/user');
 const Quiz = require('../../module/quiz/quiz');
 const mail = require("../../util/mail");
+const create_quiz_object = require("../../util/quiz/create_quiz_object");
 
 exports.loadData = async (req, res, next) => {
     try {
@@ -62,7 +63,9 @@ exports.deleteUser = async (req, res, next) => {
     try {
         const userId = req.params.userId;
 
-        const user = await User.destroy({
+        const user = await User.findByPk(userId);
+
+        await User.destroy({
             where: {
                 _id: userId,
             }
@@ -168,7 +171,7 @@ exports.viewUserProfiel = async (req, res, next) => {
         const quize = await user.getQuizzes();
         const scoures = await user.getScoures();
 
-        res.status(200).json({ message: "user information", daten: { id: _id, email: email, username: username, quize: quize, scoures: scoures, admin:true} });
+        res.status(200).json({ message: "user information", daten: { id: _id, email: email, username: username, quize: quize, scoures: scoures, admin: true } });
 
     } catch (err) {
         next(err)
@@ -188,11 +191,11 @@ exports.loadUserQuiz = async (req, res, next) => {
             }
         });
 
-        if (!quiz) {
+        if (quiz.length === 0) {
             res.status(404).json({ message: "keien Quiz unter dieses ID" });
         }
 
-        const quiz_object = await create_quiz_object(quiz, true);
+        const quiz_object = await create_quiz_object(quiz[0], true);
 
         res.status(200).json({
             message: "private quiz for creator",
