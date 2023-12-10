@@ -220,3 +220,67 @@ exports.loadQuizStatic = async (req, res, next) => {
         next(err)
     }
 }
+
+
+exports.viewUserAnswer = async (req, res, next) => {
+    try {
+        const quizId = req.params.quizId;
+
+        const userId = req.params.userId;
+
+        const quiz = await Quiz.findByPk(quizId);
+
+        if (!quiz) {
+            res.status(442).message({ message: "keine Quiz unter dieses Id" });
+        }
+
+        const participants = await quiz.getParticipants({
+            where: {
+                userId: userId
+            }
+        });
+
+        if (participants.length === 0) {
+            res.status(442).message({ message: "user muss teilnehmer sein" });
+        }
+
+        const participant = participants[0];
+
+        const participant_info = await participant.getUser();
+        const answers = await participant.getAnswers();
+        const question_with_participant_answer = [];
+
+        for (const answer of answers) {
+            const question = await answer.getQuestion();
+            question_with_participant_answer.push({
+                question: question,
+                answer: answer,
+            })
+        }
+
+
+        const quiz_obj = await create_quiz_object(quiz, true, true);
+
+
+        const question_with_participant_answer_and_right_answers =
+            question_with_participant_answer.map(obj => {
+                obj.right_answer = quiz_obj.questions
+                    .filter(q => q.questionId === obj.question.getDataValue('_id'))[0].right_answer;
+                return obj;
+            })
+
+        const participant_obj = {
+            id: participant.getDataValue('_id'),
+            quizInfo: quiz,
+            username: participant_info.getDataValue('username'),
+            result: participant.getDataValue('result'),
+            passed: participant.getDataValue('passed'),
+            questions: question_with_participant_answer_and_right_answers,
+        }
+
+        res.status(200).json({ message: "Teilnehmer", participant: participant_obj });
+
+    } catch (err) {
+        next(err)
+    }
+}

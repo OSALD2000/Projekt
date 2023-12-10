@@ -102,8 +102,9 @@ const answerQuiz = async (req, res, next) => {
         let answer = question.answer;
 
         const trueorfalse = await louded_question.getTrueorfalse();
-
-        if (answer !== trueorfalse.getDataValue("right_answer")) {
+        const right_answer = trueorfalse.getDataValue("right_answer").toLowerCase() === "true" ? true : false;
+        
+        if (answer !== right_answer) {
           is_right = false;
         }
 

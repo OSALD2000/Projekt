@@ -57,7 +57,7 @@ const ProfilePage = () => {
                 {deleteQuiz.delete && <div className={classes.center}><div className={classes["lds-dual-ring"]}></div></div>}
                 {!deleteQuiz.delete && <Quize id={data.id} admin={data.admin} quize={data.quize} onDeleteClick={onDeleteClickHandler} />}
             </div>
-            <Scoure  scoures={data.scoures}/>
+            <Scoure admin={data.admin} scoures={data.scoures}/>
         </div>
     );
 }

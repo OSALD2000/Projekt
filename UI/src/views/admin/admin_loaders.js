@@ -85,7 +85,34 @@ export const loadStatistic = async ({ params }) => {
 
     const parsed_data = { ...data, chart_doughnut_data: data_doughnut, chart_bar_data: data_bar }
 
-    console.log(parsed_data);
 
     return parsed_data;
+}
+
+
+export const loadAnswer = async ({ params }) => {
+    const token = getAuthToken();
+    const quizId = params.quizId;
+    const userId = params.userId;
+
+    const url = `http://localhost:8080/admin/user/answer/${userId}/${quizId}`
+
+    const response = await fetch(url, {
+        headers: {
+            'authorization': token.toString(),
+            'Content-Type': 'application/json'
+        },
+    });
+
+    if (response.status === 401) {
+        return redirect("/auth/signin");
+    }
+
+    if (!response.ok) {
+        throw json({ message: "Could not authenticate user" }, { status: 500 });
+    }
+
+    const data = await response.json();
+
+    return data.participant;
 }

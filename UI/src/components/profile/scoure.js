@@ -2,7 +2,7 @@ import React from "react";
 import classes from "../../css/profile.module.css"
 import { NavLink } from "react-router-dom";
 
-const Scoure = ({ scoures }) => {
+const Scoure = ({ scoures, admin }) => {
     
     return (
         <div className={classes.scoure}>
@@ -21,8 +21,8 @@ const Scoure = ({ scoures }) => {
                             return <tr key={scoure._id}>
                                 <td className={classes.labels}>{scoure.quiz_title}</td>
                                 <td className={classes.labels}>{scoure.result}</td>
-                                <td className={classes.action}><button className="btn"><NavLink to={`/quiz/view-statistic/${scoure.quizId}`}>Statistik</NavLink></button></td>
-                                <td className={classes.action}><button className="btn" type="button"><NavLink to={`/quiz/view-answers/${scoure.quizId}`}>meine Antwort</NavLink></button></td>
+                                <td className={classes.action}><button className="btn"><NavLink to={!admin ? `/quiz/view-statistic/${scoure.quizId}` : `/admin/statistic/${scoure.quizId}`}>Statistik</NavLink></button></td>
+                                <td className={classes.action}><button className="btn" type="button"><NavLink to={!admin ? `/quiz/view-answers/${scoure.quizId}`: `/admin/user/answer/${scoure.userId}/${scoure.quizId}`}>{!admin ? "meine Antwort" : "user Antwort"}</NavLink></button></td>
                             </tr>
                         })}
                     </tbody>

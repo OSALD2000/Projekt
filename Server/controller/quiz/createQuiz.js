@@ -74,7 +74,7 @@ const createQuiz = async (req, res, next) => {
       } else if (category === QUESTIONTYPE.TRUEORFALSE) {
         await question.createTrueorfalse({
           _id: uuid.v4(),
-          right_answer: req_question.right_answer,
+          right_answer: req_question.right_answer ? "true" : "false", 
         });
         continue;
       } else if (category === QUESTIONTYPE.FILLINTHEBLANK) {

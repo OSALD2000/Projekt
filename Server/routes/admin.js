@@ -21,4 +21,7 @@ router.get('/search/user/:arg', is_admin, adminController.searchUser);
 
 router.get('/user/profile/:userId', is_admin, adminController.viewUserProfiel);
 
+router.get('/user/answer/:userId/:quizId', is_admin, adminController.viewUserAnswer);
+
+
 module.exports = router;
