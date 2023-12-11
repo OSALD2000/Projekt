@@ -5,8 +5,9 @@ import Form from 'react-bootstrap/Form';
 import classes from "../../css/controlePanel.module.css"
 import { getAuthToken } from "../auth/auth";
 import { json, redirect, useLoaderData, useNavigate } from "react-router";
-import { NavLink } from "react-router-dom";
-import { deleteUser } from "./admin_actions";
+import { deleteUser, deleteQuiz } from "./admin_actions";
+import Quize from "../../components/common/lists/quize";
+import Users from "../../components/common/lists/users";
 
 const ControlPanel = () => {
     const { useres, quizes } = useLoaderData();
@@ -25,11 +26,11 @@ const ControlPanel = () => {
                     value: ""
                 });
                 navigate(0);
-            }, 9000);
+            }, 3000);
         }
-    }, [message]);
+    }, [message, navigate]);
 
-    const onDeleteHandler = async (id) => {
+    const onDeleteUserHandler = async (id) => {
         const respone = await deleteUser(id);
         if (respone) {
             setMessage({
@@ -38,15 +39,39 @@ const ControlPanel = () => {
             });
         }
     }
-    return (
-        <div className={classes.card}>
-            {message.show && <div className="successText">{message.value}</div>}
 
-            <Accordion defaultActiveKey={['0', '1', '2']} alwaysOpen>
-                <Accordion.Item className="accordion_item" eventKey="0">
-                    <Accordion.Header className="accordion_header">Users</Accordion.Header>
-                    <Accordion.Body className="accordion_body">
-                        <>
+    const onDeleteQuizHandler = async (id) => {
+        const respone = await deleteQuiz(id);
+        if (respone) {
+            setMessage({
+                show: true,
+                value: respone,
+            });
+        }
+    }
+    return (
+        <>
+            {message.show && <div className="successText">{message.value}</div>}
+            <div className={classes.card}>
+                <Accordion defaultActiveKey={['0', '1', '2']} alwaysOpen>
+                    <Accordion.Item className="accordion_item" eventKey="0">
+                        <Accordion.Header className="accordion_header">Users</Accordion.Header>
+                        <Accordion.Body className="accordion_body">
+                                <div className={classes.search}>
+                                    <InputGroup size="lg" className="mb-3">
+                                        <InputGroup.Text id="inputGroup-sizing-sm">Suche</InputGroup.Text>
+                                        <Form.Control
+                                            aria-label="Large"
+                                            aria-describedby="inputGroup-sizing-sm"
+                                        />
+                                    </InputGroup>
+                                </div>
+                                <Users onDeleteHandler={onDeleteUserHandler} useres={useres} />
+                        </Accordion.Body>
+                    </Accordion.Item>
+                    <Accordion.Item className="accordion_item" eventKey="1">
+                        <Accordion.Header className="accordion_header">Quize</Accordion.Header>
+                        <Accordion.Body className="accordion_body">
                             <div className={classes.search}>
                                 <InputGroup size="lg" className="mb-3">
                                     <InputGroup.Text id="inputGroup-sizing-sm">Suche</InputGroup.Text>
@@ -56,41 +81,12 @@ const ControlPanel = () => {
                                     />
                                 </InputGroup>
                             </div>
-                            {Array.isArray(useres) && useres.length !== 0 && useres.map(user => {
-                                return (
-                                    <div key={user._id} className={classes.container}>
-                                        <div className={classes.user}>
-                                            <span>
-                                                {user._id}
-                                            </span>
-                                            <span>
-                                                {user.username}
-                                            </span>
-                                            <span>
-                                                {user.email}
-                                            </span>
-                                        </div>
-                                        <div className={classes.action}>
-                                            <button className="btn">
-                                                <NavLink to={"/admin/user/profile/" + user._id}>view Profile</NavLink>
-                                            </button>
-                                            <button onClick={onDeleteHandler.bind(null, user._id)} className="btn">
-                                                delete
-                                            </button>
-                                        </div>
-                                    </div>)
-                            }
-                            )}</>
-
-                    </Accordion.Body>
-                </Accordion.Item>
-                <Accordion.Item className="accordion_item" eventKey="1">
-                    <Accordion.Header className="accordion_header">Quize</Accordion.Header>
-                    <Accordion.Body className="accordion_body">
-                    </Accordion.Body>
-                </Accordion.Item>
-            </Accordion>
-        </div>
+                            <Quize adminView={true} onDeleteClick={onDeleteQuizHandler} quize={quizes} />
+                        </Accordion.Body>
+                    </Accordion.Item>
+                </Accordion>
+            </div>
+        </>
     )
 }
 

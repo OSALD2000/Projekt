@@ -1,6 +1,7 @@
 const User = require('../../module/auth/user');
 const bcrypt = require("bcryptjs");
 const create_quiz_object = require("../../util/quiz/create_quiz_object");
+const requestErrorHandler = require("../../util/validation/requestValidation");
 
 
 exports.loadUserDaten = async (req, res, next) => {
@@ -26,12 +27,14 @@ exports.loadUserDaten = async (req, res, next) => {
 
 exports.userUpdatePassord = async (req, res, next) => {
     try {
+        requestErrorHandler(req);
         const userId = req.userId;
-        const password = req.body.password;
+        const oldPassword = req.body.oldPassword;
+        const newPassword = req.body.newPassword;
 
         const user = await User.findByPk(userId);
 
-        const isEqual = await bcrypt.compare(password, user.dataValues.password);
+        const isEqual = await bcrypt.compare(oldPassword, user.dataValues.password);
 
         if (!isEqual) {
             const error = new Error("Worng old password");
@@ -39,7 +42,7 @@ exports.userUpdatePassord = async (req, res, next) => {
             throw error;
         }
 
-        const hashedPw = await bcrypt.hash(password, 12);
+        const hashedPw = await bcrypt.hash(newPassword, 12);
 
         user.password = hashedPw;
 

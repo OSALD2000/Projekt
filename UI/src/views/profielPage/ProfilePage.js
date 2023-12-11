@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { getAuthToken } from "../auth/auth";
 import { redirect, useLoaderData, json } from "react-router";
 import Daten from "../../components/profile/daten";
-import Quize from "../../components/profile/quize";
-import Scoure from "../../components/profile/scoure";
+import Quize from "../../components/common/lists/quize";
+import Scoure from "../../components/common/lists/scoure";
 import classes from "../../css/profile.module.css";
 import { useNavigate } from "react-router";
 
@@ -31,7 +31,7 @@ const ProfilePage = () => {
             if (!token) {
                 return redirect("/auth/signin");
             }
-            
+
             const url = `http://localhost:8080/quiz/delete/${deleteQuiz.id}`;
             console.log(url);
             fetch(url, {
@@ -53,11 +53,9 @@ const ProfilePage = () => {
         <div className={classes.continer}>
             <h1>Profile Page</h1>
             <Daten username={data.username} email={data.email} id={data.id} />
-            <div className={classes.quize}>
-                {deleteQuiz.delete && <div className={classes.center}><div className={classes["lds-dual-ring"]}></div></div>}
-                {!deleteQuiz.delete && <Quize id={data.id} admin={data.admin} quize={data.quize} onDeleteClick={onDeleteClickHandler} />}
-            </div>
-            <Scoure admin={data.admin} scoures={data.scoures}/>
+            {deleteQuiz.delete && <div className={classes.center}><div className={classes["lds-dual-ring"]}></div></div>}
+            {!deleteQuiz.delete && <Quize admin={data.admin} quize={data.quize} onDeleteClick={onDeleteClickHandler} />}
+            <Scoure admin={data.admin} scoures={data.scoures} />
         </div>
     );
 }

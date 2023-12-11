@@ -3,6 +3,7 @@ import { QUIZART } from "../../util/enum/QUIZART.js";
 import { useEffect, useState } from "react";
 import Input from "../common/Input";
 import classes from "./quiz.module.css";
+import { TYPE } from "../../util/validation/Type.js";
 
 const Quizinfo = (props) => {
 
@@ -28,7 +29,7 @@ const Quizinfo = (props) => {
             placeholder="title"
             required={true}
             ohneAddon={true}
-            validationType="text"
+            validationType={TYPE.TEXT}
             min_length={10}
           />
         </div>
@@ -54,7 +55,7 @@ const Quizinfo = (props) => {
             art="number"
             placeholder="win percent %"
             required={true}
-            validationType="number"
+            validationType={TYPE.NUMBER}
           >%</Input>
         </div>
       </div>

@@ -5,32 +5,6 @@
     margin-right: auto;
 }
 
-.container {
-    display: flex;
-    margin-top: 2%;
-    height: 5vh;
-    gap: 5%;
-    align-items: center;
-}
-
-.user {
-    background-color: white;
-    display: flex;
-    width: 80%;
-}
-
-.user span {
-    width: 33%;
-    font-size: 1.2vw;
-    text-align: center;
-}
-
-.action {
-    width: 20%;
-    display: flex;
-    gap: 20%;
-}
-
 .search{
     width: 100%;
 }

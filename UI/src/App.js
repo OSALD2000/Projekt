@@ -15,6 +15,7 @@ import StatisticPage, { loader as statisticLoader } from "./views/statisticPage/
 import ViewQuizPage, { loader as viewQuizPageLoader } from "./views/quiz/ViewQuizPage";
 import ControlPanel, { loader as controlPanelLoader } from "./views/admin/controlPanel";
 import { loadUserProfile, loadUserQuiz, loadStatistic, loadAnswer } from "./views/admin/admin_loaders";
+import UpdatePassWordPage, {action as updatePasswordAction} from "./views/auth/updatePasswordPage";
 import ErrorPage from "./views/error/Error";
 
 const router = createBrowserRouter([
@@ -68,6 +69,11 @@ const router = createBrowserRouter([
           path: "view-quiz/:quizId",
           element: <ViewQuizPage />,
           loader: viewQuizPageLoader,
+        },
+        {
+          path: "update",
+          element: <UpdatePassWordPage />,
+          action: updatePasswordAction,
         }],
       }, {
         path: "/admin",

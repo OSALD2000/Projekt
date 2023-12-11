@@ -54,43 +54,43 @@ app.use((error, req, res, next) => {
 });
 
 sequelize
-  .sync({ force: true })
+  .sync({ force: false })
   .then(() => {
     return bcrypt.hash("root", 12);
   })
   .then((hashedPw) => {
-    return User.create({
-      _id: "1",
-      email: "test1@test.de",
-      password: hashedPw,
-      username: "TEST1",
-      emailverified: true,
-      roll: 'admin'
-    });
+    //   return User.create({
+    //     _id: "1",
+    //     email: "test1@test.de",
+    //     password: hashedPw,
+    //     username: "TEST1",
+    //     emailverified: true,
+    //     roll: 'admin'
+    //   });
+    // }).then(() => {
+    //   return bcrypt.hash("root", 12);
+    // })
+    // .then((hashedPw) => {
+    //   return User.create({
+    //     _id: "2",
+    //     email: "test2@test.de",
+    //     password: hashedPw,
+    //     username: "TEST2",
+    //     emailverified: true,
+    //   });
+    // }).then(() => {
+    //   return bcrypt.hash("root", 12);
+    // })
+    // .then((hashedPw) => {
+    //   return User.create({
+    //     _id: "3",
+    //     email: "test3@test.de",
+    //     password: hashedPw,
+    //     username: "TEST3",
+    //     emailverified: true,
+    //   });
+    // })
   }).then(() => {
-    return bcrypt.hash("root", 12);
-  })
-  .then((hashedPw) => {
-    return User.create({
-      _id: "2",
-      email: "test2@test.de",
-      password: hashedPw,
-      username: "TEST2",
-      emailverified: true,
-    });
-  }).then(() => {
-    return bcrypt.hash("root", 12);
-  })
-  .then((hashedPw) => {
-    return User.create({
-      _id: "3",
-      email: "test3@test.de",
-      password: hashedPw,
-      username: "TEST3",
-      emailverified: true,
-    });
-  })
-  .then(() => {
     app.listen(8080);
   })
   .catch((err) => {

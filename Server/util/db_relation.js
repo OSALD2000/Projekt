@@ -42,7 +42,8 @@ const create_relation = () => {
   Quiz.hasOne(Statistics, { constraints: true, onDelete: "CASCADE" });
   Statistics.belongsTo(Quiz);
 
-  User.hasMany(Scoure);
+  User.hasMany(Scoure,  { constraints: true, onDelete: "CASCADE" });
+  Quiz.hasMany(Scoure,  { constraints: true, onDelete: "CASCADE" });
   Scoure.belongsTo(Quiz);
 };
 

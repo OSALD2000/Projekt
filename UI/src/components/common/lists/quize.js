@@ -1,18 +1,17 @@
 import React from "react";
 
-import classes from "../../css/profile.module.css"
+import classes from "./lists.module.css";
 import { NavLink } from "react-router-dom";
 
 
-const Quize = ({id, admin, quize, onDeleteClick  }) => {
+const Quize = ({ admin, quize, onDeleteClick, adminView }) => {
 
- 
+
     return (
 
-        <div>
-
-            <h2>Your Quize:</h2>
-            <br />
+        <div className={!adminView ? classes.quize : classes.adminView}>
+            {!admin && <h2>Your Quize:</h2> &&
+                <br />}
             {quize && Array.isArray(quize) && quize.length > 0 ?
                 <table className={classes.table}>
                     <thead>
@@ -29,7 +28,7 @@ const Quize = ({id, admin, quize, onDeleteClick  }) => {
                                 <td className={classes.labels}>{q.category}</td>
                                 <td className={classes.labels}>{q.visibility ? "Public" : "Private"}</td>
                                 <td className={classes.action}><button className="btn"><NavLink to={!admin ? `/quiz/view-statistic/${q._id}` : `/admin/statistic/${q._id}`}>Statistik</NavLink></button></td>
-                                <td className={classes.action}><button className="btn"><NavLink to={!admin ? `/user/view-quiz/${q._id}` : `/admin/user/quiz/${id}/${q._id}` }>View</NavLink></button></td>
+                                <td className={classes.action}><button className="btn"><NavLink to={!admin ? `/user/view-quiz/${q._id}` : `/admin/user/quiz/${q.creator}/${q._id}`}>View</NavLink></button></td>
                                 {!admin && <td className={classes.action}><button className="btn" onClick={onDeleteClick.bind(null, q._id)}>l&ouml;schen</button></td>}
                             </tr>
                         })}

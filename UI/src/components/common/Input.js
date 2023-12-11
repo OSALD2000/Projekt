@@ -62,7 +62,7 @@ const Input = (props) => {
           </span>
         )}
       </div>
-      {hasError && <p className="errorText">{message}</p>}
+      {hasError && <div className="errorText">{message}</div>}
     </>
   );
 };

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import classes from "./mainNavigation.module.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useLoaderData } from "react-router-dom";
 
 import Logo from "../Logo";
 
 const MinNavigation = (props) => {
   const data = useLoaderData();
+  const location = useLocation();
   const [auth, setAuth] = useState(data);
   const isAdmin = localStorage.getItem('admin');
 
@@ -56,10 +57,16 @@ const MinNavigation = (props) => {
                 <NavLink to="/admin">Control Panel</NavLink>
               </li>
             }
+            {
+              !isAdmin && location.pathname === '/user/profile' &&
+              <li>
+                <NavLink to="/user/update">update Password</NavLink>
+              </li>
+            }
           </>
         }
       </ul>
-    </nav>
+    </nav >
   );
 }
 

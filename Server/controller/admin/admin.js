@@ -25,7 +25,8 @@ exports.deleteQuiz = async (req, res, next) => {
     try {
         const quizId = req.params.quizId;
 
-        const quiz = await Quiz.destroy({
+        const quiz = await Quiz.findByPk(quizId);
+        await Quiz.destroy({
             where: {
                 _id: quizId,
             }
@@ -34,13 +35,14 @@ exports.deleteQuiz = async (req, res, next) => {
         const user = await User.findByPk(quiz.getDataValue('creator'));
         const email = user.getDataValue('email');
         const userName = user.getDataValue('username');
+        const title =  quiz.getDataValue('title');
 
         const emailContent = `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; background-color: #f4f4f4; margin: 0; padding: 20px;">
           <div style="max-width: 600px; margin: 0 auto; background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
             <h2 style="color: #333;">Löschung des Quiz</h2>
             <p style="color: #555;">Sehr geehrter ${userName},</p>
-            <p style="color: #555;">ich möchte Sie darüber informieren, dass das Quiz mit dem Titel "[Quiztitel]" gelöscht wurde. Falls Sie Fragen dazu haben oder weitere Informationen benötigen, stehe ich Ihnen gerne zur Verfügung.</p>
+            <p style="color: #555;">ich möchte Sie darüber informieren, dass das Quiz mit dem Titel ${title} gelöscht wurde. Falls Sie Fragen dazu haben oder weitere Informationen benötigen, stehe ich Ihnen gerne zur Verfügung.</p>
             <p style="color: #555;">Vielen Dank für Ihr Verständnis.</p>
             <p style="color: #555;">Mit freundlichen Grüßen,<br>Osama</p>
             <div style="margin-top: 30px; text-align: center; color: #777; font-size: 12px;">
