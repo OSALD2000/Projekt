@@ -8,9 +8,27 @@ import { json, redirect, useLoaderData, useNavigate } from "react-router";
 import { deleteUser, deleteQuiz } from "./admin_actions";
 import Quize from "../../components/common/lists/quize";
 import Users from "../../components/common/lists/users";
+import useSearch from "../../util/hooks/use-search";
+import { searchQuize, searchUsers } from "./admin_loaders";
 
 const ControlPanel = () => {
     const { useres, quizes } = useLoaderData();
+
+    const {
+        onSearchInputChangeHandler: onSearchInputChangeHandlerUser,
+        loader: loaderUser,
+        data: dataUser,
+        search: searchUser
+    } = useSearch(searchUsers);
+
+    const {
+        onSearchInputChangeHandler: onSearchInputChangeHandlerQuiz,
+        loader: loaderQuiz,
+        data: dataQuiz,
+        search: searchQuiz
+    } = useSearch(searchQuize);
+
+
     const navigate = useNavigate();
 
     const [message, setMessage] = useState({
@@ -57,16 +75,28 @@ const ControlPanel = () => {
                     <Accordion.Item className="accordion_item" eventKey="0">
                         <Accordion.Header className="accordion_header">Users</Accordion.Header>
                         <Accordion.Body className="accordion_body">
-                                <div className={classes.search}>
-                                    <InputGroup size="lg" className="mb-3">
-                                        <InputGroup.Text id="inputGroup-sizing-sm">Suche</InputGroup.Text>
-                                        <Form.Control
-                                            aria-label="Large"
-                                            aria-describedby="inputGroup-sizing-sm"
-                                        />
-                                    </InputGroup>
-                                </div>
-                                <Users onDeleteHandler={onDeleteUserHandler} useres={useres} />
+                            <div className={classes.search}>
+                                <InputGroup size="lg" className="mb-3">
+                                    <InputGroup.Text id="inputGroup-sizing-sm">Suche Email</InputGroup.Text>
+                                    <Form.Control
+                                        aria-label="Large"
+                                        aria-describedby="inputGroup-sizing-sm"
+                                        onChange={onSearchInputChangeHandlerUser}
+                                    />
+                                </InputGroup>
+                            </div>
+                            {
+                                loaderUser ?
+
+                                    <div className={classes.center}><div className={classes["lds-dual-ring"]}></div></div>
+
+                                    :
+                                    !searchUser.status ?
+                                        <Users onDeleteHandler={onDeleteUserHandler} useres={useres} />
+                                        :
+                                        (Array.isArray(dataUser) ? <Users onDeleteHandler={onDeleteUserHandler} useres={dataUser} /> : <div className={classes.searchMessage}>{dataUser}</div>)
+                            }
+
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item className="accordion_item" eventKey="1">
@@ -74,14 +104,28 @@ const ControlPanel = () => {
                         <Accordion.Body className="accordion_body">
                             <div className={classes.search}>
                                 <InputGroup size="lg" className="mb-3">
-                                    <InputGroup.Text id="inputGroup-sizing-sm">Suche</InputGroup.Text>
+                                    <InputGroup.Text id="inputGroup-sizing-sm">Suche Title</InputGroup.Text>
                                     <Form.Control
                                         aria-label="Large"
                                         aria-describedby="inputGroup-sizing-sm"
+                                        onChange={onSearchInputChangeHandlerQuiz}
                                     />
                                 </InputGroup>
                             </div>
-                            <Quize adminView={true} onDeleteClick={onDeleteQuizHandler} quize={quizes} />
+                            {
+
+                                loaderQuiz ?
+
+                                    <div className={classes.center}><div className={classes["lds-dual-ring"]}></div></div>
+
+                                    :
+
+                                    !searchQuiz.status ?
+                                        <Quize admin={true} adminView={true} onDeleteClick={onDeleteQuizHandler} quize={quizes} />
+                                        :
+                                        (Array.isArray(dataQuiz) ? <Quize admin={true} adminView={true} onDeleteClick={onDeleteQuizHandler} quize={dataQuiz} /> : <div className={classes.searchMessage}>{dataQuiz}</div>)
+                            }
+
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>

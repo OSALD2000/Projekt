@@ -42,10 +42,10 @@ const createQuiz = async (req, res, next) => {
       const category = QUESTIONTYPE.getType(
         req_question.category.toUpperCase(),
       );
-      
+
       let id = uuid.v4();
       questionIds.push(id);
-      
+
       const question = await quiz.createQuestion({
         _id: id,
         question_value: req_question.question_value,
@@ -74,7 +74,7 @@ const createQuiz = async (req, res, next) => {
       } else if (category === QUESTIONTYPE.TRUEORFALSE) {
         await question.createTrueorfalse({
           _id: uuid.v4(),
-          right_answer: req_question.right_answer ? "true" : "false", 
+          right_answer: req_question.right_answer ? "true" : "false",
         });
         continue;
       } else if (category === QUESTIONTYPE.FILLINTHEBLANK) {
@@ -111,20 +111,20 @@ const createQuiz = async (req, res, next) => {
       .json({ message: "Quiz created successfully", quizId: quizId });
 
   } catch (error) {
-
-    console.log(error);
-
-    quiz.destroy().then(() => {
-      if (!error.statusCode) {
-        error.statusCode = 500;
-        error.message = "Internal Server Error";
-      }
-      res.status(error.statusCode).json({ error: error.message, data: error.data });
-    }).catch(err => {
-      err.statusCode = 500;
-      err.message = "Internal Server Error";
-      res.status(error.statusCode).json({ error: error.message, data: error.data });
-    });
+    if (error.statusCode !== 442) {
+      quiz.destroy().then(() => {
+        if (!error.statusCode) {
+          error.statusCode = 500;
+          error.message = "Internal Server Error";
+        }
+        res.status(error.statusCode).json({ error: error.message, data: error.data });
+      }).catch(err => {
+        err.statusCode = 500;
+        err.message = "Internal Server Error";
+        res.status(error.statusCode).json({ error: error.message, data: error.data });
+      });
+    }
+    next(error);
   }
 };
 

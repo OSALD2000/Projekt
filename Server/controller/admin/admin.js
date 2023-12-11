@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const User = require('../../module/auth/user');
 const Quiz = require('../../module/quiz/quiz');
 const mail = require("../../util/mail");
@@ -107,22 +108,23 @@ exports.searchUser = async (req, res, next) => {
 
         const users = await User.findAll({
             where: {
-                email: { [Op.startsWith]: [arg] }
+                email: { [Op.startsWith]: [arg] },
+                roll: null
             },
             order: [
-                ['title', 'ASC']
+                ['email', 'ASC']
             ]
         });
 
         if (users.length === 0) {
             res.status(200).json({
                 message: "Keine User unter dieses Email :  " + arg,
-                quize: [],
+                users: [],
             });
         } else {
             res.status(200).json({
                 message: "All User",
-                quize: users,
+                users: users,
             })
         }
     } catch (err) {

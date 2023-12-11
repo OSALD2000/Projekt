@@ -29,7 +29,7 @@ const Quize = ({ admin, quize, onDeleteClick, adminView }) => {
                                 <td className={classes.labels}>{q.visibility ? "Public" : "Private"}</td>
                                 <td className={classes.action}><button className="btn"><NavLink to={!admin ? `/quiz/view-statistic/${q._id}` : `/admin/statistic/${q._id}`}>Statistik</NavLink></button></td>
                                 <td className={classes.action}><button className="btn"><NavLink to={!admin ? `/user/view-quiz/${q._id}` : `/admin/user/quiz/${q.creator}/${q._id}`}>View</NavLink></button></td>
-                                {!admin && <td className={classes.action}><button className="btn" onClick={onDeleteClick.bind(null, q._id)}>l&ouml;schen</button></td>}
+                                {!admin || adminView && <td className={classes.action}><button className="btn" onClick={onDeleteClick.bind(null, q._id)}>l&ouml;schen</button></td>}
                             </tr>
                         })}
                     </tbody>

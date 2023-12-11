@@ -1,58 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
-import { useLoaderData, json, redirect, useNavigate } from "react-router";
+import { useLoaderData, json, redirect } from "react-router";
 import { Card } from "../../components/common/card";
 import Quiz from "../../components/quiz-elements/quiz";
 import { getAuthToken } from "../auth/auth";
 
 import classes from "../../css/quizpage.module.css";
+import useSearch from "../../util/hooks/use-search";
 
 const QuizePage = () => {
-    const navigate = useNavigate();
-
-    const [search, setSearch] = useState({
-        status: false,
-        value: ""
-    });
-    const [data, setData] = useState([]);
-    const [loader, setLoader] = useState(false);
 
     const quize = useLoaderData();
+    const {onSearchInputChangeHandler, loader, data, search} = useSearch(searchQuize.bind(null, quize.category));
+
     
-    useEffect(() => {
-        if (search.status) {
-            setLoader(true);
-
-            searchQuize(quize.category, search.value).then(
-                (result) => {
-                    if (result === 401) {
-                        navigate('/auth/signin?mode=login');
-                    } else if (!result) {
-                        setData("try again");
-                    } else {
-                        setData(result);
-                    }
-                }
-            ).then(() => {
-                setLoader(false);
-            });
-        }
-    }, [search])
-
-    const onSearchInputChangeHandler = (event) => {
-        if (event.target.value.trim() === "") {
-            setSearch({
-                status: false,
-                value: ""
-            })
-        } else {
-            setSearch({
-                status: true,
-                value: event.target.value
-            })
-        }
-    }
     return (
         <>
             <div className={classes.search}>

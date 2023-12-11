@@ -116,3 +116,62 @@ export const loadAnswer = async ({ params }) => {
 
     return data.participant;
 }
+
+
+export const searchQuize = async (arg) => {
+    const token = getAuthToken();
+
+    const url = `http://localhost:8080/admin/search/quiz/${arg}`
+
+    const response = await fetch(url, {
+        headers: {
+            'authorization': token.toString(),
+            'Content-Type': 'application/json'
+        },
+    });
+
+    if (response.status === 401) {
+        return 401;
+    }
+
+    if (!response.ok) {
+        return false;
+    }
+
+    const data = await response.json();
+
+    if (data.quize.length === 0) {
+        return data.message;
+    }
+
+    return data.quize
+}
+
+export const searchUsers = async (arg) => {
+    const token = getAuthToken();
+
+    const url = `http://localhost:8080/admin/search/user/${arg}`
+
+    const response = await fetch(url, {
+        headers: {
+            'authorization': token.toString(),
+            'Content-Type': 'application/json'
+        },
+    });
+
+    if (response.status === 401) {
+        return 401;
+    }
+
+    if (!response.ok) {
+        return false;
+    }
+
+    const data = await response.json();
+
+    if (data.users.length === 0) {
+        return data.message;
+    }
+
+    return data.users
+}
