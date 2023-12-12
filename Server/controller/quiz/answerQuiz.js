@@ -25,8 +25,8 @@ const answerQuiz = async (req, res, next) => {
     const is_participant = await quiz.getParticipants({
       where: {
         userId: userId,
-      }
-    })
+      },
+    });
 
     if (is_participant.length !== 0) {
       res.status(403).json({
@@ -35,7 +35,7 @@ const answerQuiz = async (req, res, next) => {
       });
     }
 
-    if (userId === quiz.getDataValue('creator')) {
+    if (userId === quiz.getDataValue("creator")) {
       res.status(403).json({
         message: "creator darf an seiner erstellter Quiz nicht Teilnehemn",
         quizId: quizId,
@@ -75,12 +75,16 @@ const answerQuiz = async (req, res, next) => {
         let answers = question.answer;
 
         const multiplechoice = await louded_question.getMultipleChoice();
-        const choices = multiplechoice.getDataValue("right_answer").split(",").filter(t => t);
+        const choices = multiplechoice
+          .getDataValue("right_answer")
+          .split(",")
+          .filter((t) => t);
 
         for (const check of choices) {
           if (
             !answers.some(
-              (a) => a.value.toLowerCase().trim() === check.trim().toLowerCase(),
+              (a) =>
+                a.value.toLowerCase().trim() === check.trim().toLowerCase(),
             )
           ) {
             is_right = false;
@@ -88,7 +92,7 @@ const answerQuiz = async (req, res, next) => {
           }
         }
 
-        const edit_answer = answers.map(a => a.value).join(",");
+        const edit_answer = answers.map((a) => a.value).join(",");
 
         participant_answers.push({
           weight: louded_question.getDataValue("weight"),
@@ -102,8 +106,11 @@ const answerQuiz = async (req, res, next) => {
         let answer = question.answer;
 
         const trueorfalse = await louded_question.getTrueorfalse();
-        const right_answer = trueorfalse.getDataValue("right_answer").toLowerCase() === "true" ? true : false;
-        
+        const right_answer =
+          trueorfalse.getDataValue("right_answer").toLowerCase() === "true"
+            ? true
+            : false;
+
         if (answer !== right_answer) {
           is_right = false;
         }
@@ -135,7 +142,10 @@ const answerQuiz = async (req, res, next) => {
       }
     }
 
-    const { score, bestanden } = calculat_score(participant_answers, quiz.getDataValue('required_points'));
+    const { score, bestanden } = calculat_score(
+      participant_answers,
+      quiz.getDataValue("required_points"),
+    );
 
     participant = await user.createParticipant({
       _id: uuid.v4(),
@@ -156,7 +166,7 @@ const answerQuiz = async (req, res, next) => {
     user.createScoure({
       _id: uuid.v4(),
       result: score,
-      quiz_title: quiz.getDataValue('title'),
+      quiz_title: quiz.getDataValue("title"),
       quizId: quizId,
     });
 
@@ -165,24 +175,29 @@ const answerQuiz = async (req, res, next) => {
     res.status(200).json({
       message: "teilnahme ist angeliegt!",
       quizId: quizId,
-      participantId: participant.getDataValue('_id'),
-
+      participantId: participant.getDataValue("_id"),
     });
-
   } catch (error) {
     console.log(error);
 
-    participant.destroy().then(() => {
-      if (!error.statusCode) {
-        error.statusCode = 500;
-        error.message = "Internal Server Error";
-      }
-      res.status(error.statusCode).json({ error: error.message, data: error.data });
-    }).catch(err => {
-      err.statusCode = 500;
-      err.message = "Internal Server Error";
-      res.status(error.statusCode).json({ error: error.message, data: error.data });
-    });
+    participant
+      .destroy()
+      .then(() => {
+        if (!error.statusCode) {
+          error.statusCode = 500;
+          error.message = "Internal Server Error";
+        }
+        res
+          .status(error.statusCode)
+          .json({ error: error.message, data: error.data });
+      })
+      .catch((err) => {
+        err.statusCode = 500;
+        err.message = "Internal Server Error";
+        res
+          .status(error.statusCode)
+          .json({ error: error.message, data: error.data });
+      });
   }
 };
 

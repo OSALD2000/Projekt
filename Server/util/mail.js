@@ -23,7 +23,7 @@ exports.sendeVerifcationEmail = async (email) => {
   }
 };
 
-exports.sendeEmailfromAdminToUser = async (email,subject, content) => {
+exports.sendeEmailfromAdminToUser = async (email, subject, content) => {
   const emailHtml = `
   <head><title>${subject}</title><style> body \{font-family: Arial, sans-serif;text-align: center;background-color: #f0f0f0;\}h1 \{ color: #333;\}p\{font-size: 18px;color: #666;\}.confirmation-code \{font-size: 24px;color: #007BFF;\}</style></head>
   <body>
@@ -40,6 +40,4 @@ exports.sendeEmailfromAdminToUser = async (email,subject, content) => {
   } catch (err) {
     throw err;
   }
-
-
-} 
+};

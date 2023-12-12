@@ -15,7 +15,7 @@ const MultipleChoice = sequelize.define(
     right_answer: {
       type: Sequelize.STRING,
       allowNull: false,
-    }
+    },
   },
   { timestamps: false },
 );

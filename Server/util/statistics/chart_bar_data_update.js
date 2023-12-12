@@ -7,7 +7,8 @@ const chart_doughnut_data_update = async (data, last_participant) => {
     console.log(data_obj);
     for (let i = 0; i < data_obj.questionIds.length; i++) {
       const answer = answers.filter(
-        (answer) => answer.getDataValue("questionId") === data_obj.questionIds[i],
+        (answer) =>
+          answer.getDataValue("questionId") === data_obj.questionIds[i],
       )[0];
       if (answer.getDataValue("is_right")) {
         data_obj.data.datasets[0].data[i] += 1;
@@ -17,9 +18,8 @@ const chart_doughnut_data_update = async (data, last_participant) => {
     }
 
     return JSON.stringify(data_obj);
-
   } catch (err) {
-    console.log(err); 
+    console.log(err);
   }
 };
 

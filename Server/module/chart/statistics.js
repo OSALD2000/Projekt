@@ -46,7 +46,6 @@ const statistics = sequelize.define(
       allowNull: false,
     },
 
-
     last_participant: {
       type: Sequelize.STRING,
       defaultValue: "keine Teilnehmer",
@@ -67,10 +66,16 @@ const statistics = sequelize.define(
             record.increment("failed_Participants", { by: 1 });
           }
 
-          const new_average = update_average(record.getDataValue('average_scoure'),last_participant.getDataValue('result'), record.getDataValue('participants'));
+          const new_average = update_average(
+            record.getDataValue("average_scoure"),
+            last_participant.getDataValue("result"),
+            record.getDataValue("participants"),
+          );
           record.average_scoure = new_average;
-          
-          const chart_doughnut_data_loaded = record.getDataValue("chart_doughnut_data");
+
+          const chart_doughnut_data_loaded = record.getDataValue(
+            "chart_doughnut_data",
+          );
 
           const chart_doughnut_data_updated = chart_doughnut_data_update(
             chart_doughnut_data_loaded,
@@ -79,7 +84,7 @@ const statistics = sequelize.define(
 
           record.chart_doughnut_data = chart_doughnut_data_updated;
 
-          const chart_bar_data_loaded  = record.getDataValue("chart_bar_data");
+          const chart_bar_data_loaded = record.getDataValue("chart_bar_data");
           const chart_bar_data_updated = await chart_bar_data_update(
             chart_bar_data_loaded,
             last_participant,
@@ -87,7 +92,7 @@ const statistics = sequelize.define(
 
           record.chart_bar_data = chart_bar_data_updated;
           record.last_participant = "Updated";
-          
+
           record.save();
         }
       },

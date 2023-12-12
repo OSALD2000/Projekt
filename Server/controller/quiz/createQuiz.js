@@ -109,20 +109,26 @@ const createQuiz = async (req, res, next) => {
     res
       .status(201)
       .json({ message: "Quiz created successfully", quizId: quizId });
-
   } catch (error) {
     if (error.statusCode !== 442) {
-      quiz.destroy().then(() => {
-        if (!error.statusCode) {
-          error.statusCode = 500;
-          error.message = "Internal Server Error";
-        }
-        res.status(error.statusCode).json({ error: error.message, data: error.data });
-      }).catch(err => {
-        err.statusCode = 500;
-        err.message = "Internal Server Error";
-        res.status(error.statusCode).json({ error: error.message, data: error.data });
-      });
+      quiz
+        .destroy()
+        .then(() => {
+          if (!error.statusCode) {
+            error.statusCode = 500;
+            error.message = "Internal Server Error";
+          }
+          res
+            .status(error.statusCode)
+            .json({ error: error.message, data: error.data });
+        })
+        .catch((err) => {
+          err.statusCode = 500;
+          err.message = "Internal Server Error";
+          res
+            .status(error.statusCode)
+            .json({ error: error.message, data: error.data });
+        });
     }
     next(error);
   }

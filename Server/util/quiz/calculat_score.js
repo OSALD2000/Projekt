@@ -11,7 +11,6 @@ const calculat_score = (result, required_points) => {
     const score = Math.round((summe / anzahl) * 100.0) / 100.0;
     const bestanden = score < required_points ? false : true;
 
-
     return {
       score: score,
       bestanden: bestanden,

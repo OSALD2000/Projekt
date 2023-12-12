@@ -12,10 +12,8 @@ const deleteQuiz = async (req, res, next) => {
       },
     });
 
-    if(quiz.length === 0){
-      res
-      .status(442)
-      .json({ message: "keine Quiz unter dieses Id"});
+    if (quiz.length === 0) {
+      res.status(442).json({ message: "keine Quiz unter dieses Id" });
     }
 
     await quiz[0].destroy();

@@ -33,7 +33,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
 app.use("/loader", loeaderRoutes);
 
 app.use("/auth", authRoutes);
@@ -90,7 +89,8 @@ sequelize
     //     emailverified: true,
     //   });
     // })
-  }).then(() => {
+  })
+  .then(() => {
     app.listen(8080);
   })
   .catch((err) => {

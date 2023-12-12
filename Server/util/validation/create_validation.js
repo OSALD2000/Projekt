@@ -27,11 +27,11 @@ const create_validation = {
     },
   },
 
-  title:{
+  title: {
     in: ["body"],
-    isString:true
+    isString: true,
   },
-  
+
   visibility: {
     in: ["body"],
     isIn: {
@@ -73,7 +73,9 @@ const create_validation = {
                 );
 
                 if (
-                  !answers.includes(question.right_answer.value.trim().toLowerCase())
+                  !answers.includes(
+                    question.right_answer.value.trim().toLowerCase(),
+                  )
                 ) {
                   errors.push({
                     index,
@@ -151,7 +153,6 @@ const create_validation = {
                 }
                 break;
 
-              
               default:
                 errors.push({ index, message: "Category not supported" });
                 break;

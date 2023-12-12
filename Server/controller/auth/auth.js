@@ -59,7 +59,7 @@ exports.login = async (req, res, next) => {
       throw error;
     }
 
-    if (user.getDataValue('roll') === 'admin') {
+    if (user.getDataValue("roll") === "admin") {
       const token = jwt.sign(
         {
           _id: user.dataValues._id,
@@ -70,7 +70,9 @@ exports.login = async (req, res, next) => {
         { expiresIn: "1h" },
       );
 
-      res.status(200).json({ token: token, userId: user.dataValues._id, admin: true });
+      res
+        .status(200)
+        .json({ token: token, userId: user.dataValues._id, admin: true });
     } else {
       const token = jwt.sign(
         {

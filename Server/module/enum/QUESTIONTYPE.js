@@ -4,7 +4,6 @@ const QUESTIONTYPE = {
   MULTIPLECHOICE: "MULTIPLECHOICE",
   FILLINTHEBLANK: "FILLINTHEBLANK",
 
-
   getType: (type) => {
     switch (type) {
       case QUESTIONTYPE.TRUEORFALSE:
@@ -16,9 +15,8 @@ const QUESTIONTYPE = {
       case QUESTIONTYPE.FILLINTHEBLANK:
         return QUESTIONTYPE.FILLINTHEBLANK;
 
-     
       default:
-        throw Error('Type not supported!')
+        throw Error("Type not supported!");
     }
   },
 };

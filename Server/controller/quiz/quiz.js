@@ -1,7 +1,6 @@
-const createQuiz = require('./createQuiz');
-const deleteQuiz = require('./deleteQuiz');
-const answerQuiz = require('./answerQuiz');
-
+const createQuiz = require("./createQuiz");
+const deleteQuiz = require("./deleteQuiz");
+const answerQuiz = require("./answerQuiz");
 
 exports.createQuiz = createQuiz;
 
