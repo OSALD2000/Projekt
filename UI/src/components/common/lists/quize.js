@@ -18,7 +18,8 @@ const Quize = ({ admin, quize, onDeleteClick, adminView }) => {
                         <tr>
                             <th>Title</th>
                             <th>Category</th>
-                            <th>visibility</th>
+                            {(adminView) && <th>Creator</th>}
+                            {(adminView) && <th>Creator Email</th>}
                         </tr>
                     </thead>
                     <tbody>
@@ -26,10 +27,11 @@ const Quize = ({ admin, quize, onDeleteClick, adminView }) => {
                             return <tr key={q._id}>
                                 <td className={classes.labels}>{q.title}</td>
                                 <td className={classes.labels}>{q.category}</td>
-                                <td className={classes.labels}>{q.visibility ? "Public" : "Private"}</td>
+                                {(adminView) && <td className={classes.labels}>{q.user.username}</td>}
+                                {(adminView) && <td className={classes.labels}>{q.user.email}</td>}
                                 <td className={classes.action}><button className="btn"><NavLink to={!admin ? `/quiz/view-statistic/${q._id}` : `/admin/statistic/${q._id}`}>Statistik</NavLink></button></td>
                                 <td className={classes.action}><button className="btn"><NavLink to={!admin ? `/user/view-quiz/${q._id}` : `/admin/user/quiz/${q.creator}/${q._id}`}>View</NavLink></button></td>
-                                {!admin || adminView && <td className={classes.action}><button className="btn" onClick={onDeleteClick.bind(null, q._id)}>l&ouml;schen</button></td>}
+                                {(!admin || adminView) && <td className={classes.action}><button className="btn" onClick={onDeleteClick.bind(null, q._id)}>l&ouml;schen</button></td>}
                             </tr>
                         })}
                     </tbody>

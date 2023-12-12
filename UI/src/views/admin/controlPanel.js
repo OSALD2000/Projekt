@@ -12,7 +12,7 @@ import { searchQuize, searchUsers } from "./admin_loaders";
 import { fetch_function } from "../../util/fetch_function";
 
 const ControlPanel = () => {
-    const { useres, quizes } = useLoaderData();
+    const { useres, quizes:{rows: quizes} } = useLoaderData();
 
     const {
         onSearchInputChangeHandler: onSearchInputChangeHandlerUser,

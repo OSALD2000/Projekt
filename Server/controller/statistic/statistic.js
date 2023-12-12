@@ -1,5 +1,6 @@
 const User = require("../../module/auth/user");
 const Quiz = require("../../module/quiz/quiz");
+const Statistics = require("../../module/chart/statistics");
 
 const Participant = require("../../module/quiz/participant");
 
@@ -13,9 +14,21 @@ exports.loadStatistic = async (req, res, next) => {
       where: {
         _Id: quizId,
       },
+      attributes: [],
+      include: [
+        {
+          model: Participant,
+          attributes: ["result", "passed"],
+          include: [{
+            model: User,
+            attributes: ["username"],
+          }]
+        },
+        Statistics]
     });
 
     if (user_quiz.length === 0) {
+
       const participant = await Participant.findOne({
         where: {
           userId: userId,
@@ -27,19 +40,35 @@ exports.loadStatistic = async (req, res, next) => {
         res.status(442).json({ message: "Sie muessen erst Teilnehmen!!" });
       }
 
-      const quiz = await Quiz.findByPk(quizId);
+      const quiz_loaded = await Quiz.findAndCountAll({
+        where: {
+          _id: quizId
+        },
+        attributes: [],
+        include: [
+          {
+            model: Participant,
+            attributes: ["result"],
+            include: [{
+              model: User,
+              attributes: ["username"],
+            }]
+          },
+          Statistics
+        ],
+        order: [
+          [{ model: Participant }, 'result', 'DESC']
+        ]
+      });
 
-      if (!quiz) {
+      if (quiz_loaded.rows.length === 0) {
         res.status(442).json({ message: "keine Quiz unter dieses Id" });
       }
 
-      const statistic = await quiz.getStatistic();
-
-      res.status(200).json({ message: "Statistik", data: statistic });
+      res.status(200).json({ message: "Statistik", data: quiz_loaded.rows[0] });
     } else {
-      const statistic = await user_quiz[0].getStatistic();
 
-      res.status(200).json({ message: "Statistik", data: statistic });
+      res.status(200).json({ message: "Statistik", data: user_quiz[0] });
     }
   } catch (err) {
     next(err);

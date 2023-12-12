@@ -14,7 +14,6 @@ const AnswerQuiz = (props) => {
     const submit = useSubmit();
 
     useEffect(() => {
-        console.log(answers);
         answerValidtion(answers, data.questions, setValid);
     }, [answers, data.questions]);
 

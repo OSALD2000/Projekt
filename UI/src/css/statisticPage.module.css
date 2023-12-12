@@ -56,3 +56,25 @@
     grid-column: 1 / 3;
     grid-row:2;
 }
+
+
+.participants{
+    grid-column: 1 / 3;
+    height: 30vh;
+    grid-row:3;
+}
+
+.participants table{
+    background-color: rgba(5, 5, 5, 0.508);
+    font-size: 1.2vw;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4%;
+}
+
+.participants table td, .participants table th {
+    border: 1px white solid;
+    padding: 1%;
+}
+

@@ -26,7 +26,6 @@ const ChoiceOne = (props) => {
             return { ...curent, answers: [...curent.answers, { id: id, value: "" }] }
         });
         setId(curent => curent + 1);
-        console.log(question);
     }
 
     const deleteAnswer = (id, event) => {

@@ -12,7 +12,6 @@ const ProfilePage = () => {
     const data = useLoaderData();
     const navigate = useNavigate();
 
-    console.log(data);
     const [deleteQuiz, setDeleteQuiz] = useState({
         delete: false,
         id: "",

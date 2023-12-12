@@ -105,8 +105,8 @@
 }
 
 .action {
-    width: 10%;
-    gap: 20%;
+    width: 6%;
+    gap: 5%;
 }
 
 .adminView{
@@ -114,4 +114,12 @@
     margin-right: auto;
     padding: 1%;
     color: white;
+}
+
+.ja{
+    background-color: rgba(119, 205, 119, 0.542);
+}
+
+.nein{
+    background-color: rgb(191, 115, 115);
 }

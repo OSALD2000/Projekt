@@ -1,6 +1,9 @@
 const { Op } = require("sequelize");
 const User = require("../../module/auth/user");
 const Quiz = require("../../module/quiz/quiz");
+const Participant = require("../../module/quiz/participant");
+const Statistics = require("../../module/chart/statistics");
+
 const mail = require("../../util/mail");
 const create_quiz_object = require("../../util/quiz/create_quiz_object");
 
@@ -13,7 +16,17 @@ exports.loadData = async (req, res, next) => {
       attributes: ["_id", "email", "username"],
     });
 
-    const quizes = await Quiz.findAll();
+    const quizes = await Quiz.findAndCountAll({
+      where: {
+        creator: { [Op.not]: req.adminId },
+      },
+      include: [
+        {
+          model: User,
+          attributes: ["email", "username"]
+        }
+      ]
+    });
 
     res.status(200).json({ useres: useres, quizes: quizes });
   } catch (err) {
@@ -133,14 +146,19 @@ exports.searchUser = async (req, res, next) => {
 exports.searchQuiz = async (req, res, next) => {
   try {
     const arg = req.params.arg;
-    const quize = await Quiz.findAll({
+    const quize = await Quiz.findAndCountAll({
       where: {
         title: { [Op.startsWith]: [arg] },
       },
-      order: [["title", "ASC"]],
+      include: [
+        {
+          model: User,
+          attributes: ["email", "username"]
+        }
+      ]
     });
 
-    if (quize.length === 0) {
+    if (quize.rows.length === 0) {
       res.status(200).json({
         message: "Keine Quiz unter dieses Title " + arg,
         quize: [],
@@ -148,7 +166,7 @@ exports.searchQuiz = async (req, res, next) => {
     } else {
       res.status(200).json({
         message: "All Quize",
-        quize: quize,
+        quize: quize.rows,
       });
     }
   } catch (err) {
@@ -220,11 +238,30 @@ exports.loadQuizStatic = async (req, res, next) => {
   try {
     const quizId = req.params.quizId;
 
-    const quiz = await Quiz.findByPk(quizId);
+    const quiz_loaded = await Quiz.findAndCountAll({
+      where: {
+        _id: quizId
+      },
+      attributes:[],
+      include: [
+        {
+          model: Participant,
+          attributes: ["result", "passed"],
+          include: [{
+            model: User,
+            attributes: ["username"],
+          }]
+        },
+        Statistics
+      ],
+      order: [
+        [{ model: Participant }, 'result', 'DESC']
+      ]
+    });
 
-    const statistic = await quiz.getStatistic();
+    const quiz = quiz_loaded.rows[0];
 
-    res.status(200).json({ message: "Statistik", data: statistic });
+    res.status(200).json({ message: "Statistik", data: quiz });
   } catch (err) {
     next(err);
   }

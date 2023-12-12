@@ -59,16 +59,17 @@ export const loadStatistic = async ({ params }) => {
         throw json({ message: "Could not authenticate user" }, { status: 500 });
     }
 
-    const { data } = await response.json();
+    const {data} = await response.json();
 
 
-    const data_doughnut = JSON.parse(data.chart_doughnut_data);
-    const data_bar = JSON.parse(data.chart_bar_data);
+    const {statistic, participants} = data;
+    
+    const data_doughnut = JSON.parse(statistic.chart_doughnut_data);
+    const data_bar = JSON.parse(statistic.chart_bar_data);
 
-    const parsed_data = { ...data, chart_doughnut_data: data_doughnut, chart_bar_data: data_bar }
-
-
-    return parsed_data;
+    const parsed_statistic = { ...statistic, chart_doughnut_data: data_doughnut, chart_bar_data: data_bar }
+    console.log(participants);
+    return { participants, parsed_statistic };
 }
 
 
@@ -95,7 +96,7 @@ export const loadAnswer = async ({ params }) => {
 
 
 export const searchQuize = async (arg) => {
-  
+
     const url = `admin/search/quiz/${arg}`
 
     const response = await fetch_function(url, 'get');

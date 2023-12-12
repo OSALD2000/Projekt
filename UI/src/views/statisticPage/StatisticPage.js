@@ -3,31 +3,32 @@ import { json, redirect, useLoaderData } from "react-router";
 import { Bar, Doughnut } from "react-chartjs-2";
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
-
-import classes from "../../css/statisticPage.module.css";
+import Participants from "../../components/common/lists/participants";
 import { fetch_function } from "../../util/fetch_function";
+import classes from "../../css/statisticPage.module.css";
 
 const StatisticPage = (props) => {
-    const loader = useLoaderData();
+    const data = useLoaderData();
+    const { parsed_statistic: statistic, participants } = data;
 
     const infos = [
-        { title: "Anzahl Teilnehmer", value: loader.participants },
+        { title: "Anzahl Teilnehmer", value: statistic.participants },
 
-        { title: "Durchschnit", value: (loader.average_scoure * 100) + "%" },
+        { title: "Durchschnit", value: (statistic.average_scoure * 100) + "%" },
 
-        { title: "Bestanden", value: loader.success_Participants },
+        { title: "Bestanden", value: statistic.success_Participants },
 
-        { title: "Durchfallen", value: loader.failed_Participants },
+        { title: "Durchfallen", value: statistic.failed_Participants },
 
     ]
     return (
         <div className={classes.continer}>
             <div className={classes.bar}>
-                <Bar data={loader.chart_bar_data.data} />
+                <Bar data={statistic.chart_bar_data.data} />
             </div>
 
             <div className={classes.doughnut}>
-                <Doughnut data={loader.chart_doughnut_data} />
+                <Doughnut data={statistic.chart_doughnut_data} />
             </div>
             <div className={classes.infos}>
                 {infos.map(info =>
@@ -44,6 +45,11 @@ const StatisticPage = (props) => {
                     </div>
                 )}
             </div>
+            {Array.isArray(participants) && participants.length !== 0 &&
+            <div className={classes.participants}>
+                    <Participants participants={participants} />
+            </div>
+            }
         </div>
     )
 }
@@ -54,7 +60,7 @@ export const loader = async ({ params }) => {
     const quizId = params.quizId;
 
     const url = `statistics/info/charts/${quizId}`;
-    const response = await fetch_function(url,'get');
+    const response = await fetch_function(url, 'get');
 
     if (response.status === 401) {
         return redirect('/auth/signin?mode=login')
@@ -70,15 +76,13 @@ export const loader = async ({ params }) => {
 
     const { data } = await response.json();
 
+    const { statistic, participants } = data;
 
-    const data_doughnut = JSON.parse(data.chart_doughnut_data);
-    const data_bar = JSON.parse(data.chart_bar_data);
+    const data_doughnut = JSON.parse(statistic.chart_doughnut_data);
+    const data_bar = JSON.parse(statistic.chart_bar_data);
 
-    const parsed_data = { ...data, chart_doughnut_data: data_doughnut, chart_bar_data: data_bar }
-
-    console.log(parsed_data);
-
-    return parsed_data;
+    const parsed_statistic = { ...statistic, chart_doughnut_data: data_doughnut, chart_bar_data: data_bar }
+    return { participants, parsed_statistic };
 }
 
 export default StatisticPage;

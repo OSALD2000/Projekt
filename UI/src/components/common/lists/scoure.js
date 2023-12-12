@@ -27,7 +27,7 @@ const Scoure = ({ scoures, admin }) => {
                         })}
                     </tbody>
                 </table>
-                : <h2>Keine Quizee</h2>
+                : <h2>Keine Scoures</h2>
             }
         </div>
     )

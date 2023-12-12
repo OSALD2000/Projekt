@@ -6,7 +6,7 @@ const Users = ({ onDeleteHandler, useres }) => {
     return (<>  {Array.isArray(useres) && useres.length !== 0 && useres.map(user => {
         return (
             <div key={user._id} className={classes.container}>
-                <div className={classes.user}>
+                <div className={`${classes.user}`}>
                     <span>
                         {user._id}
                     </span>
