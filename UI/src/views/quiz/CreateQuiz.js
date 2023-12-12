@@ -8,11 +8,11 @@ import { QUESTIONTYPE_ARRAY } from "../../util/enum/QUESTIONTYPE";
 
 import { createQuestion } from "../../util/createQuestionObject";
 
-import { getAuthToken } from "../auth/auth";
 import { redirect, useActionData } from "react-router";
 import { Form, useSubmit, json } from "react-router-dom";
 
 import "../../css/createQuizPage.css";
+import { fetch_function } from "../../util/fetch_function";
 
 const CreateQuiz = (props) => {
   const [questions, setQuestions] = useState([]);
@@ -114,18 +114,13 @@ export default CreateQuiz;
 
 
 export const action = async ({ request }) => {
-  const token = getAuthToken();
-
+  
   const data = await request.formData();
-  const quiz = data.get('quiz');
+  const quiz = JSON.parse(data.get('quiz'));
 
-  const response = await fetch("http://localhost:8080/quiz/create", {
-    method: "POST", headers: {
-      'authorization': token.toString(),
-      'Content-Type': 'application/json'
-    },
-    body: quiz
-  })
+  
+  const url = `quiz/create`;
+  const response = await fetch_function(url, 'POST', quiz);
 
   if (response.status === 401) {
     return redirect("/auth/signin?mode=login");
@@ -138,7 +133,6 @@ export const action = async ({ request }) => {
   if (!response.ok) {
     throw json({ message: "Could not authenticate user" }, { status: 500 });
   }
-
 
   return redirect("/?successful=true")
 }

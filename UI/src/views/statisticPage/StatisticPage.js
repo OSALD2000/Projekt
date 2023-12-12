@@ -1,11 +1,11 @@
 import React from "react";
-import { getAuthToken } from "../auth/auth";
 import { json, redirect, useLoaderData } from "react-router";
 import { Bar, Doughnut } from "react-chartjs-2";
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 
 import classes from "../../css/statisticPage.module.css";
+import { fetch_function } from "../../util/fetch_function";
 
 const StatisticPage = (props) => {
     const loader = useLoaderData();
@@ -52,18 +52,9 @@ const StatisticPage = (props) => {
 
 export const loader = async ({ params }) => {
     const quizId = params.quizId;
-    const token = getAuthToken();
 
-    if (!token) {
-        return redirect('/auth/signin?mode=login')
-    }
-
-    const response = await fetch("http://localhost:8080/statistics/info/charts/" + quizId, {
-        headers: {
-            'authorization': token.toString(),
-            'Content-Type': 'application/json'
-        },
-    })
+    const url = `statistics/info/charts/${quizId}`;
+    const response = await fetch_function(url,'get');
 
     if (response.status === 401) {
         return redirect('/auth/signin?mode=login')

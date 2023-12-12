@@ -4,8 +4,9 @@ import "../../css/emailVerificationPage.css";
 import { Form, useActionData } from "react-router-dom";
 import Input from "../../components/common/Input";
 import { TYPE } from "../../util/validation/Type";
-import { json, redirect} from "react-router-dom";
+import { json, redirect } from "react-router-dom";
 import { storeToken } from "../../util/storeToken";
+import { fetch_function } from "../../util/fetch_function";
 
 const EmailVerification = (props) => {
   const actionData = useActionData();
@@ -20,10 +21,12 @@ const EmailVerification = (props) => {
     }
 
     setLoding(true);
-    const response = await fetch(
-      "http://localhost:8080/auth/again/emailverification/" + email
-    );
-    
+
+
+    const url = `auth/again/emailverification/${email}`
+
+    const response = await fetch_function(url, 'get');
+
     if (response.status === 442) {
       setManyTry(true);
     }
@@ -89,15 +92,10 @@ export const action = async ({ request }) => {
 
   const verificationCode = data.get("mailverificationCode");
 
-  const response = await fetch("http://localhost:8080/auth/emailverification", {
-    method: "POST",
-    body: JSON.stringify({
-      email: email,
-      verificationCode: verificationCode,
-    }),
-    headers: {
-      "Content-Type": " application/json",
-    },
+  const url = `auth/emailverification`
+  const response = await fetch_function(url, 'POST', {
+    email: email,
+    verificationCode: verificationCode,
   });
 
   if (response.status === 442 || response.status === 401) {
@@ -122,11 +120,10 @@ export const loader = async () => {
   if (!email) {
     return redirect("/signup?mode=signup");
   }
- 
-  const response = await fetch(
-    "http://localhost:8080/auth/emailverification/" + email
-  );
 
+  const url = `auth/emailverification/${email}`
+  const response = await fetch_function(url, 'get');
+  
   if (response.status === 442 || response.status === 401) {
     return redirect("/signup?mode=signup");
   }

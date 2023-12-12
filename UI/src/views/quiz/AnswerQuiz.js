@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { getAuthToken } from "../auth/auth";
 import { redirect, json, useLoaderData, useActionData } from "react-router";
 import Question from "../../components/quiz-elements/questions/question";
 import { Form, useSubmit } from "react-router-dom";
 import { answerValidtion } from "../../util/validation/answersValidtion";
 import classes from "../../css/answer.module.css";
+import { fetch_function } from "../../util/fetch_function";
 
 const AnswerQuiz = (props) => {
     const data = useLoaderData();
@@ -59,24 +59,12 @@ export default AnswerQuiz;
 
 
 
-
-
-
 export const action = async ({ request }) => {
-    const token = getAuthToken();
-
     const form_data = await request.formData();
-    const answers = form_data.get('answers');
+    const answers = JSON.parse(form_data.get('answers'));
 
-
-    const response = await fetch("http://localhost:8080/quiz/answer", {
-        method: "POST",
-        headers: {
-            'authorization': token.toString(),
-            'Content-Type': 'application/json'
-        },
-        body: answers
-    });
+    const url = `quiz/answer`;
+    const response = await fetch_function(url, 'POST', answers);
 
     if (response.status === 442) {
         return response;
@@ -87,21 +75,16 @@ export const action = async ({ request }) => {
     }
 
     const data = await response.json();
-    const url = `/quiz/view-answers/${data.quizId}`;
+    const redirect_url = `/quiz/view-answers/${data.quizId}`;
 
-    return redirect(url);
+    return redirect(redirect_url);
 }
 
 export const loader = async ({ params }) => {
-    const token = getAuthToken();
     const quizId = params.quizId;
 
-    const response = await fetch("http://localhost:8080/loader/quiz/" + quizId, {
-        headers: {
-            'authorization': token.toString(),
-            'Content-Type': 'application/json'
-        },
-    });
+    const url = `loader/quiz/${quizId}`;
+    const response = await fetch_function(url, 'get');
 
     if (response.status === 401) {
         return redirect("/auth/signin");

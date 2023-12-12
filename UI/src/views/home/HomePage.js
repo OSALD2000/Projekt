@@ -4,6 +4,7 @@ import { useLoaderData } from "react-router";
 import QuizCategory from "../../components/quiz-elements/quizCategory";
 import { json } from "react-router-dom";
 import { Card } from "../../components/common/card";
+import { fetch_function } from "../../util/fetch_function";
 
 const Home = (props) => {
   const data = useLoaderData();
@@ -35,8 +36,8 @@ export default Home;
 
 
 export const loader = async () => {
-  const response = await fetch("http://localhost:8080/loader/categorys");
-
+  const url = `loader/categorys`;
+  const response = await fetch_function(url, 'get');
 
   if (response.status === 442 || response.status === 401) {
     return response;

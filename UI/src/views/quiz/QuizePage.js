@@ -4,10 +4,9 @@ import Form from 'react-bootstrap/Form';
 import { useLoaderData, json, redirect } from "react-router";
 import { Card } from "../../components/common/card";
 import Quiz from "../../components/quiz-elements/quiz";
-import { getAuthToken } from "../auth/auth";
-
-import classes from "../../css/quizpage.module.css";
 import useSearch from "../../util/hooks/use-search";
+import { fetch_function } from "../../util/fetch_function";
+import classes from "../../css/quizpage.module.css";
 
 const QuizePage = () => {
 
@@ -56,15 +55,9 @@ const QuizePage = () => {
 }
 
 const searchQuize = async (category, arg) => {
-    const token = getAuthToken();
-    const url = `http://localhost:8080/loader/search/quizes/${category}/${arg}`
 
-    const response = await fetch(url, {
-        headers: {
-            'authorization': token.toString(),
-            'Content-Type': 'application/json'
-        },
-    });
+    const url = `loader/search/quizes/${category}/${arg}`
+    const response = await fetch_function(url, 'get');
 
     if (response.status === 401) {
         return 401;
@@ -86,15 +79,10 @@ const searchQuize = async (category, arg) => {
 
 
 export const loader = async ({ params }) => {
-    const token = getAuthToken();
     const category = params.category;
-
-    const response = await fetch("http://localhost:8080/loader/quizes/" + category, {
-        headers: {
-            'authorization': token.toString(),
-            'Content-Type': 'application/json'
-        },
-    });
+    
+    const url = `loader/quizes/${category}`;
+    const response = await fetch_function(url, 'get');
 
     if (response.status === 401) {
         return redirect('/auth/signin?mode=login')

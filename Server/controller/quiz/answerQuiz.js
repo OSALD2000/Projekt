@@ -162,7 +162,6 @@ const answerQuiz = async (req, res, next) => {
 
     ubdate_statistic(quiz, participant);
 
-    // TODO: andere participant id to _id hier und im schema : )
     res.status(200).json({
       message: "teilnahme ist angeliegt!",
       quizId: quizId,

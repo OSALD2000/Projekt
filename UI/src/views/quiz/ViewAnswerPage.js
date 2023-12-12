@@ -1,7 +1,7 @@
 import React from "react";
 import ShowResult from "../../components/quiz-elements/showResult/showResult";
 import { redirect, useLoaderData, json } from "react-router";
-import { getAuthToken } from "../auth/auth";
+import { fetch_function } from "../../util/fetch_function";
 
 
 const ViewAnswerPage = () => {
@@ -22,25 +22,15 @@ const ViewAnswerPage = () => {
 
 export const loader = async ({ params }) => {
     const quizId = params.quizId;
-    const token = getAuthToken();
-
-    if(!token){
-        return redirect("/auth/signin");
-    }
 
     if (!quizId) {
         alert('versuchen Sie es nochmal :)');
         return redirect('/');
     }
 
-    const url = `http://localhost:8080/loader/quiz/participant/${quizId}`;
+    const url = `loader/quiz/participant/${quizId}`;
 
-    const response = await fetch(url, {
-        headers: {
-            'authorization': token.toString(),
-            'Content-Type': 'application/json'
-        },
-    });
+    const response = await fetch_function(url, 'get');
 
     if (response.status === 401) {
         return redirect("/auth/signin");

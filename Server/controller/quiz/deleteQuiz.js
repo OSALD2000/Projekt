@@ -1,6 +1,5 @@
 const User = require("../../module/auth/user");
 
-// TODO: add validations for incomming quiz if EXISTS
 const deleteQuiz = async (req, res, next) => {
   try {
     const userId = req.userId;

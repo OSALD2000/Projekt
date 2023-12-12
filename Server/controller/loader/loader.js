@@ -103,8 +103,6 @@ exports.loadQuiz = async (req, res, next) => {
 
 
 
-//TODO : delete 
-
 exports.loadParticipants = async (req, res, next) => {
     try {
         const quizId = req.params.quizId;

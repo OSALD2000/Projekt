@@ -12,7 +12,7 @@ router.get("/profile/daten", is_auth, userController.loadUserDaten);
 
 router.get("/quiz/:quizId", is_auth, userController.loadQuiz);
 
-router.post("/update", [
+router.put("/update", [
     body("newPassword", "Invalide Password").matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)().{8,50}$/,
     ),

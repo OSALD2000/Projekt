@@ -7,9 +7,9 @@ const router = express.Router();
 
 router.get('/controlerPanel/data', is_admin, adminController.loadData);
 
-router.get('/user/delete/:userId', is_admin, adminController.deleteUser);
+router.delete('/user/delete/:userId', is_admin, adminController.deleteUser);
 
-router.get('/quiz/delete/:quizId', is_admin, adminController.deleteQuiz);
+router.delete('/quiz/delete/:quizId', is_admin, adminController.deleteQuiz);
 
 router.get('/statistic/:quizId', is_admin, adminController.loadQuizStatic);
 

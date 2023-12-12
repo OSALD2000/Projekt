@@ -1,17 +1,11 @@
 import { json, redirect } from "react-router";
-import { getAuthToken } from "../auth/auth"
+import { fetch_function } from "../../util/fetch_function";
 
 export const deleteUser = async (id) => {
-    const token = getAuthToken();
 
-    const url = `http://localhost:8080/admin/user/delete/${id}`;
+    const url = `admin/user/delete/${id}`;
 
-    const response = await fetch(url, {
-        headers: {
-            'authorization': token.toString(),
-            'Content-Type': 'application/json'
-        },
-    });
+    const response = await fetch_function(url, "delete");
 
     if (response.status === 401) {
         return redirect("/auth/signin");
@@ -27,16 +21,10 @@ export const deleteUser = async (id) => {
 }
 
 export const deleteQuiz = async (id) => {
-    const token = getAuthToken();
 
-    const url = `http://localhost:8080/admin/quiz/delete/${id}`;
+    const url = `admin/quiz/delete/${id}`;
 
-    const response = await fetch(url, {
-        headers: {
-            'authorization': token.toString(),
-            'Content-Type': 'application/json'
-        },
-    });
+    const response = await fetch_function(url, "delete");
 
     if (response.status === 401) {
         return redirect("/auth/signin");

@@ -1,18 +1,12 @@
 import { json, redirect } from "react-router";
-import { getAuthToken } from "../auth/auth";
+import { fetch_function } from "../../util/fetch_function";
 
 export const loadUserProfile = async ({ params }) => {
-    const token = getAuthToken();
     const userId = params.userId;
 
-    const url = `http://localhost:8080/admin/user/profile/${userId}`
+    const url = `admin/user/profile/${userId}`
 
-    const response = await fetch(url, {
-        headers: {
-            'authorization': token.toString(),
-            'Content-Type': 'application/json'
-        },
-    });
+    const response = await fetch_function(url, 'get');
 
     if (response.status === 401) {
         return redirect("/auth/signin");
@@ -30,18 +24,12 @@ export const loadUserProfile = async ({ params }) => {
 
 
 export const loadUserQuiz = async ({ params }) => {
-    const token = getAuthToken();
     const userId = params.userId;
     const quizId = params.quizId;
 
-    const url = `http://localhost:8080/admin/user/quiz/${userId}/${quizId}`
+    const url = `admin/user/quiz/${userId}/${quizId}`
 
-    const response = await fetch(url, {
-        headers: {
-            'authorization': token.toString(),
-            'Content-Type': 'application/json'
-        },
-    });
+    const response = await fetch_function(url, 'get');
 
     if (response.status === 401) {
         return redirect("/auth/signin");
@@ -57,17 +45,11 @@ export const loadUserQuiz = async ({ params }) => {
 }
 
 export const loadStatistic = async ({ params }) => {
-    const token = getAuthToken();
     const quizId = params.quizId;
 
-    const url = `http://localhost:8080/admin/statistic/${quizId}`
+    const url = `admin/statistic/${quizId}`
 
-    const response = await fetch(url, {
-        headers: {
-            'authorization': token.toString(),
-            'Content-Type': 'application/json'
-        },
-    });
+    const response = await fetch_function(url, 'get');
 
     if (response.status === 401) {
         return redirect("/auth/signin");
@@ -91,18 +73,12 @@ export const loadStatistic = async ({ params }) => {
 
 
 export const loadAnswer = async ({ params }) => {
-    const token = getAuthToken();
     const quizId = params.quizId;
     const userId = params.userId;
 
-    const url = `http://localhost:8080/admin/user/answer/${userId}/${quizId}`
+    const url = `admin/user/answer/${userId}/${quizId}`
 
-    const response = await fetch(url, {
-        headers: {
-            'authorization': token.toString(),
-            'Content-Type': 'application/json'
-        },
-    });
+    const response = await fetch_function(url, 'get');
 
     if (response.status === 401) {
         return redirect("/auth/signin");
@@ -119,16 +95,10 @@ export const loadAnswer = async ({ params }) => {
 
 
 export const searchQuize = async (arg) => {
-    const token = getAuthToken();
+  
+    const url = `admin/search/quiz/${arg}`
 
-    const url = `http://localhost:8080/admin/search/quiz/${arg}`
-
-    const response = await fetch(url, {
-        headers: {
-            'authorization': token.toString(),
-            'Content-Type': 'application/json'
-        },
-    });
+    const response = await fetch_function(url, 'get');
 
     if (response.status === 401) {
         return 401;
@@ -148,16 +118,10 @@ export const searchQuize = async (arg) => {
 }
 
 export const searchUsers = async (arg) => {
-    const token = getAuthToken();
 
-    const url = `http://localhost:8080/admin/search/user/${arg}`
+    const url = `admin/search/user/${arg}`
 
-    const response = await fetch(url, {
-        headers: {
-            'authorization': token.toString(),
-            'Content-Type': 'application/json'
-        },
-    });
+    const response = await fetch_function(url, 'get');
 
     if (response.status === 401) {
         return 401;

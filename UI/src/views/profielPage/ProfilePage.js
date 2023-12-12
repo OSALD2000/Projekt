@@ -6,6 +6,7 @@ import Quize from "../../components/common/lists/quize";
 import Scoure from "../../components/common/lists/scoure";
 import classes from "../../css/profile.module.css";
 import { useNavigate } from "react-router";
+import { fetch_function } from "../../util/fetch_function";
 
 const ProfilePage = () => {
     const data = useLoaderData();
@@ -32,15 +33,9 @@ const ProfilePage = () => {
                 return redirect("/auth/signin");
             }
 
-            const url = `http://localhost:8080/quiz/delete/${deleteQuiz.id}`;
-            console.log(url);
-            fetch(url, {
-                method: "delete",
-                headers: {
-                    'authorization': token.toString(),
-                    'Content-Type': 'application/json'
-                }
-            }).then(response => {
+            const url = `quiz/delete/${deleteQuiz.id}`;
+
+            fetch_function(url, 'get').then(response => {
                 if (response.status === 401) {
                     return redirect('/auth/signin?mode=login')
                 }
@@ -61,20 +56,9 @@ const ProfilePage = () => {
 }
 
 export const loader = async () => {
-    const token = getAuthToken();
-
-    if (!token) {
-        return redirect("/auth/signin");
-    }
-
-    const response = await fetch("http://localhost:8080/user/profile/daten", {
-        headers: {
-            'authorization': token.toString(),
-            'Content-Type': 'application/json'
-        }
-    });
-
-
+    const url =  `user/profile/daten`;
+    const response = await fetch_function(url, 'get');
+   
     if (response.status === 401) {
         return redirect('/auth/signin?mode=login')
     }

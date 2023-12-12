@@ -1,5 +1,6 @@
 import { json, redirect } from "react-router-dom";
 import { storeToken } from "../../util/storeToken";
+import { fetch_function } from "../../util/fetch_function";
 
 export const action = async ({ request }) => {
   const searchParams = new URL(request.url).searchParams;
@@ -8,8 +9,6 @@ export const action = async ({ request }) => {
   if (mode !== "login" && mode !== "signup") {
     throw json({ message: " Unsupported mode" }, { status: 422 });
   }
-
-  const method = "POST";
 
   const data = await request.formData();
 
@@ -24,14 +23,8 @@ export const action = async ({ request }) => {
     userData["username"] = data.get("username");
   }
 
-  const response = await fetch("http://localhost:8080/auth/" + mode, {
-    method: method,
-    body: JSON.stringify(userData),
-    headers: {
-      "Content-Type": " application/json",
-    },
-  });
-
+  const url = `auth/${mode}`
+  const response = await fetch_function(url, 'POST', userData);
 
   if (response.status === 423) {
     return redirect("/auth/emailverification");

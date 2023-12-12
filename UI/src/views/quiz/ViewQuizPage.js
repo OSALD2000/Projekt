@@ -2,6 +2,7 @@ import React from "react";
 import ViewQuiz from "../../components/quiz-elements/view/viewQuiz";
 import { redirect, useLoaderData, json } from "react-router";
 import { getAuthToken } from "../auth/auth";
+import { fetch_function } from "../../util/fetch_function";
 
 
 const ViewAnswerPage = () => {
@@ -27,14 +28,9 @@ export const loader = async ({ params }) => {
         return redirect('/');
     }
 
-    const url = `http://localhost:8080/user/quiz/${quizId}`;
+    const url = `user/quiz/${quizId}`;
 
-    const response = await fetch(url, {
-        headers: {
-            'authorization': token.toString(),
-            'Content-Type': 'application/json'
-        },
-    });
+    const response = await fetch_function(url, 'get');
 
     if (response.status === 401) {
         return redirect("/auth/signin");

@@ -3,13 +3,13 @@ import Accordion from 'react-bootstrap/Accordion';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import classes from "../../css/controlePanel.module.css"
-import { getAuthToken } from "../auth/auth";
 import { json, redirect, useLoaderData, useNavigate } from "react-router";
 import { deleteUser, deleteQuiz } from "./admin_actions";
 import Quize from "../../components/common/lists/quize";
 import Users from "../../components/common/lists/users";
 import useSearch from "../../util/hooks/use-search";
 import { searchQuize, searchUsers } from "./admin_loaders";
+import { fetch_function } from "../../util/fetch_function";
 
 const ControlPanel = () => {
     const { useres, quizes } = useLoaderData();
@@ -135,15 +135,9 @@ const ControlPanel = () => {
 }
 
 export const loader = async () => {
-    const token = getAuthToken();
-    const url = `http://localhost:8080/admin/controlerPanel/data`
+    const url = `admin/controlerPanel/data`
 
-    const response = await fetch(url, {
-        headers: {
-            'authorization': token.toString(),
-            'Content-Type': 'application/json'
-        },
-    });
+    const response = await fetch_function(url, 'get');
 
     if (response.status === 401) {
         return redirect("/auth/signin");
@@ -155,7 +149,6 @@ export const loader = async () => {
 
     const data = await response.json();
 
-    console.log(data);
     return data
 }
 
