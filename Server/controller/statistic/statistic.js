@@ -35,7 +35,6 @@ exports.loadStatistic = async (req, res, next) => {
           quizId: quizId,
         },
       });
-
       if (!participant) {
         res.status(442).json({ message: "Sie muessen erst Teilnehmen!!" });
       }

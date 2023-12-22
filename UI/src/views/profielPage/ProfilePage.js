@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { getAuthToken } from "../auth/auth";
 import { redirect, useLoaderData, json } from "react-router";
 import Daten from "../../components/profile/daten";
 import Quize from "../../components/common/lists/quize";
@@ -26,15 +25,10 @@ const ProfilePage = () => {
 
     useEffect(() => {
         if (deleteQuiz.delete && deleteQuiz.id !== "") {
-            const token = getAuthToken();
-
-            if (!token) {
-                return redirect("/auth/signin");
-            }
 
             const url = `quiz/delete/${deleteQuiz.id}`;
 
-            fetch_function(url, 'get').then(response => {
+            fetch_function(url, 'delete').then(response => {
                 if (response.status === 401) {
                     return redirect('/auth/signin?mode=login')
                 }
