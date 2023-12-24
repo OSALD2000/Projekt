@@ -5,17 +5,18 @@ module.exports = (req, res, next) => {
   try {
     const token = req.get("Authorization");
     decodedToken = jwt.verify(token, process.env.API_KEY);
+    
+    if (!decodedToken) {
+      throw error;
+    }
+
   } catch (err) {
     err.statusCode = 401;
     err.message = "not authenticated";
     throw err;
   }
 
-  if (!decodedToken) {
-    const error = new Error("not authenticated");
-    error.statusCode = 401;
-    throw error;
-  }
+
   req.userId = decodedToken._id;
   next();
 };

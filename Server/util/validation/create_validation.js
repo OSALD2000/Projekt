@@ -86,7 +86,7 @@ const create_validation = {
                 break;
 
               case QUESTIONTYPE.FILLINTHEBLANK:
-                if (typeof question.right_answer !== "string") {
+                if (typeof question.right_answer !== "string" ||  question.right_answer?.trim().length === 0 ) {
                   errors.push({
                     index,
                     category: QUESTIONTYPE.FILLINTHEBLANK,

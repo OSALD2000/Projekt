@@ -8,7 +8,7 @@
     "start": "nodemon app.js",
     "checkStyle": "npx prettier . --write"
   },
-  "author": "Osama, Peter, Dominick, Almotasem, Samuel",
+  "author": "Osama",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
