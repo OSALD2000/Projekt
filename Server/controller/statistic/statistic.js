@@ -47,7 +47,7 @@ exports.loadStatistic = async (req, res, next) => {
         include: [
           {
             model: Participant,
-            attributes: ["result"],
+            attributes: ["result", "passed"],
             include: [{
               model: User,
               attributes: ["username"],
