@@ -14,6 +14,7 @@ const statisticRoutes = require("./routes/statistic");
 
 const sequelize = require("./util/db");
 const createRelation = require("./util/db_relation");
+const create_1000_user = require('./tester_util/create_5000_user');
 
 const User = require("./module/auth/user");
 
@@ -52,47 +53,24 @@ app.use((error, req, res, next) => {
     .json({ message: error.message, error: error.data });
 });
 
-sequelize
-  .sync({ force: false })
-  .then(() => {
-    return bcrypt.hash("root", 12);
-  })
-  .then((hashedPw) => {
-    //   return User.create({
-    //     _id: "1",
-    //     email: "test1@test.de",
-    //     password: hashedPw,
-    //     username: "TEST1",
-    //     emailverified: true,
-    //     roll: 'admin'
-    //   });
-    // }).then(() => {
-    //   return bcrypt.hash("root", 12);
-    // })
-    // .then((hashedPw) => {
-    //   return User.create({
-    //     _id: "2",
-    //     email: "test2@test.de",
-    //     password: hashedPw,
-    //     username: "TEST2",
-    //     emailverified: true,
-    //   });
-    // }).then(() => {
-    //   return bcrypt.hash("root", 12);
-    // })
-    // .then((hashedPw) => {
-    //   return User.create({
-    //     _id: "3",
-    //     email: "test3@test.de",
-    //     password: hashedPw,
-    //     username: "TEST3",
-    //     emailverified: true,
-    //   });
-    // })
-  })
-  .then(() => {
+(async () => {
+  try {
+    await sequelize.sync({ force: true });
+
+    await create_1000_user(User);
+    const hashedPw = await bcrypt.hash("admin", 12);
+      User.create({
+        _id: "1234",
+        email: "admin@admin.de",
+        password: hashedPw,
+        username: "osama",
+        emailverified: true,
+        roll: 'admin'
+    });
+
     app.listen(8080);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+  } catch (error) {
+    console.error(error);
+  }
+})();
+

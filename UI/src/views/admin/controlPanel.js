@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Accordion from 'react-bootstrap/Accordion';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
-import classes from "../../css/controlePanel.module.css"
 import { json, redirect, useLoaderData, useNavigate } from "react-router";
 import { deleteUser, deleteQuiz } from "./admin_actions";
 import Quize from "../../components/common/lists/quize";
@@ -10,6 +9,7 @@ import Users from "../../components/common/lists/users";
 import useSearch from "../../util/hooks/use-search";
 import { searchQuize, searchUsers } from "./admin_loaders";
 import { fetch_function } from "../../util/fetch_function";
+import classes from "../../css/controlePanel.module.css"
 
 const ControlPanel = () => {
     const { useres, quizes:{rows: quizes} } = useLoaderData();
@@ -72,7 +72,7 @@ const ControlPanel = () => {
             {message.show && <div className="successText">{message.value}</div>}
             <div className={classes.card}>
                 <Accordion defaultActiveKey={['0', '1', '2']} alwaysOpen>
-                    <Accordion.Item className="accordion_item" eventKey="0">
+                    <Accordion.Item className={`${classes["accordion_item"]} accordion_item` }eventKey="0">
                         <Accordion.Header className="accordion_header">Users</Accordion.Header>
                         <Accordion.Body className="accordion_body">
                             <div className={classes.search}>

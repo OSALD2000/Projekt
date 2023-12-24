@@ -2,6 +2,21 @@ html {
     height: 100%;
 }
 
+/* Verbergen des Scrollbalkens in Chrome */
+/* Diese Regel betrifft den gesamten Körper (body) */
+body {
+    /* Versteckt den Scrollbalken, während das Scrollen weiterhin möglich ist */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Microsoft Edge */
+  }
+  
+  /* Versteckt den Scrollbalken in Chrome und anderen WebKit-basierten Browsern */
+  /* Diese Regel betrifft den eigentlichen Scrollbalken */
+  /* Beachte: Dies funktioniert nur für ältere Versionen von Chrome, nicht unbedingt für aktuelle Versionen */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
 .btn {
     color: white !important;
     background-color: #5B1D8A !important;

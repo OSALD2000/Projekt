@@ -56,3 +56,8 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+.accordion_item{
+    height: 50vh !important;
+    overflow: scroll;
+}
