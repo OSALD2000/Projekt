@@ -4,8 +4,8 @@
   "description": "Quiz App als Projekt fuer die Vorlesung Software- und Systementwicklung",
   "main": "app.ja",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js",
+    "test": "vitest",
+    "start": "node ./tests/preparation && vitest --globals --run && node ./tests/cleanup && nodemon index",
     "checkStyle": "npx prettier . --write"
   },
   "author": "Osama",
@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.1",
-    "prettier": "3.0.3"
+    "prettier": "3.0.3",
+    "vitest": "^1.1.0"
   }
 }

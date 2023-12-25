@@ -14,7 +14,7 @@ const statisticRoutes = require("./routes/statistic");
 
 const sequelize = require("./util/db");
 const createRelation = require("./util/db_relation");
-const create_1000_user = require('./tester_util/create_5000_user');
+const create_users = require('./tester_util/create_users');
 
 const User = require("./module/auth/user");
 
@@ -55,22 +55,10 @@ app.use((error, req, res, next) => {
 
 (async () => {
   try {
-    await sequelize.sync({ force: true });
-
-    await create_1000_user(User);
-    const hashedPw = await bcrypt.hash("admin", 12);
-      User.create({
-        _id: "1234",
-        email: "admin@admin.de",
-        password: hashedPw,
-        username: "osama",
-        emailverified: true,
-        roll: 'admin'
-    });
-
-    app.listen(8080);
+    //app.listen(8080);
   } catch (error) {
     console.error(error);
   }
 })();
 
+module.exports = app;

@@ -178,26 +178,27 @@ const answerQuiz = async (req, res, next) => {
       participantId: participant.getDataValue("_id"),
     });
   } catch (error) {
-    console.log(error);
-
-    participant
-      .destroy()
-      .then(() => {
-        if (!error.statusCode) {
-          error.statusCode = 500;
-          error.message = "Internal Server Error";
-        }
-        res
-          .status(error.statusCode)
-          .json({ error: error.message, data: error.data });
-      })
-      .catch((err) => {
-        err.statusCode = 500;
-        err.message = "Internal Server Error";
-        res
-          .status(error.statusCode)
-          .json({ error: error.message, data: error.data });
-      });
+    if (error.statusCode && error.statusCode !== 442) {
+      participant
+        .destroy()
+        .then(() => {
+          if (!error.statusCode) {
+            error.statusCode = 500;
+            error.message = "Internal Server Error";
+          }
+          res
+            .status(error.statusCode)
+            .json({ error: error.message, data: error.data });
+        })
+        .catch((err) => {
+          err.statusCode = 500;
+          err.message = "Internal Server Error";
+          res
+            .status(error.statusCode)
+            .json({ error: error.message, data: error.data });
+        });
+    }
+    next(error)
   }
 };
 

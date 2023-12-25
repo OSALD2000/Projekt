@@ -30,6 +30,14 @@ const create_validation = {
   title: {
     in: ["body"],
     isString: true,
+    custom: {
+      options: (title) =>{
+        if(title?.trim().length > 2){
+          return true
+        }
+        throw new Error("title muss mind 3 Zeichen lang sein");
+      }
+    }
   },
 
   visibility: {
@@ -55,10 +63,10 @@ const create_validation = {
         } else {
           questions.forEach((question, index) => {
             let answers = "";
-            if (question.question_value.length < 4) {
+            if (question.question_value.length < 2) {
               errors.push({
                 index,
-                message: "Question value should be min. 5 character long",
+                message: "Question value should be min. 3 character long",
               });
             }
 

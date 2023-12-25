@@ -62,6 +62,8 @@ export const action = async ({ request }) => {
     const form_data = await request.formData();
     const answers = JSON.parse(form_data.get('answers'));
 
+    console.log(answers);
+
     const url = `quiz/answer`;
     const response = await fetch_function(url, 'POST', answers);
 

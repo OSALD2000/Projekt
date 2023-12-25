@@ -4,7 +4,6 @@ const chart_doughnut_data_update = async (data, last_participant) => {
 
     const answers = await last_participant.getAnswers();
 
-    console.log(data_obj);
     for (let i = 0; i < data_obj.questionIds.length; i++) {
       const answer = answers.filter(
         (answer) =>
