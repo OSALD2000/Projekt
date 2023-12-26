@@ -19,16 +19,18 @@ exports.loadStatistic = async (req, res, next) => {
         {
           model: Participant,
           attributes: ["result", "passed"],
-          include: [{
-            model: User,
-            attributes: ["username"],
-          }]
+          include: [
+            {
+              model: User,
+              attributes: ["username"],
+            },
+          ],
         },
-        Statistics]
+        Statistics,
+      ],
     });
 
     if (user_quiz.length === 0) {
-
       const participant = await Participant.findOne({
         where: {
           userId: userId,
@@ -41,23 +43,23 @@ exports.loadStatistic = async (req, res, next) => {
 
       const quiz_loaded = await Quiz.findAndCountAll({
         where: {
-          _id: quizId
+          _id: quizId,
         },
         attributes: [],
         include: [
           {
             model: Participant,
             attributes: ["result", "passed"],
-            include: [{
-              model: User,
-              attributes: ["username"],
-            }]
+            include: [
+              {
+                model: User,
+                attributes: ["username"],
+              },
+            ],
           },
-          Statistics
+          Statistics,
         ],
-        order: [
-          [{ model: Participant }, 'result', 'DESC']
-        ]
+        order: [[{ model: Participant }, "result", "DESC"]],
       });
 
       if (quiz_loaded.rows.length === 0) {
@@ -66,7 +68,6 @@ exports.loadStatistic = async (req, res, next) => {
 
       res.status(200).json({ message: "Statistik", data: quiz_loaded.rows[0] });
     } else {
-
       res.status(200).json({ message: "Statistik", data: user_quiz[0] });
     }
   } catch (err) {

@@ -109,11 +109,9 @@ exports.loadParticipants = async (req, res, next) => {
 
     if (!quiz.getDataValue("creator") === userId) {
       if (!participants.some((p) => p.getDataValue("userId") === userId)) {
-        res
-          .json(442)
-          .json({
-            message: "user muss teilnehmer sein um andere Teilnehmer zu sehen",
-          });
+        res.json(442).json({
+          message: "user muss teilnehmer sein um andere Teilnehmer zu sehen",
+        });
       }
     }
 
@@ -164,11 +162,9 @@ exports.loadParticipant = async (req, res, next) => {
     });
 
     if (participants.length === 0) {
-      res
-        .status(442)
-        .message({
-          message: "user muss teilnehmer sein um andere Teilnehmer zu sehen",
-        });
+      res.status(442).message({
+        message: "user muss teilnehmer sein um andere Teilnehmer zu sehen",
+      });
     }
 
     const participant = participants[0];

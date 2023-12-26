@@ -14,7 +14,7 @@ const statisticRoutes = require("./routes/statistic");
 
 const sequelize = require("./util/db");
 const createRelation = require("./util/db_relation");
-const create_users = require('./tester_util/create_users');
+const create_users = require("./tester_util/create_users");
 
 const User = require("./module/auth/user");
 

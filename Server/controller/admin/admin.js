@@ -23,9 +23,9 @@ exports.loadData = async (req, res, next) => {
       include: [
         {
           model: User,
-          attributes: ["email", "username"]
-        }
-      ]
+          attributes: ["email", "username"],
+        },
+      ],
     });
 
     res.status(200).json({ useres: useres, quizes: quizes });
@@ -153,9 +153,9 @@ exports.searchQuiz = async (req, res, next) => {
       include: [
         {
           model: User,
-          attributes: ["email", "username"]
-        }
-      ]
+          attributes: ["email", "username"],
+        },
+      ],
     });
 
     if (quize.rows.length === 0) {
@@ -187,19 +187,17 @@ exports.viewUserProfiel = async (req, res, next) => {
     const quize = await user.getQuizzes();
     const scoures = await user.getScoures();
 
-    res
-      .status(200)
-      .json({
-        message: "user information",
-        daten: {
-          id: _id,
-          email: email,
-          username: username,
-          quize: quize,
-          scoures: scoures,
-          admin: true,
-        },
-      });
+    res.status(200).json({
+      message: "user information",
+      daten: {
+        id: _id,
+        email: email,
+        username: username,
+        quize: quize,
+        scoures: scoures,
+        admin: true,
+      },
+    });
   } catch (err) {
     next(err);
   }
@@ -240,23 +238,23 @@ exports.loadQuizStatic = async (req, res, next) => {
 
     const quiz_loaded = await Quiz.findAndCountAll({
       where: {
-        _id: quizId
+        _id: quizId,
       },
-      attributes:[],
+      attributes: [],
       include: [
         {
           model: Participant,
           attributes: ["result", "passed"],
-          include: [{
-            model: User,
-            attributes: ["username"],
-          }]
+          include: [
+            {
+              model: User,
+              attributes: ["username"],
+            },
+          ],
         },
-        Statistics
+        Statistics,
       ],
-      order: [
-        [{ model: Participant }, 'result', 'DESC']
-      ]
+      order: [[{ model: Participant }, "result", "DESC"]],
     });
 
     const quiz = quiz_loaded.rows[0];

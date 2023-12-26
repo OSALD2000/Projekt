@@ -198,7 +198,7 @@ const answerQuiz = async (req, res, next) => {
             .json({ error: error.message, data: error.data });
         });
     }
-    next(error)
+    next(error);
   }
 };
 

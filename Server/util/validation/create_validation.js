@@ -31,13 +31,13 @@ const create_validation = {
     in: ["body"],
     isString: true,
     custom: {
-      options: (title) =>{
-        if(title?.trim().length > 2){
-          return true
+      options: (title) => {
+        if (title?.trim().length > 2) {
+          return true;
         }
         throw new Error("title muss mind 3 Zeichen lang sein");
-      }
-    }
+      },
+    },
   },
 
   visibility: {
@@ -94,7 +94,10 @@ const create_validation = {
                 break;
 
               case QUESTIONTYPE.FILLINTHEBLANK:
-                if (typeof question.right_answer !== "string" ||  question.right_answer?.trim().length === 0 ) {
+                if (
+                  typeof question.right_answer !== "string" ||
+                  question.right_answer?.trim().length === 0
+                ) {
                   errors.push({
                     index,
                     category: QUESTIONTYPE.FILLINTHEBLANK,
