@@ -76,19 +76,27 @@ const create_validation = {
 
             switch (question.category.toUpperCase()) {
               case QUESTIONTYPE.CHOICEONE:
-                answers = question.answers.map((answer) =>
-                  answer.value.trim().toLowerCase(),
-                );
+                if (Array.isArray(question?.answers) && question.answers.length >= 2) {
+                  answers = question.answers.map((answer) =>
+                    answer.value.trim().toLowerCase(),
+                  );
 
-                if (
-                  !answers.includes(
-                    question.right_answer.value.trim().toLowerCase(),
-                  )
-                ) {
+                  if (
+                    !answers.includes(
+                      question.right_answer.value.trim().toLowerCase(),
+                    )
+                  ) {
+                    errors.push({
+                      index,
+                      category: QUESTIONTYPE.CHOICEONE,
+                      message: "Right answer should be in answers array",
+                    });
+                  }
+                } else {
                   errors.push({
                     index,
                     category: QUESTIONTYPE.CHOICEONE,
-                    message: "Right answer should be in answers array",
+                    message: "question should have mind. two answers",
                   });
                 }
                 break;
@@ -114,34 +122,42 @@ const create_validation = {
                 }
                 break;
               case QUESTIONTYPE.MULTIPLECHOICE:
-                answers = question.answers.map((answer) =>
-                  answer.value.trim().toLowerCase(),
-                );
+                if (Array.isArray(question?.answers) &&  question.answers.length >= 2) {
+                  answers = question.answers.map((answer) =>
+                    answer.value.trim().toLowerCase(),
+                  );
 
-                if (Array.isArray(question.right_answer)) {
-                  question.right_answer.forEach((ra) => {
-                    if (
-                      !answers.some(
-                        (answer) =>
-                          ra.value.trim().toLowerCase() ===
-                          answer.trim().toLowerCase(),
-                      )
-                    ) {
-                      errors.push({
-                        index,
-                        category: QUESTIONTYPE.MULTIPLECHOICE,
-                        value: value,
-                        message:
-                          "MULTIPLECHOICE one of the value of right_answer array is not in answers array!",
-                      });
-                    }
-                  });
+                  if (Array.isArray(question.right_answer)) {
+                    question.right_answer.forEach((ra) => {
+                      if (
+                        !answers.some(
+                          (answer) =>
+                            ra.value.trim().toLowerCase() ===
+                            answer.trim().toLowerCase(),
+                        )
+                      ) {
+                        errors.push({
+                          index,
+                          category: QUESTIONTYPE.MULTIPLECHOICE,
+                          value: value,
+                          message:
+                            "MULTIPLECHOICE one of the value of right_answer array is not in answers array!",
+                        });
+                      }
+                    });
+                  } else {
+                    errors.push({
+                      index,
+                      category: QUESTIONTYPE.MULTIPLECHOICE,
+                      message:
+                        "MULTIPLECHOICE right_answer should be a array of answer",
+                    });
+                  }
                 } else {
                   errors.push({
                     index,
                     category: QUESTIONTYPE.MULTIPLECHOICE,
-                    message:
-                      "MULTIPLECHOICE right_answer should be a array of answer",
+                    message: "question should have mind. two answers",
                   });
                 }
                 break;
