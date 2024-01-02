@@ -46,7 +46,7 @@ const AnswerQuiz = (props) => {
                 </header>
                 {actionData && <p className="errorText">bitte versuchen Sie nochmal an <br /> bitte alle Frage beantworten</p>}
 
-                {data.questions.map(question => <Question key={question.id} question={question} mode={false} onUpdate={updateAnswers} />)}
+                {data.questions.sort((a, b) => a._id - b._id).map(question => <Question key={question.id} question={question} mode={false} onUpdate={updateAnswers} />)}
 
                 <button disabled={!valid} type="submit" className="btn  w-100">Send Answers</button>
             </div>

@@ -31,7 +31,7 @@ const ViewQuiz = ({ quizInfo, questions }) => {
                     />
                 </InputGroup>
             </div>)}
-            {questions.map(({ question_value, weight, category, right_answer }) => {
+            {questions.sort((a, b) => a._id - b._id).map(({ question_value, weight, category, right_answer }) => {
                 return (
                     <div key={question_value}>
                         <h2 className={classes.question_category} >{category}</h2>
