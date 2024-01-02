@@ -12,7 +12,7 @@ const AnswerQuiz = (props) => {
     const [valid, setValid] = useState(false);
     const [answers, setAnswers] = useState([]);
     const submit = useSubmit();
-
+    console.log(data.questions);
     useEffect(() => {
         answerValidtion(answers, data.questions, setValid);
     }, [answers, data.questions]);
@@ -46,7 +46,7 @@ const AnswerQuiz = (props) => {
                 </header>
                 {actionData && <p className="errorText">bitte versuchen Sie nochmal an <br /> bitte alle Frage beantworten</p>}
 
-                {data.questions.sort((a, b) => a._id - b._id).map(question => <Question key={question.id} question={question} mode={false} onUpdate={updateAnswers} />)}
+                {data.questions.sort((a, b) => a.questionId.localeCompare(b.questionId)).map(question => <Question key={question.id} question={question} mode={false} onUpdate={updateAnswers} />)}
 
                 <button disabled={!valid} type="submit" className="btn  w-100">Send Answers</button>
             </div>
@@ -54,7 +54,6 @@ const AnswerQuiz = (props) => {
     );
 };
 
-export default AnswerQuiz;
 
 
 
@@ -106,3 +105,6 @@ export const loader = async ({ params }) => {
 
     return quiz;
 }
+
+
+export default AnswerQuiz;

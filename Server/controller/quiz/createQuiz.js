@@ -93,7 +93,7 @@ const createQuiz = async (req, res, next) => {
       }
     }
 
-    const chart_bar_obj = create_chart_bar_obj(question_number, questionIds.sort((a, b)=> a-b));
+    const chart_bar_obj = create_chart_bar_obj(question_number, questionIds.sort((a, b)=> a.localeCompare(b)));
     const chart_doughnut_obj = create_chart_doughnut_obj();
 
     await quiz.createStatistic({

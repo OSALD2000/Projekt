@@ -43,7 +43,7 @@ const ShowResult = ({ quizInfo, username, result, passed, questions }) => {
             </InputGroup>
         </div>)}
         {
-            questions.sort((a, b) => a.question._id - b.question._id).map(({ question, answer, right_answer }) =>
+            questions.sort((a, b) => a.question._id.localeCompare(b.question._id)).map(({ question, answer, right_answer }) =>
                 <div key={Math.random() * 1000}>
                     <QuestionResult
                         question_value={question.question_value}
