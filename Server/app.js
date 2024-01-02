@@ -53,12 +53,5 @@ app.use((error, req, res, next) => {
     .json({ message: error.message, error: error.data });
 });
 
-(async () => {
-  try {
-    //app.listen(8080);
-  } catch (error) {
-    console.error(error);
-  }
-})();
 
 module.exports = app;

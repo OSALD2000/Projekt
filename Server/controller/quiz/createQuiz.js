@@ -110,6 +110,7 @@ const createQuiz = async (req, res, next) => {
       .status(201)
       .json({ message: "Quiz created successfully", quizId: quizId });
   } catch (error) {
+    console.log(error);
     if (error.statusCode !== 442) {
       quiz
         .destroy()

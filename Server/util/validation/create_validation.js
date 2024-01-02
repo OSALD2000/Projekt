@@ -127,7 +127,7 @@ const create_validation = {
                     answer.value.trim().toLowerCase(),
                   );
 
-                  if (Array.isArray(question.right_answer)) {
+                  if (Array.isArray(question.right_answer) &&  question.right_answer.length >= 1) {
                     question.right_answer.forEach((ra) => {
                       if (
                         !answers.some(
