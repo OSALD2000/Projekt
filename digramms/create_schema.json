@@ -1,0 +1,79 @@
+{
+    "title": "Ein Title muss mind. 6 Zeichen lang sein",
+    "quizCategory": "Kategorie der Quiz",
+    "beschreibung": "nicht requiered",
+    "required_points": "Ein Float zwischen 0.01 und 1",
+    "questions": [
+        {
+            "id": 1,
+            "question_value": "Frage inhalt muss mind. 3 Zeichen lang sein",
+            "category": "TRUEORFALSE category falls eine Richtig oder Falsch Frage ist",
+            "weight": "eine Integer großer 1",
+            "right_answer": "muss Boolean sein"
+        },
+        {
+            "id": 3,
+            "question_value": "Frage inhalt muss mind. 3 Zeichen lang sein",
+            "category": "CHOICEONE  category falls eine Enfache Auswahl ist",
+            "weight": "eine Integer großer 1",
+            "right_answer": {  
+                "value": "Objekt mit value in dem Richtige Antwort ist, welche in answers array sein muss"
+            },
+            "answers": [
+                {
+                    "id": 1,
+                    "value": "Objekt mit value in dem Möglcihkeit"
+                },
+                {
+                    "id": 2,
+                    "value": "Objekt mit value in dem Möglcihkeit"
+                },
+                {
+                    "id": 3,
+                    "value": "Objekt mit value in dem Möglcihkeit"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "question_value": "Frage inhalt muss mind. 3 Zeichen lang sein",
+            "category": "FILLINTHEBLANK falls eine Text Eingabe ist",
+            "weight": "eine Integer großer 1",
+            "right_answer": "Eine String der mind. zwei Zeichen lang sein muss"
+        },
+        {
+            "id": 7,
+            "question_value": "Frage inhalt muss mind. 3 Zeichen lang sein",
+            "category": "MULTIPLECHOICE falls eine Mehrfache Auswahl ist",
+            "weight": "eine Integer großer 1",
+            "right_answer": [
+                {
+                    "id": 1,
+                    "value": "Objekt mit value in dem eine der Antworten"
+                },
+                {
+                    "id": 3,
+                    "value": "Objekt mit value in dem eine der Antworten"
+                }
+            ],
+            "answers": [
+                {
+                    "id": 1,
+                    "value": "Objekt mit value in dem Möglcihkeit"
+                },
+                {
+                    "id": 2,
+                    "value": "Objekt mit value in dem Möglcihkeit"
+                },
+                {
+                    "id": 3,
+                    "value": "Objekt mit value in dem Möglcihkeit"
+                },
+                {
+                    "id": 4,
+                    "value": "Objekt mit value in dem Möglcihkeit"
+                }
+            ]
+        }
+    ]
+}

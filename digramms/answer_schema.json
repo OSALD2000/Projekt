@@ -1,0 +1,25 @@
+{
+    "quizId": "Quiz Id wird von Server geliefert",
+    "questions": [
+        {
+            "questionId": "Frage Id wird von Server geliefert",
+            "category": "Category wird von Server geliefert",
+            "answer": "in dem Fall ist eine Text-Eingabe Frage daher ist einer String, welche  der Eingabe des Users ist. Muss mind 2 Zeichen lang sein"
+        },
+        {
+            "questionId": "Frage Id wird von Server geliefert",
+            "category": "Category wird von Server geliefert",
+            "answer": "in dem Fall Mehrfach Auswahl muss eine Array von Objekten jeder Objekt hat eine Value, welche einer der Antworten ist "
+        },
+        {
+            "questionId": "Frage Id wird von Server geliefert",
+            "category": "Category wird von Server geliefert",
+            "answer": "in dem Fall Einfache Auswahl ist eine String welche einer der Möglichkeiten entspricht"
+        },
+        {
+            "questionId": "Frage Id wird von Server geliefert",
+            "category": "Category wird von Server geliefert",
+            "answer": "in dem Fall Richtig oder Falsch muss einer Boolean sein"
+        }
+    ]
+}
