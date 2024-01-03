@@ -54,39 +54,36 @@ const createQuiz = async (req, res, next) => {
       });
 
       if (category === QUESTIONTYPE.CHOICEONE) {
-        await question.createChoiceone({
+        question.createChoiceone({
           _id: uuid.v4(),
           right_answer: req_question.right_answer.value,
         });
-      }
-
-      //TODO: check if answers length <= optionslength
-      else if (category === QUESTIONTYPE.MULTIPLECHOICE) {
+      }else if (category === QUESTIONTYPE.MULTIPLECHOICE) {
         let answers;
         for (const a of req_question.right_answer) {
           answers = ` ${answers ? answers + " , " : ""} ${a.value} `;
         }
 
-        await question.createMultipleChoice({
+        question.createMultipleChoice({
           _id: uuid.v4(),
           right_answer: answers,
         });
-      } else if (category === QUESTIONTYPE.TRUEORFALSE) {
-        await question.createTrueorfalse({
+      }else if (category === QUESTIONTYPE.TRUEORFALSE) {
+        question.createTrueorfalse({
           _id: uuid.v4(),
           right_answer: req_question.right_answer ? "true" : "false",
         });
         continue;
-      } else if (category === QUESTIONTYPE.FILLINTHEBLANK) {
-        await question.createFillInTheBlank({
+      }else if (category === QUESTIONTYPE.FILLINTHEBLANK) {
+        question.createFillInTheBlank({
           _id: uuid.v4(),
           right_answer: req_question.right_answer,
         });
         continue;
       }
-
       for (const req_answers of req_question.answers) {
-        await question.createOption({
+        console.log("test");
+        question.createOption({
           _id: uuid.v4(),
           value: req_answers.value,
         });
@@ -96,7 +93,7 @@ const createQuiz = async (req, res, next) => {
     const chart_bar_obj = create_chart_bar_obj(question_number, questionIds.sort((a, b)=> a.localeCompare(b)));
     const chart_doughnut_obj = create_chart_doughnut_obj();
 
-    await quiz.createStatistic({
+     quiz.createStatistic({
       _id: uuid.v4(),
       participants: 0,
       success_Participants: 0,
@@ -111,7 +108,7 @@ const createQuiz = async (req, res, next) => {
       .json({ message: "Quiz created successfully", quizId: quizId });
   } catch (error) {
     console.log(error);
-    if (error.statusCode !== 442) {
+    if (error.statusCode && error.statusCode !== 442) {
       quiz
         .destroy()
         .then(() => {
