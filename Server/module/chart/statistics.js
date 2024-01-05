@@ -53,7 +53,6 @@ const statistics = sequelize.define(
   },
   {
     timestamps: false,
-    // TODO: try catch überall "Fehlerhandlung"
     hooks: {
       afterSave: async (record) => {
         const last_participant = await Participant.findByPk(
