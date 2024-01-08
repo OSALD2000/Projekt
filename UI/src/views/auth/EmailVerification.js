@@ -8,7 +8,7 @@ import { json, redirect } from "react-router-dom";
 import { storeToken } from "../../util/storeToken";
 import { fetch_function } from "../../util/fetch_function";
 
-const EmailVerification = (props) => {
+const EmailVerification = () => {
   const actionData = useActionData();
   const [many_try, setManyTry] = useState(false);
   const [loding, setLoding] = useState(false);

@@ -4,12 +4,12 @@ import MainNavigation from "../common/nav/MainNavigation";
 
 import classes from "./layout.module.css";
 
-const layout = (props) => {
+const layout = ({children, signIn}) => {
 
   return (
     <>
-      {props.signIn ? <AuthNavigation /> : <MainNavigation />}
-      <main className={classes.content}>{props.children}</main>
+      {signIn ? <AuthNavigation /> : <MainNavigation />}
+      <main className={classes.content}>{children}</main>
     </>
   );
 };

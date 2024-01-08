@@ -5,7 +5,7 @@ import Input from "../common/Input";
 import classes from "./quiz.module.css";
 import { TYPE } from "../../util/validation/Type.js";
 
-const Quizinfo = (props) => {
+const Quizinfo = () => {
 
   const [categorys, setCategorys] = useState([]);
 

@@ -6,7 +6,7 @@ import { json } from "react-router-dom";
 import { Card } from "../../components/common/card";
 import { fetch_function } from "../../util/fetch_function";
 
-const Home = (props) => {
+const Home = () => {
   const data = useLoaderData();
   const [searchParams, setSearchParams] = useSearchParams();
   const created = searchParams.get('successful');

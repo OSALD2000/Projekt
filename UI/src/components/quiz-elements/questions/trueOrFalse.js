@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import classes from "../quiz.module.css";
 
 
-const TrueOrFalse = (props) => {
-    const [question, setQuestion] = useState(props.question);
+const TrueOrFalse = ({question:init_question, onUpdate, create, onDeleteQuestion}) => {
+    const [question, setQuestion] = useState(init_question);
     const [answer, setAnswer] = useState({
-        category: props.question.category,
-        questionId: props.question.questionId,
+        category: init_question.category,
+        questionId: init_question.questionId,
         answer: "",
     })
 
@@ -32,7 +32,7 @@ const TrueOrFalse = (props) => {
     }
 
     const saveChangesHandler = (event) => {
-        props.onUpdate(question);
+        onUpdate(question);
     }
 
     const onAnswerUpdate = (event) => {
@@ -42,13 +42,13 @@ const TrueOrFalse = (props) => {
     }
 
     const saveAnswersHandler = () => {
-        props.onUpdate(answer);
+        onUpdate(answer);
     }
 
     return (
         <>
             {
-                props.create
+                create
 
                     ?
 
@@ -65,7 +65,7 @@ const TrueOrFalse = (props) => {
                             </div>
 
                             <div className={classes.choiceOne_action}>
-                                <button type="button" className="btn" onClick={props.onDeleteQuestion}>delete</button>
+                                <button type="button" className="btn" onClick={onDeleteQuestion}>delete</button>
                             </div>
                             <div className={classes.choiceOne_answers}>
 

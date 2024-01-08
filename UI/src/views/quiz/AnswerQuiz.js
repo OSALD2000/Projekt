@@ -6,7 +6,7 @@ import { answerValidtion } from "../../util/validation/answersValidtion";
 import classes from "../../css/answer.module.css";
 import { fetch_function } from "../../util/fetch_function";
 
-const AnswerQuiz = (props) => {
+const AnswerQuiz = () => {
     const data = useLoaderData();
     const actionData = useActionData();
     const [valid, setValid] = useState(false);

@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./card.module.css";
 
-export const Card = (props) =>
+export const Card = ({children}) =>
     <div className={classes.card}>
-        {props.children}
+        {children}
     </div>

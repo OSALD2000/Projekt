@@ -6,23 +6,24 @@ import classes from "./form.module.css";
 import { TYPE } from "../../util/validation/Type";
 import { Form, useSearchParams, useActionData } from "react-router-dom";
 
-const FormComponent = (props) => {
+
+const FormComponent = ({signup}) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const actionData = useActionData();
 
   useEffect(() => {
     setSearchParams((params) => {
-      params.set("mode", props.signup ? "signup" : "login");
+      params.set("mode",signup ? "signup" : "login");
       return params;
     });
-  }, [props.signup, searchParams, setSearchParams]);
+  }, [signup, searchParams, setSearchParams]);
 
   return (
     <Form method="post">
       <div className={`card ${classes.container}`}>
         <img className={classes.logo} src={logo} alt="logo" />
 
-        {props.signup && (
+        {signup && (
           <div className={classes.username}>
             <Input
               name="username"
@@ -69,7 +70,7 @@ const FormComponent = (props) => {
               <p className="errorText">{actionData.message}</p>
             )}
 
-          {props.signup &&
+          {signup &&
             actionData &&
             actionData.error.some(
               (err) => err.msg === "E-Mail Address ist bereit verwendet!"
@@ -77,7 +78,7 @@ const FormComponent = (props) => {
               <p className="errorText">E-Mail Address ist bereit verwendet!!</p>
             )}
         </div>
-        {props.signup && (
+        {signup && (
           <>
             <div className={classes.password}>
               <Input
@@ -101,7 +102,7 @@ const FormComponent = (props) => {
           </>
         )}
 
-        {!props.signup && (
+        {!signup && (
           <div className={classes.password}>
             <Input
               placeholder="Password"
@@ -130,7 +131,7 @@ const FormComponent = (props) => {
           type="submit"
           className={`btn btn-outline  ${classes["form-action"]}`}
         >
-          {props.signup ? "Sign Up" : "Login now"}
+          {signup ? "Sign Up" : "Login now"}
         </button>
       </div>
     </Form>

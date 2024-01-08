@@ -7,7 +7,7 @@ import Participants from "../../components/common/lists/participants";
 import { fetch_function } from "../../util/fetch_function";
 import classes from "../../css/statisticPage.module.css";
 
-const StatisticPage = (props) => {
+const StatisticPage = () => {
     const data = useLoaderData();
     const { parsed_statistic: statistic, participants } = data;
 

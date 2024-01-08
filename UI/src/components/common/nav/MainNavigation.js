@@ -5,7 +5,7 @@ import { useLoaderData } from "react-router-dom";
 
 import Logo from "../Logo";
 
-const MinNavigation = (props) => {
+const MinNavigation = () => {
   const data = useLoaderData();
   const location = useLocation();
   const [auth, setAuth] = useState(data);

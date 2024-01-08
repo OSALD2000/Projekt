@@ -2,9 +2,11 @@ import React from "react";
 import { useState} from "react";
 import useInput from "../../util/hooks/use-input";
 
-const Input = (props) => {
+
+
+const Input = ({children, validationType, min_length, ohneAddon, name, art, placeholder, required, reference}) => {
   const [passwordType, setPasswordType] = useState("password");
-  const type = props.validationType;
+  const type = validationType;
 
   const showPasswordHanlder = () => {
     if (passwordType === "password") {
@@ -19,32 +21,32 @@ const Input = (props) => {
     message,
     inputChangeHandler,
     inputOnBlurHandler,
-  } = useInput(type, props.min_length);
+  } = useInput(type, min_length);
 
   return (
     <>
       <div className={`input-group mb-3 ${inputClasses}`}>
-        {!props.ohneAddon && (
+        {!ohneAddon && (
           <span className="input-group-text" id="basic-addon1">
-            {props.children}
+            {children}
           </span>
         )}
         <input
-          id={props.name}
-          name={props.name}
-          type={props.art === "password" ? passwordType : props.art}
+          id={name}
+          name={name}
+          type={art === "password" ? passwordType : art}
           className="form-control"
-          placeholder={props.placeholder}
+          placeholder={placeholder}
           onChange={inputChangeHandler}
           onBlur={inputOnBlurHandler}
           aria-label={enteredInput}
           value={enteredInput}
           aria-describedby="basic-addon1"
-          required={props.required}
-          ref={props.reference ? props.reference : null}
+          required={required}
+          ref={reference ? reference : null}
         ></input>
 
-        {props.art === "password" && (
+        {art === "password" && (
           <span
             className="input-group-text"
             id="showPassword"

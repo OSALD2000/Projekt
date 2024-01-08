@@ -2,19 +2,19 @@ import React, { useState } from "react";
 import classes from "../quiz.module.css";
 
 
-const MultipleChoice = (props) => {
-    const [question, setQuestion] = useState(props.question);
+const MultipleChoice = ({question:init_question, onUpdate, create, onDeleteQuestion}) => {
+    const [question, setQuestion] = useState(init_question);
 
     const [answer, setAnswer] = useState({
-        category: props.question.category,
-        questionId: props.question.questionId,
+        category: init_question.category,
+        questionId: init_question.questionId,
         answer: "",
     })
 
     const [id, setId] = useState(() => {
-        if (props.question.answers.length === 0) { return 1 }
+        if (init_question.answers.length === 0) { return 1 }
         else
-            return props.question.answers.sort((a, b) => a.id - b.id)[props.question.answers.length - 1].id + 1
+            return init_question.answers.sort((a, b) => a.id - b.id)[init_question.answers.length - 1].id + 1
     });
 
 
@@ -84,7 +84,7 @@ const MultipleChoice = (props) => {
 
         question.right_answer = right_answer;
 
-        props.onUpdate(question);
+        onUpdate(question);
     }
 
 
@@ -111,13 +111,13 @@ const MultipleChoice = (props) => {
     }
 
     const onSaveAnswerHandler = () => {
-        props.onUpdate(answer);
+       onUpdate(answer);
     }
 
     return (
         <>
             {
-                props.create
+                create
 
                     ?
 
@@ -134,7 +134,7 @@ const MultipleChoice = (props) => {
                             </div>
 
                             <div className={classes.choiceOne_action}>
-                                <button type="button" className="btn" onClick={props.onDeleteQuestion}>delete</button>
+                                <button type="button" className="btn" onClick={onDeleteQuestion}>delete</button>
                             </div>
 
                             <div className={classes.choiceOne_answers}>

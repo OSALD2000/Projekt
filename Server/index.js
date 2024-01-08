@@ -23,6 +23,6 @@ sequelize
     });
   })
   .then(() => {
-    app.listen(8080);
+    app.listen(8888);
   })
   .catch((err) => console.error(err));

@@ -14,7 +14,7 @@ import { Form, useSubmit, json } from "react-router-dom";
 import "../../css/createQuizPage.css";
 import { fetch_function } from "../../util/fetch_function";
 
-const CreateQuiz = (props) => {
+const CreateQuiz = () => {
   const [questions, setQuestions] = useState([]);
   const [id, setId] = useState(1);
   const submit = useSubmit();

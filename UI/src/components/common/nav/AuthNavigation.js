@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import classes from "./navigation.module.css";
 
-const AuthNavigation = (props) => {
+const AuthNavigation = () => {
   return (
     <header className={classes.header}>
       <nav className={classes["navigation-style1"]}>
