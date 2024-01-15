@@ -8,9 +8,11 @@
 
 ## 2. kopiere alles was in .env.example in .env
 
-## 3. wähle eine API_KEY und MailKey falls vorhanden, falls nicht verwenden von Defualt User zum Anmelden (1-user@test.de, root)
+## 3. wähle eine API_KEY 
 
-## 4. gebe Datenbank daten in .env ein :
+## 4. Mail Daten in .env falls vorhanden, falls nicht verwenden von Defualt User zum Anmelden (1-user@test.de, root)
+
+## 5. gebe Datenbank daten in .env ein :
 
 <ul>
     <li>SCHEMA = shema name in DB </li>
@@ -20,8 +22,8 @@
     <li>DB_HOST = host</li>
 </ul>
 
-## 5. führe Start_Quizapp.cmd
+## 6. führe Start_Quizapp.cmd
 
-## 6. npm install im Terminal eingeben in Server und UI
+## 7. npm install im Terminal eingeben in Server und UI
 
-## 7. npm start im Terminal eingeben in Server und UI
+## 8. npm start im Terminal eingeben in Server und UI
