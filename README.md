@@ -1,18 +1,26 @@
 <h1>Brine Check</h1>
 
-# zum starten 
+# zum starten
 
-## 0. install VScode falls du diese IDE nicht hast : ) 
+## 0. VScode IDE und NodeJs einrichten
 
-## 1. install node.js https://nodejs.org/en/download/current
+## 1. erstelle .env Datei
 
-## 2. install mysql Workshop und starte a database auf deine Local host and dann liege eine neue shema test an  "https://dev.mysql.com/downloads/workbench/"
+## 2. kopiere alles was in .env.example in .env
 
-## 3. öffne Start_Quizapp.cmd
+## 3. wähle eine API_KEY und MailKey falls vorhanden, falls nicht verwenden von Defualt User zum Anmelden (1-user@test.de, root)
 
-## 4. in der Server util/db.js andere user und password nach deiner db username sowie kennwort "statt root -> deine username Osama -> deinepassword"
+## 4. gebe Datenbank daten in .env ein :
 
-## 5. starte eine Terminal in Server und UI "toolbar View dann Terminal"
+<ul>
+    <li>SCHEMA = shema name in DB </li>
+    <li>DB_USER = admin user in datenbank </li>
+    <li>DB_PASSWORD = admin password in datenbank</li>
+    <li>DB_TYPE = "mysql"</li>
+    <li>DB_HOST = host</li>
+</ul>
+
+## 5. führe Start_Quizapp.cmd
 
 ## 6. npm install im Terminal eingeben in Server und UI
 
