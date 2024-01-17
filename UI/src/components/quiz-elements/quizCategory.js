@@ -13,7 +13,7 @@ const QuizCategory = ({title}) => {
                         <br />
                     </Card.Text>
                     <Card.Text>
-                        An klicken und Quiz über {title.toLowerCase()} starten
+                        Anklicken und Quiz über {title.toLowerCase()} starten
                     </Card.Text>
 
                 </Card.Body>

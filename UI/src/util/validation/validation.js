@@ -66,7 +66,7 @@ const newPasswordInputValidation = (password) => {
 const passwordInputValidation = (password) => {
   return {
     status: password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,50}$/),
-    message: "bitte geben Sie eine Password ein",
+    message: "Bitte geben Sie das korrekte Passwort ein.",
   };
 };
 
@@ -81,7 +81,7 @@ const textValidation = (text, length) => {
   if (text.trim() === "") {
     return {
       status: false,
-      message: "bitte geben Sie an!!",
+      message: "bitte titel angeben!",
     };
   } else if (text.length < length) {
     return {
@@ -100,7 +100,7 @@ const numberValidation = (value) => {
   if (!parseInt(value)) {
     return {
       status: false,
-      message: "muss number sein!",
+      message: "muss eine zahl sein!",
     }
   }
   if (value < 0 || value > 100) {

@@ -14,11 +14,11 @@ const StatisticPage = () => {
     const infos = [
         { title: "Anzahl Teilnehmer", value: statistic.participants },
 
-        { title: "Durchschnit", value: (statistic.average_scoure * 100) + "%" },
+        { title: "Durchschnitt", value: (statistic.average_scoure * 100) + "%" },
 
         { title: "Bestanden", value: statistic.success_Participants },
 
-        { title: "Durchfallen", value: statistic.failed_Participants },
+        { title: "Durchgefallen", value: statistic.failed_Participants },
 
     ]
     return (

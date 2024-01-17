@@ -41,7 +41,7 @@ const MinNavigation = () => {
           :
           <>
             <li>
-              <NavLink to="/" onClick={logoutHandler}>Log Out</NavLink>
+              <NavLink to="/" onClick={logoutHandler}>Logout</NavLink>
             </li>
 
             <li>

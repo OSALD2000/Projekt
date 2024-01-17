@@ -8,8 +8,8 @@ const Participants = ({ participants }) => {
                 <thead>
                     <tr>
                         <th>Username</th>
-                        <th>Scoure</th>
-                        <th>result</th>
+                        <th>Score</th>
+                        <th>Result</th>
                     </tr>
                 </thead>
                 <tbody>
