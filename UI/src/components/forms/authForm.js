@@ -48,7 +48,7 @@ const FormComponent = ({signup}) => {
         <div className={classes.email}>
           <Input
             name="email"
-            placeholder="email@exampil.com"
+            placeholder="email@example.com"
             art="Email"
             type="email"
             validationType={TYPE.EMAIL}

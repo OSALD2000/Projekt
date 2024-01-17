@@ -61,7 +61,7 @@ const EmailVerification = () => {
                 onClick={sendeNewEmail}
                 className={"btn btn-outline mt-2"}
               >
-                Email again senden
+                Send Email again
               </button>
               {many_try && (
                 <p className="errorText mt-2">
